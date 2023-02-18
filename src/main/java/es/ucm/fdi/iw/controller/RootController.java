@@ -24,8 +24,8 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("/v2")
+    @GetMapping("/CP1")
     public String vista2(Model model) {
-        return "vista2";
+        return "CreaPregunta1";
     }
 }
