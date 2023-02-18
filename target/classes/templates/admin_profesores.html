@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>IW: Mi Vista</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h2 class="mt-5">Profesores registrados:</h2>
+
+            <div class="row mt-4 mb-4">
+                <button class="btn btn-lg btn-primary btn-block" type="button">+ Añadir nuevo profesor</button>
+            </div>
+
+            <div class="d-flex flex-column h-100 row gy-3">
+                <button class="btn btn-lg btn-secondary btn-block" type="button">Profesor 1</button>
+                <button class="btn btn-lg btn-secondary btn-block" type="button">Profesor 2</button>
+                <button class="btn btn-lg btn-secondary btn-block" type="button">Profesor 3</button>
+            </div>
+        </main>
+        </div>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>
