@@ -30,13 +30,19 @@ public class RootController {
      * @return
      */
     @GetMapping("/CP1")
-    public String vista2(Model model) {
+    public String CP1(Model model) {
         return "CreaPregunta1";
-
+    }
 
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
         return "admin_profesores";
+
+    }
+
+    @GetMapping("/admin_info_profesor")
+    public String admin_info_profesor(Model model) {
+        return "admin_info_profesor";
 
     }
 }
