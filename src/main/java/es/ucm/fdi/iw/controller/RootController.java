@@ -44,4 +44,11 @@ public class RootController {
         return "admin_info_profesor";
 
     }
+
+    @GetMapping("/profesor")
+    public String profesor(Model model) {
+        return "profesor";
+
+    }
+
 }
