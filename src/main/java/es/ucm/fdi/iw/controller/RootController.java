@@ -24,15 +24,14 @@ public class RootController {
         return "index";
     }
 
-
-    /**
-     * @param model
-     * @return
-     */
-    @GetMapping("/CP1")
-    public String vista2(Model model) {
-        return "CreaPregunta1";
-
+    @GetMapping("/OC")
+    public String opcionesCreado(Model model) {
+        return "OpcionesCreado";
+    }
+    @GetMapping("/CP")
+    public String creacionPreguntas(Model model) {
+        return "creacionPreguntas";
+    }
 
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
