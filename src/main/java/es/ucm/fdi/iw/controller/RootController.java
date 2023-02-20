@@ -31,11 +31,17 @@ public class RootController {
     @GetMapping("/CP")
     public String creacionPreguntas(Model model) {
         return "creacionPreguntas";
-    }
+
 
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
         return "admin_profesores";
+
+    }
+
+    @GetMapping("/admin_info_profesor")
+    public String admin_info_profesor(Model model) {
+        return "admin_info_profesor";
 
     }
 }
