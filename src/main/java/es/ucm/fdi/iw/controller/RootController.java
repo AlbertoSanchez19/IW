@@ -31,7 +31,7 @@ public class RootController {
     @GetMapping("/CP")
     public String creacionPreguntas(Model model) {
         return "creacionPreguntas";
-
+    }
 
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
