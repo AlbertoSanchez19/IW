@@ -45,9 +45,9 @@ public class RootController {
 
     }
 
-    @GetMapping("/profesor")
-    public String profesor(Model model) {
-        return "profesor";
+    @GetMapping("/marcador")
+    public String marcador(Model model) {
+        return "marcador";
 
     }
 
