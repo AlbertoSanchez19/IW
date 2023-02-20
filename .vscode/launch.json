@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-IwApplication<Quizzol>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.ucm.fdi.iw.IwApplication",
+            "projectName": "Quizzol",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

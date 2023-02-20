@@ -33,6 +33,15 @@ public class RootController {
         return "creacionPreguntas";
     }
 
+    @GetMapping("/RP")
+    public String responderPreguntas(Model model) {
+        return "responderPreguntas";
+    }
+    @GetMapping("/PIN")
+    public String introducirPin(Model model) {
+        return "introducir_pin";
+    }
+
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
         return "admin_profesores";
