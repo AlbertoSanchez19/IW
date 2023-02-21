@@ -6,12 +6,12 @@
     <title th:text="|IW: Error ${status}|">IW: Error</title>
 </head>
 
-<body>
+<body style="background-color: #f3bf07;">
     <nav th:replace="fragments/nav.html :: nav">
         Nav goes here
     </nav>
 
-    <div class="container">
+    <div class="container" >
         <div class="main">
 
             <h4>Error <span th:text="${status}"></span></h4>

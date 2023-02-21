@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch IwApplication",
+            "request": "launch",
+            "mainClass": "es.ucm.fdi.iw.IwApplication",
+            "projectName": "plantilla"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-IwApplication<Quizzol>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
