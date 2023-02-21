@@ -3,23 +3,17 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>QUIZZOL: MARCADOR</title>
+    <title>QUIZZOL: LINK</title>
 </head>
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
-        <div class="container">
-            <h1>Marcador</h1>
-            <div>
-                <div style="margin-top: 100px;" id="listaAlumnos" />
-            </div>
+        <!--<div class="container">
             
-
-            <button class="btn-primary button-next">Siguiente</button>
-        </div>
-        
+        </div>-->
+        <div class="left-container">aaa</div><div class="right-container">bbb</div>
         
     </main>
 
@@ -52,9 +46,22 @@
 
 </html>
 
-
 <style>
 
+    .left-container{
+        width: 65%;
+        height: 100%;
+        background-color: #53caeb;
+        display: inline-block;
+    }
+
+    .right-container {
+        width: 35%;
+        height: 100%;
+        background-color: #ecf56a;
+        display: inline-block;
+    }
+/*
     #listaAlumnos div {
         display: flex;
         height: 50px;
@@ -82,6 +89,6 @@
         display: grid;
         margin-top: 70px !important;
         margin: auto;
-    }
+    }*/
 
 </style>

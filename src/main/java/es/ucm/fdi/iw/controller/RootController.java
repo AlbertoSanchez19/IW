@@ -51,4 +51,9 @@ public class RootController {
 
     }
 
+    @GetMapping("/quizz_link")
+    public String quizz_link(Model model) {
+        return "quizz_link";
+    }
+
 }
