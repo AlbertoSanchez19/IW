@@ -7,41 +7,61 @@
 </head>
 
 <body class="d-flex flex-column h-100">
-    <header th:replace="fragments/nav.html :: nav"></header>
+    <header id="headder" th:replace="fragments/nav.html :: nav"></header>
 
-    <main class="flex-shrink-0">
+    <main class="flex-shrink-0 col-12" style="margin-top: 100px; display: flex">
         <!--<div class="container">
             
         </div>-->
-        <div class="left-container">aaa</div><div class="right-container">bbb</div>
+
+        <!-- LEFT COLUMN -->
+        <div class="col-6 px-5" id="leftColumn" style="background-color: #f3bf07; padding-right: 0 !important;">
+            <div style="border-right: 5px solid #000;">
+                <p>¡Hora de jugar! :D </p>
+
+                <p class="mt-5">Link:</p>
+
+                <p class="mt-5 fs-1 fw-bolder">quizzol.com/477-bcd</p>
+
+                <p class="mt-5 fs-2" id="nPlayers">Número de jugadores:</p>
+
+                <button class="mt-10 btn-primary" style="position: absolute; bottom: 0;">COMENZAR</button>
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN -->
+        <div class="col-6 px-5" id="rightColumn" style="background-color: #691b39; color:white">
+            <h2>PARTICIPANTES</h2>
+
+            <div style="margin-top: 40px;" id="listaParticipantes"/>
+
+        </div>
         
     </main>
 
     <script>
         let names = ['Adrian', 'Daniel', 'David', 'Alberto', 'Gonzalo'];
-        let list = document.getElementById("listaAlumnos");
+        let list = document.getElementById("listaParticipantes");
+
+        let lC = document.getElementById('leftColumn');
+
+        lC.style.height = window.innerHeight - document.querySelector('.navbar').offsetHeight + 'px;';
 
         let i = 0;
         names.forEach( (item) => {
-            
-            let cont = document.createElement("button");
-            cont.innerText = ++i;
-            cont.disabled = true;
 
-            let li = document.createElement("li");
-            li.innerText = item;
-            
+            let p = document.createElement("p");
+            p.innerText = item;
 
-            let div = document.createElement("div");
-            div.appendChild(cont);
-            div.appendChild(li);
+            list.appendChild(p);
 
-            list.appendChild(div);
+        });
+        // console.log(document.getElementById('nPlayers'));
+        document.getElementById('nPlayers').innerText = `Número de jugadores: \b \b  ${names.length}`;
 
-        } );
     </script>
 
-    <th:block th:replace="fragments/footer.html :: footer" />
+    <th:block id="footer" th:replace="fragments/footer.html :: footer" />
 </body>
 
 </html>
@@ -51,44 +71,19 @@
     .left-container{
         width: 65%;
         height: 100%;
-        background-color: #53caeb;
         display: inline-block;
+        padding-left: 50px;
+        height: 100%;
+        background-color: #e7dc3b;
     }
 
     .right-container {
+        padding-right: 50px;
         width: 35%;
         height: 100%;
-        background-color: #ecf56a;
+        background-color: #691b39;
         display: inline-block;
+        height: 100%;
     }
-/*
-    #listaAlumnos div {
-        display: flex;
-        height: 50px;
-        width: 100%;
-    }
-
-    #listaAlumnos li { 
-        display: block;
-        width: 100%;
-        border: 3px solid #000;
-        padding: 10px;
-        height: 50px;
-        text-align: center;
-    }
-
-    #listaAlumnos button { 
-        color: black;
-        border: 1px solid black;
-        height: 50px;
-        width: 50px;
-    }
-
-    .button-next {
-        width: 110px;
-        display: grid;
-        margin-top: 70px !important;
-        margin: auto;
-    }*/
 
 </style>
