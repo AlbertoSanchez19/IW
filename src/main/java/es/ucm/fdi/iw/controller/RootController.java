@@ -66,4 +66,9 @@ public class RootController {
         return "quizz_link";
     }
 
+    @GetMapping("/catalogo")
+    public String catalogo(Model model) {
+        return "catalogo";
+    }
+
 }
