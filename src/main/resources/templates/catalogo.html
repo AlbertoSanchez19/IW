@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>IW: Mi Vista</title>
+</head>
+
+<body class="d-flex flex-column h-100" style="background-color: #f3bf07;">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    
+    <main class="flex-shrink-0">
+        <div class="container mt-5">
+            <h1 class="mt-5">Catálogo</h1>
+            <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo='Cuestionario 1', autor='Pedro', tags=${ {'Tag 1', 'Tag 2', 'Tag 3'} }, veces='27', valoracion='4.7', pos='1')"></th:block>
+            <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo='Cuestionario 2', autor='Juan', tags=${ {'Tag 1', 'Tag 2'} }, veces='32', valoracion='4.6', pos='2')"></th:block>
+            <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo='Cuestionario 3', autor='Antonio', tags=${ {'Tag 1', 'Tag 2', 'Tag 3'} }, veces='48', valoracion='4.5', pos='3')"></th:block>
+        </div>
+    </main>
+    
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

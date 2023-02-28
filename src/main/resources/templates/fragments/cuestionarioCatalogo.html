@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Catalogo</title>
+</head>
+
+<body>
+    <th:block th:fragment="cuestionarioCatalogo (titulo, autor, tags, veces, valoracion, pos)">
+        <div class="card mt-4">
+            <div class="card-header" th:id="'heading' + ${pos}">
+                <h2 class="card-title stretched-link" th:text="${titulo}" th:attr="data-bs-target='#collapse' + ${pos},aria-controls='collapse' + ${pos}" data-bs-toggle="collapse" aria-expanded="true" ></h2>
+                <h4 class="card-subtitle text-secondary mt-3" th:text="${autor}"></h4>
+                <div class="d-flex flex-row justify-content-between mt-3">
+                    <div class="d-flex justify-content-start gap-2">
+                        <button class="btn btn-sm btn-primary" type="button" th:each="tag : ${tags}" th:text="${tag}"></button>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <h5>Lanzado <span th:text="${veces}"></span> veces</h5>
+                        <h4>★ <span th:text="${valoracion}"></span></h4>
+                    </div>
+                </div>
+            </div>
+            <div th:id="'collapse' + ${pos}" class="collapse" th:attr="aria-labelledby='heading' + ${pos}">
+                <div class="card-body">
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit odio eaque soluta possimus dolores et ad, fuga sunt. Similique fuga dolores quam ratione illum id! Sit voluptas aliquam ullam hic.</p>
+                    <button type="button" class="btn btn-primary float-end mb-3">Lanzar</button>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</body>
+
+</html>

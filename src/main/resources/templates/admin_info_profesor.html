@@ -6,34 +6,44 @@
     <title>IW: Mi Vista</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="background-color: #f3bf07;">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
         <div class="container mt-4">
             <div class="d-flex flex-row h-100 justify-content-evenly gap-5">
                 <div class="d-flex flex-column h-100 w-25">
-                    <span class ="border border-dark">
+                    <span class ="border border-dark text-white" style="background-color: hsl(297, 42%, 16%, 0.9) !important;">
                         <div class="d-flex flex-column h-100 gap-2">
                             <img src="https://picsum.photos/536/354" alt="img-profesor" />
                             <h4> Nombre profesor</h4>
                             <p> Datos: Lorem ipsum dolor Lorem ipsum dolor Lorem ipsum dolor</p>
                         </div>
                     </span>
-                    <button class="btn btn-lg btn-warning btn-block mt-4" type="button">Bloquear</button>
+                    <button class="btn btn-lg btn-dark btn-block mt-4" type="button">Bloquear</button>
                     <button class="btn btn-lg btn-danger btn-block mt-4" type="button">Expulsar</button>
                 </div>
-                <div class ="d-flex flex-column h-100 mt-2">
+                <div class ="d-flex flex-column h-100 mt-2" id="listaCuestionarios">
                     <h1> Cuestionarios creados: </h1>
-                    <button class="btn btn-lg btn-info btn-block mt-4" type="button">Lorem ipsum dolor</button>
-                    <button class="btn btn-lg btn-info btn-block mt-3" type="button">Lorem ipsum dolor</button>
-                    <button class="btn btn-lg btn-info btn-block mt-3" type="button">Lorem ipsum dolor</button>
-                    <button class="btn btn-lg btn-info btn-block mt-3" type="button">Lorem ipsum dolor</button>
-                    <button class="btn btn-lg btn-info btn-block mt-3" type="button">Lorem ipsum dolor</button>
                 </div> 
             </div>
         </div>
     </main>
+
+    <script>
+        let name = 'Cuestionario';
+        let list = document.getElementById("listaCuestionarios");
+
+        for(let i = 0; i < 5; i++) {
+            
+            let cont = document.createElement("button");
+            cont.innerText = name + " " + i.toString();
+            cont.className = "btn btn-lg btn-info btn-block mt-3";
+
+            list.appendChild(cont);
+
+        }
+    </script>
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 

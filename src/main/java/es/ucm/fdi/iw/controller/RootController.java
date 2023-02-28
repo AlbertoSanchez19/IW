@@ -42,6 +42,7 @@ public class RootController {
         return "introducir_pin";
     }
 
+    
     @GetMapping("/admin_profesores")
     public String admin_profesores(Model model) {
         return "admin_profesores";
@@ -63,6 +64,11 @@ public class RootController {
     @GetMapping("/quizz_link")
     public String quizz_link(Model model) {
         return "quizz_link";
+    }
+
+    @GetMapping("/catalogo")
+    public String catalogo(Model model) {
+        return "catalogo";
     }
 
 }
