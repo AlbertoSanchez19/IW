@@ -4,31 +4,46 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>IW: Login</title>
+    <link rel="stylesheet" type="text/css" href = "css/login.css">
 </head>
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
-        <div class="container">
-            <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <p th:if="${#request.getQueryString() == 'error'}" class="error">
-                    Error en nombre de usuario o contraseña
-                </p>
-                <p>
-                    <label for="username" class="visually-hidden">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required">
-                </p>
-                <p>
-                    <label for="password" class="visually-hidden">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
-                </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            </form>
+    <form class="box" method="post" th:action="@{/login}">
+      <div class='box-form'>
+        <div class='box-login-tab'></div>
+        <div class='box-login-title'>
+          <div class='i i-login'></div>
         </div>
+        <div class='box-login'>
+          <div class='fieldset-body' id='login_form' method="post" th:action="@{/login}">
+            <button onclick="openLoginInfo();" class='b b-form i i-more' title='Mais Informações'></button>
+            
+            <p class='field'>
+                 <label for="username" class="visually-hidden">Username</label>
+                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required">
+              <span id='valida' class='i i-warning'></span>
+            </p>
+                <p class='field'>
+                  <label for="password" class="visually-hidden">Password</label>
+                  <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
+              <span id='valida' class='i i-close'></span>
+            </p>
+    
+              <label class='checkbox'>
+                <input type='checkbox' value='TRUE' title='Keep me Signed in' /> Keep me Signed in
+              </label>
+    
+                <input type='submit' id='do_login' value='GET STARTED' title='Get Started' />
+          </div>
+          
+        </div>
+        
+      </form>
+ 
     </main>
-
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 

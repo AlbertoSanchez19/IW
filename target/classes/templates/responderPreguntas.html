@@ -2,6 +2,7 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <th:block th:replace="fragments/head :: header" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
 </head>
 
 <body>
+    <header th:replace="fragments/nav.html :: nav"></header>
     <div class="responderCuestionario">
         <h2 class="enunciado">La Gran Muralla China es visible desde el espacio.</h2>
         <p> Seleccione la respuesta correcta:</p>
@@ -39,19 +41,20 @@
         <p>Seleccione la respuesta correcta:</p>
         <br>
         <div>
-            <a class="opciones">A Respuesta "A"</a>
+            <a class="opciones">A </a><p class="respuesta">Respuesta "A"</p>
             
-            <a class="opciones">B Respuesta "B"</a>
+            <a class="opciones">B </a><p class="respuesta">Respuesta "B"</p>
 
         </div>
         <div>
 
-            <a class="opciones">C Respuesta "C"</a>
+            <a class="opciones">C </a><p class="respuesta">Respuesta "C"</p>
 
-            <a class="opciones">D Respuesta "D"</a>
+            <a class="opciones">D </a><p class="respuesta">Respuesta "D"</p>
 
-            <br><br><br><br><br><br><br><br>
+            
         </div>
+        <br><br><br><br>
     </div>
     <div class="responderCuestionario">
         <h2 class="enunciado">¿¿¿¿PREGUNTA????</h2>
@@ -64,6 +67,8 @@
         <a class="btnEnviar">ENVIAR</a>
 
     </div>
+    <br> <br> <br>
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 
 </html>

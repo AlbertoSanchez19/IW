@@ -2,6 +2,7 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <th:block th:replace="fragments/head :: header" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
 </head>
 
 <body>
+ 
   <div class ="crearCuestionario">
     <h1> ¿Como desea hacer el cuestionario?</h1>
     <br><br><br> 
@@ -21,8 +23,11 @@
         
         <a href="CP" >Crear  <br> Cuestionario</a>
     </div>
-</div>
     
+</div>
+
+
+
 </body>
 
 </html>
