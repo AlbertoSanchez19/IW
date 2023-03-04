@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +20,7 @@ public class Cuestionario {
 
     @OneToMany
     @JoinColumn(name = "id_usuario")
-    private User usuario;
+    private List<User> usuario = new ArrayList<>();
 
     private String descripcion;
     private String titulo;
