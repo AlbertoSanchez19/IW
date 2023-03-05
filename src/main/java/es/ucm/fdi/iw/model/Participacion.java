@@ -16,10 +16,10 @@ import java.util.List;
 public class Participacion {
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id_usuario")
     private User usuario;
  
     @ManyToOne
-    @JoinColumn(name = "clase_id")
+    @JoinColumn(name = "id_clase")
     private Clases clase;
 }

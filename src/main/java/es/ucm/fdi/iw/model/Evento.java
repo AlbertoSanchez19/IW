@@ -18,22 +18,21 @@ public class Evento {
 
 	@ManyToOne
     @JoinColumn(name = "id_clases")
-    private List<Clases> clases = new ArrayList<>();
+    private Clases clases;
     @Column
     private String Codigo;
 
-    @OneToMany(mappedBy = "id_evento" )
+    @OneToMany(mappedBy = "evento" )
 	private List<Resultado> resultados = new ArrayList<>();
 	
     public Evento() {
 		super();
 	}
 	
-	public Evento(Long id, String Codigo, List<Clases> clases) {
+	public Evento(Long id, String Codigo, Clases clases) {
 		super();
 		this.id = id;
 		this.Codigo = Codigo;
-        this.clases = clases;
 	}
     public Long getId() {
 		return id;
@@ -47,10 +46,10 @@ public class Evento {
 	public void setCodigo(String Codigo) {
 		this.Codigo = Codigo;
 	}
-    public List<Clases> getClases() {
+    public Clases getClases() {
 		return clases;
 	}
-	public void setClases(List<Clases> clases) {
+	public void setClases(Clases clases) {
 		this.clases = clases;
 	}
 }

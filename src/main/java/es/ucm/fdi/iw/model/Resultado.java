@@ -8,17 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 @Data
+@Entity
 @Table(name = "resultado")
 public class Resultado {
+
+    @Id
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id_usuario")
     private User usuario;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evento_id")
+    @JoinColumn(name = "id_evento")
     private Evento evento;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "respuesta_id")
+    @JoinColumn(name = "id_respuesta")
     private Respuesta respuesta;
 }
