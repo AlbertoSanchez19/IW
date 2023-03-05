@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name = "tags")
 public class Tags {
 
     @Id

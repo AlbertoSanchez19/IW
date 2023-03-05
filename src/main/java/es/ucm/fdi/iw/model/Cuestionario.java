@@ -21,7 +21,8 @@ public class Cuestionario {
     @OneToMany
     @JoinColumn(name = "id_usuario")
     private List<User> usuario = new ArrayList<>();
-
+    @Column
     private String descripcion;
+    @Column
     private String titulo;
 }

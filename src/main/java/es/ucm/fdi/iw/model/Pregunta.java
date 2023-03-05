@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name="Pregunta")
 public class Pregunta {
 
     @Id
@@ -18,9 +19,12 @@ public class Pregunta {
     @ManyToOne
     @JoinColumn(name = "id_cuestionario")
     private Cuestionario cuestionario;
-
+    @Column
     private String pregunta;
+    @Column
     private String explicacion;
+    @Column
     private float nota;
+    @Column
     private int prioridad;
 }
