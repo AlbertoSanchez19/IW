@@ -34,16 +34,13 @@ public class Pregunta {
     private float nota;
     @Column
     private int prioridad;
-<<<<<<< Updated upstream
-    @OneToMany(mappedBy = "pregunta" )
-	private List<Respuesta> respuestas = new ArrayList<>();
-=======
+
 
     @Enumerated(EnumType.STRING)
     private PreguntaType type;
 
     @OneToMany(mappedBy = "pregunta")
     private List<Respuesta> respuestas = new ArrayList<>();
->>>>>>> Stashed changes
+
 }
 
