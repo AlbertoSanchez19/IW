@@ -21,11 +21,14 @@ public class Cuestionario {
     @OneToMany(targetEntity = User.class)
     @JoinColumn(name = "id_usuario")
     private List<User> usuario = new ArrayList<>();
-
-    @OneToMany(targetEntity = Pregunta.class)
-    @JoinColumn(name = "pregunta_id")
-    private List<Pregunta> preguntas = new ArrayList<Pregunta>();    
-
+    @Column
     private String descripcion;
+    @Column
     private String titulo;
+
+    @OneToMany(mappedBy = "cuestionario")
+	private List<Tags> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cuestionario" )
+	private List<Pregunta> preguntas = new ArrayList<>();
 }
