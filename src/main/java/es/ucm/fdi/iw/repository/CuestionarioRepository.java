@@ -10,7 +10,7 @@ import es.ucm.fdi.iw.model.Cuestionario;
 @Repository
 public interface CuestionarioRepository extends JpaRepository <Cuestionario, Long> {
     public List<Cuestionario> findByTitulo(String titulo);
-	public List<Cuestionario> findById(long id);
+	public Optional<Cuestionario> findById(long id);
 	public List<Cuestionario> findAll();
 
 	public void deleteById(Long id);
