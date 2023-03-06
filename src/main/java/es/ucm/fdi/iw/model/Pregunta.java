@@ -10,6 +10,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Entity
 @Data
 @Table(name="Pregunta")
@@ -20,16 +24,26 @@ public class Pregunta {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_cuestionario")
+    @JoinColumn(name = "id_cuestionario", nullable = false)
     private Cuestionario cuestionario;
     @Column
-    private String pregunta;
+    private String titulo;
     @Column
     private String explicacion;
     @Column
     private float nota;
     @Column
     private int prioridad;
+<<<<<<< Updated upstream
     @OneToMany(mappedBy = "pregunta" )
 	private List<Respuesta> respuestas = new ArrayList<>();
+=======
+
+    @Enumerated(EnumType.STRING)
+    private PreguntaType type;
+
+    @OneToMany(mappedBy = "pregunta")
+    private List<Respuesta> respuestas = new ArrayList<>();
+>>>>>>> Stashed changes
 }
+

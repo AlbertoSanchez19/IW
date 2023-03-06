@@ -21,62 +21,11 @@ public class Respuesta {
     @OneToMany(mappedBy = "respuesta" )
 	private List<Resultado> resultados = new ArrayList<>();
     @Column
-    private char opcion;
-    @Column 
-    private String respuesta;
-    @Column
     private float nota;
     public Respuesta() {
         super();
     }
+   
     
-    public Respuesta(Pregunta pregunta, char opcion, String respuesta, float nota) {
-        super();
-        this.pregunta = pregunta;
-        this.opcion = opcion;
-        this.respuesta = respuesta;
-        this.nota = nota;
-    }
-
-    // Getters y setters
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Pregunta getPregunta() {
-        return pregunta;
-    }
-
-    public void setPregunta(Pregunta pregunta) {
-        this.pregunta = pregunta;
-    }
-
-    public char getOpcion() {
-        return opcion;
-    }
-
-    public void setOpcion(char opcion) {
-        this.opcion = opcion;
-    }
-
-    public String getRespuesta() {
-        return respuesta;
-    }
-
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
-    }
-
-    public float getNota() {
-        return nota;
-    }
-
-    public void setNota(float nota) {
-        this.nota = nota;
-    }
 
 }

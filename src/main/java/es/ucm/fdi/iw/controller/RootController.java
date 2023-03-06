@@ -23,16 +23,6 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
-
-    @GetMapping("/OC")
-    public String opcionesCreado(Model model) {
-        return "OpcionesCreado";
-    }
-    @GetMapping("/CP")
-    public String creacionPreguntas(Model model) {
-        return "creacionPreguntas";
-    }
-
     @GetMapping("/RP")
     public String responderPreguntas(Model model) {
         return "responderPreguntas";
