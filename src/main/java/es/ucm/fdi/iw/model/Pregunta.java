@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -27,4 +30,6 @@ public class Pregunta {
     private float nota;
     @Column
     private int prioridad;
+    @OneToMany(mappedBy = "pregunta" )
+	private List<Respuesta> respuestas = new ArrayList<>();
 }

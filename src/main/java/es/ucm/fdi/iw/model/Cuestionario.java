@@ -25,4 +25,10 @@ public class Cuestionario {
     private String descripcion;
     @Column
     private String titulo;
+
+    @OneToMany(mappedBy = "cuestionario")
+	private List<Tags> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cuestionario" )
+	private List<Pregunta> preguntas = new ArrayList<>();
 }
