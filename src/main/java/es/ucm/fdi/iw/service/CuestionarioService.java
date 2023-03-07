@@ -20,6 +20,9 @@ public class CuestionarioService {
     
     @Autowired
     private RespuestaRepository respuestaRepository;
+
+    @Autowired
+    private CuestionarioRepository repository;
     
     public List<Pregunta> obtenerPreguntasDeCuestionario(Cuestionario cuestionario) {
         return preguntaRepository.findByCuestionario(cuestionario);
@@ -28,7 +31,9 @@ public class CuestionarioService {
     public void guardarRespuestas(List<Respuesta> respuestas) {
         respuestaRepository.saveAll(respuestas);
     }
-    
+    public Cuestionario save(Cuestionario cuestionario) {
+		return repository.save(cuestionario);
+	}
     // otros métodos para validar respuestas, obtener estadísticas, etc.
     
 }

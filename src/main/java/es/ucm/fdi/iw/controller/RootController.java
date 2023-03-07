@@ -60,17 +60,5 @@ public class RootController {
     public String catalogo(Model model) {
         return "catalogo";
     }
-    @GetMapping("/OC")
-    public String opcionesCreado(Model model) {
-        return "OpcionesCreado";
-    }
-    @GetMapping("/CC")
-    public String CrearCuestionario(Model model) {
-        return "CrearCuestionario";
-    }
-    @GetMapping("/CP")
-    public String creacionPreguntas(Model model) {
-        return "creacionPreguntas";
-    }
-
+    
 }
