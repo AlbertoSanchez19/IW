@@ -20,5 +20,7 @@ public class PreguntaService {
         return preguntaRepository.findByCuestionario(cuestionario);
     }
 
+    
+
 
 }
