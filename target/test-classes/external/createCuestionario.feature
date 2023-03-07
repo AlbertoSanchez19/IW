@@ -45,6 +45,6 @@ Feature: crear un cuestionario
 
 @create_quizz
 Scenario: crear cuestionario correcto
-    # Given  driver baseUrl + '/quizz'
-    # When submit().click().(".create-quizz button")
-    Given POST
+    Given  driver baseUrl + '/CC'
+    When submit().click().("#nuevo_cuestionario button")
+    Then match text('#response', 'Correcto')
