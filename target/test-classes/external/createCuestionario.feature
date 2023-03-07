@@ -47,4 +47,5 @@ Feature: crear un cuestionario
 Scenario: crear cuestionario correcto
     Given  driver baseUrl + '/CP'
     When submit().click().("#nuevo_cuestionario button")
-    Then match text('#response', 'Correcto')
+    # Then match text('#response', 'Correcto')
+    Then error
