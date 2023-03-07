@@ -13,7 +13,7 @@
 </head>
 
 <body>
- <div class ="crearCuestionario" th:object="${cuestionario}" th:action="${cuestionario}"  method="post">
+ <form class ="crearCuestionario" th:object="${cuestionario}" th:action="@{/CC}"  method="post">
     
         <p><input class="pregunta"type="text" name="titulo" placeholder="Escriba el nombre del cuestionario"></p>
         <br><br><br> 
@@ -21,13 +21,9 @@
                 <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
                 <textarea  name="descripcion" placeholder="Descripcion del cuestionario"> </textarea>
             </div>
-            <br><br><br><br><br>
-            <div>
-            <a  class = "siguiente" type= "submit" value = "Submit"  id="nuevo_cuestionario">Nuevo Cuestionario</a>
-            <a href="CP" class = "siguiente" id ="siguiente"  >Siguiente</a>
-            </div>
-    
-        </div>
+            <input class = "siguiente" type= "submit" value = "Siguiente"  id="nuevo_cuestionario" >  </input>
+            
+        </form>
 <br><br><br><br>
 
 

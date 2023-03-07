@@ -2,155 +2,140 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
+    <th:block th:replace="fragments/head :: header" />
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IW: Welcome</title>
-    <link rel="stylesheet" type="text/css" href = "css/creapregunta.css">
+    <link rel="stylesheet" type="text/css" href="/css/creaPregunta.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/'-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div class ="alineados">
-    <h1> &nbsp; &nbsp;Titulo Cuestionario</h1>
-    <div class="sidebar-box">
-        <select class="styled-select" id="miSelect">
-        <option hidden > Selecciona una opción</option>
-        <option value = "opcion1">Verdadero y Falso</option>
-        <option value = "opcion2">Desarrollo</option>
-        <option value = "opcion3">Opciones</option>
-        <option value = "opcion4">Desarrollo con imagen</option>
-        </select>
-    </div>
-    <div class="botonañadir">
-        <a class ="añadir" id="anadir"> Añadir al cuestionario</a>
-    </div>
-    <div class="botonañadir">
-        <a class ="añadir" id=" crear" type="submit"> Crear</a>
-    </div>
- </div>
- 
-    <div class ="crearCuestionario" id = "elemento1">
-        <p><input class="pregunta"type="text" name="texto" placeholder="Escriba su pregunta"></p>
-           
-        <p> Seleccione la respuesta correcta :</p>
-        <br><br>
-        
-            <a class="V">V</a>
-           
-            <a class="F">F</a>
-            <br>
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
-            </div>
+    <div class="alineados">
+        <h1 class = "titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+        <div class="sidebar-box">
+            <select class="styled-select" id="miSelect">
+                <option hidden> Selecciona una opción</option>
+                <option value="VF">Verdadero y Falso</option>
+                <option value="DE">Desarrollo</option>
+                <option value="OP">Opciones</option>
+                <option value="OF">Desarrollo con imagen</option>
+            </select>
+        </div>
+        <div class="botonañadir">
+            <a class="añadir" id="anadir"> Añadir al cuestionario</a>
+        </div>
+        <div>
+            <a class="añadir" id=" crear" type="submit"> Crear</a>
+        </div>
     </div>
 
-    <div class ="crearCuestionario"  id = "elemento2">
-        <p><input class="pregunta"type="text" name="texto" placeholder="Escriba su pregunta"></p>
-        <br><br><br> 
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
-            </div>
-            <br><br><br><br><br>
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
-                <textarea name="pista" placeholder="Escriba su pista"> </textarea>
-            </div>
-           
+    <form class="crearCuestionario d-none" id="preguntaVF">
+        <input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta">
+
+        <p>Seleccione la respuesta correcta :</p>
+        <br><br>
+
+        <a class="V">V</a>
+
+        <a class="F">F</a>
+        <br>
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-book"></i></p>
+            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+        </div>
+    </form>
+
+    <div class="crearCuestionario d-none" id="preguntaDE">
+        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+        <br><br><br>
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-book"></i></p>
+            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+        </div>
+        <br><br><br><br><br>
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
+            <textarea name="pista" placeholder="Escriba su pista"> </textarea>
+        </div>
+
     </div>
-    <div class ="crearCuestionario" id = "elemento3"display= "hidden">
-        <p><input class="pregunta"type="text" name="texto" placeholder="Escriba su pregunta"></p>
-           
+    <div class="crearCuestionario d-none" id="preguntaOP">
+        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+
         <p> Seleccione la respuesta correcta :</p>
-        <br><br><br> 
-         <div>
+        <br><br><br>
+        <div>
             <a class="opciones">A</a>
-            <input class="respuesta"type="text" name="texto" placeholder="Escriba su respuesta">
+            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
             <a class="opciones">B</a>
-            <input class="respuesta"type="text" name="texto" placeholder="Escriba su respuesta">
+            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
         </div>
         <div>
 
             <a class="opciones">C</a>
-            <input class="respuesta"type="text" name="texto" placeholder="Escriba su respuesta">
+            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
             <a class="opciones">D</a>
-            <input class="respuesta"type="text" name="texto" placeholder="Escriba su respuesta">
+            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
             <br><br><br><br><br><br><br><br>
         </div>
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
-            </div>
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-book"></i></p>
+            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+        </div>
     </div>
-    <div class ="crearCuestionario" id = "elemento4"display= "hidden" >
-        <p><input class="pregunta"type="text" name="texto" placeholder="Escriba su pregunta"></p>
-        
-            <input class = "respuesta" type="file" id="f_avatar" accept="image/jpeg,image/png">
+    <div class="crearCuestionario d-none" id="preguntaOF">
+        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
 
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
-            </div>
-            <br><br><br><br><br>
-            <div>
-                <p class ="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
-                <textarea name="pista" placeholder="Escriba su pista"> </textarea>
-            </div>
-           
+        <input class="respuesta" type="file" id="f_avatar" accept="image/jpeg,image/png">
+
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-book"></i></p>
+            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+        </div>
+        <br><br><br><br><br>
+        <div>
+            <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
+            <textarea name="pista" placeholder="Escriba su pista"> </textarea>
+        </div>
+
     </div>
 
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-	
-<script>
+    <script>
+        $("#miSelect").change(function () {
+            // Obtener el valor de la opción seleccionada
+            var opcionSeleccionada = $(this).val();
+            $(".crearCuestionario").hide();
+            switch (opcionSeleccionada) {
+                case "VF":
+                    $("#preguntaVF").removeClass("d-none").show();
+                    break;
+                case "DE":
+                    $("#preguntaDE").removeClass("d-none").show();
+                    break;
+                case "OP":
+                    $("#preguntaOP").removeClass("d-none").show();
+                    break;
+                case "OF":
+                    $("#preguntaOF").removeClass("d-none").show();
+                    break;
+            }
 
-// Obtener el menú select y los elementos que se mostrarán/ocultarán
-var miSelect = document.getElementById("miSelect");
-var elemento1 = document.getElementById("elemento1");
-var elemento2 = document.getElementById("elemento2");
-var elemento3 = document.getElementById("elemento3");
-var elemento4 = document.getElementById("elemento4");
 
-    elemento1.style.display = "none";
-    elemento2.style.display = "none";
-    elemento3.style.display = "none";
-    elemento4.style.display = "none";
-// Escuchar cuando se selecciona una opción en el menú select
-miSelect.addEventListener("change", function() {
-  // Obtener el valor de la opción seleccionada
-  var opcionSeleccionada = miSelect.value;
+            // Mostrar u ocultar los elementos correspondientes según la opción seleccionada
 
-  // Mostrar u ocultar los elementos correspondientes según la opción seleccionada
-  if (opcionSeleccionada === "opcion1") {
-    elemento1.style.display = "flex";
-    elemento2.style.display = "none";
-    elemento3.style.display = "none";
-    elemento4.style.display = "none";
-  } else if (opcionSeleccionada === "opcion2") {
-    elemento1.style.display = "none";
-    elemento2.style.display = "flex";
-    elemento3.style.display = "none";
-    elemento4.style.display = "none";
-  } else if (opcionSeleccionada === "opcion3") {
-    elemento1.style.display = "none";
-    elemento2.style.display = "none";
-    elemento3.style.display = "flex";
-    elemento4.style.display = "none";
-  } else if (opcionSeleccionada === "opcion4") {
-    elemento1.style.display = "none";
-    elemento2.style.display = "none";
-    elemento3.style.display = "none";
-    elemento4.style.display = "flex";
-  }
-});
+        });
 
 
 
-</script>
+
+    </script>
 </body>
 
 </html>

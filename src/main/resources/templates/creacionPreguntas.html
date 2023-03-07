@@ -15,7 +15,7 @@
 
 <body>
     <div class="alineados">
-        <h1>[[${cuestionario.titulo}]]</h1>
+        <h1 class = "titulocuestionario"> [[${cuestionario.titulo}]]</h1>
         <div class="sidebar-box">
             <select class="styled-select" id="miSelect">
                 <option hidden> Selecciona una opción</option>
@@ -28,15 +28,15 @@
         <div class="botonañadir">
             <a class="añadir" id="anadir"> Añadir al cuestionario</a>
         </div>
-        <div class="botonañadir">
+        <div>
             <a class="añadir" id=" crear" type="submit"> Crear</a>
         </div>
     </div>
 
-    <div class="crearCuestionario d-none" id="preguntaVF">
-        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+    <form class="crearCuestionario d-none" id="preguntaVF">
+        <input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta">
 
-        <p> Seleccione la respuesta correcta :</p>
+        <p>Seleccione la respuesta correcta :</p>
         <br><br>
 
         <a class="V">V</a>
@@ -47,7 +47,7 @@
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
             <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
-    </div>
+    </form>
 
     <div class="crearCuestionario d-none" id="preguntaDE">
         <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
