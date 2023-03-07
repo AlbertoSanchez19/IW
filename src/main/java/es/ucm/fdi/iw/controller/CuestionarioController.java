@@ -53,9 +53,10 @@ public class CuestionarioController {
     }
 
     @PostMapping("/CC")
-    public Cuestionario addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
+    public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
         log.info("crear cuestionario");
-        return cuestionarioService.save(cuestionario);
+        Cuestionario c = cuestionarioService.save(cuestionario);
+        return "redirect:/"+c.getId()+"/CP";
     }
 
     @GetMapping("/CC")
@@ -69,7 +70,7 @@ public class CuestionarioController {
         return "OpcionesCreado";
     }
 
-    @GetMapping("/CP")
+    @GetMapping("/{idCuestionario}/CP")
     public String creacionPreguntas(Model model) {
         return "creacionPreguntas";
     }
