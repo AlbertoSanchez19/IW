@@ -27,7 +27,7 @@ import org.springframework.data.repository.query.Param;
  *  Access to this end-point is authenticated - see SecurityConfig
  */
 @Controller
-public class CrearCuestionarioController {
+public class CuestionarioController {
     
         
         @Autowired
