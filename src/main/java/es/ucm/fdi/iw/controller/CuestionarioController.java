@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import es.ucm.fdi.iw.repository.*;
+import es.ucm.fdi.iw.service.CuestionarioService;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,8 @@ public class CrearCuestionarioController {
         
         @Autowired
         private CuestionarioRepository cuestionarioRepository;
+        @Autowired
+        private CuestionarioService cuestionarioService;
         
         @Autowired
         private PreguntaRepository preguntaRepository;
@@ -40,14 +43,35 @@ public class CrearCuestionarioController {
             return cuestionarioRepository.save(cuestionario);
         }
         
-        @PostMapping("/{idCuestionario}/preguntas")
+        @PostMapping("/{idCuestionario}/CP")
         public Pregunta agregarPregunta(@PathVariable Long idCuestionario, @RequestBody Pregunta pregunta) throws NotFoundException{
             Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario).orElseThrow(() -> new NotFoundException());
             pregunta.setCuestionario(cuestionario);
             return preguntaRepository.save(pregunta);
         }
         
-        // otros métodos para obtener cuestionarios, preguntas, respuestas, etc.
+        @PostMapping("/CC")
+	    public Cuestionario addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
+		    return cuestionarioService.save(cuestionario); 
+        }
+        @GetMapping("/CC")
+        public String newCuestionario(Model model) {
+             model.addAttribute("cuestionario", new Cuestionario());
+        return "Crearcuestionario";
+    }
+    @GetMapping("/OC")
+    public String opcionesCreado(Model model) {
+        return "OpcionesCreado";
+    }
+    @GetMapping("/CP")
+    public String creacionPreguntas(Model model) {
+        return "creacionPreguntas";
+    }
+
+		
+	
+	
+
         
     
 
