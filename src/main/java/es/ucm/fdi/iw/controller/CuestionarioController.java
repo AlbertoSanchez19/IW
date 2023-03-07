@@ -20,59 +20,58 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 
-
 /**
- *  Site administration.
+ * Site administration.
  *
- *  Access to this end-point is authenticated - see SecurityConfig
+ * Access to this end-point is authenticated - see SecurityConfig
  */
 @Controller
 public class CuestionarioController {
-    
-        
-        @Autowired
-        private CuestionarioRepository cuestionarioRepository;
-        @Autowired
-        private CuestionarioService cuestionarioService;
-        
-        @Autowired
-        private PreguntaRepository preguntaRepository;
-        
-        @PostMapping
-        public Cuestionario crearCuestionario(@RequestBody Cuestionario cuestionario) {
-            return cuestionarioRepository.save(cuestionario);
-        }
-        
-        @PostMapping("/{idCuestionario}/CP")
-        public Pregunta agregarPregunta(@PathVariable Long idCuestionario, @RequestBody Pregunta pregunta) throws NotFoundException{
-            Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario).orElseThrow(() -> new NotFoundException());
-            pregunta.setCuestionario(cuestionario);
-            return preguntaRepository.save(pregunta);
-        }
-        
-        @PostMapping("/CC")
-	    public Cuestionario addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-		    return cuestionarioService.save(cuestionario); 
-        }
-        @GetMapping("/CC")
-        public String newCuestionario(Model model) {
-             model.addAttribute("cuestionario", new Cuestionario());
+
+    private static final Logger log = LogManager.getLogger(CuestionarioController.class);
+
+    @Autowired
+    private CuestionarioRepository cuestionarioRepository;
+    @Autowired
+    private CuestionarioService cuestionarioService;
+
+    @Autowired
+    private PreguntaRepository preguntaRepository;
+
+    @PostMapping
+    public Cuestionario crearCuestionario(@RequestBody Cuestionario cuestionario) {
+        return cuestionarioRepository.save(cuestionario);
+    }
+
+    @PostMapping("/{idCuestionario}/CP")
+    public Pregunta agregarPregunta(@PathVariable Long idCuestionario, @RequestBody Pregunta pregunta)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        pregunta.setCuestionario(cuestionario);
+        return preguntaRepository.save(pregunta);
+    }
+
+    @PostMapping("/CC")
+    public Cuestionario addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
+        log.info("crear cuestionario");
+        return cuestionarioService.save(cuestionario);
+    }
+
+    @GetMapping("/CC")
+    public String newCuestionario(Model model) {
+        model.addAttribute("cuestionario", new Cuestionario());
         return "Crearcuestionario";
     }
+
     @GetMapping("/OC")
     public String opcionesCreado(Model model) {
         return "OpcionesCreado";
     }
+
     @GetMapping("/CP")
     public String creacionPreguntas(Model model) {
         return "creacionPreguntas";
     }
-
-		
-	
-	
-
-        
-    
 
 }
