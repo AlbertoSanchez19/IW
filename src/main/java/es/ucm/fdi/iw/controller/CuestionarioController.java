@@ -56,7 +56,7 @@ public class CuestionarioController {
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
         log.info("crear cuestionario");
         Cuestionario c = cuestionarioService.save(cuestionario);
-        return "redirect:/"+c.getId()+"/CP";
+        return "redirect:/" + c.getId() + "/CP";
     }
 
     @GetMapping("/CC")
@@ -71,7 +71,10 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/CP")
-    public String creacionPreguntas(Model model) {
+    public String creacionPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        model.addAttribute("cuestionario", cuestionario);
         return "creacionPreguntas";
     }
 
