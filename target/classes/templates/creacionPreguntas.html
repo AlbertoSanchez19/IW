@@ -33,20 +33,24 @@
         </div>
     </div>
 
-    <form class="crearCuestionario d-none" id="preguntaVF">
-        <input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta">
+    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaVF">
+        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input type="hidden" name="type" value="TRUE_FALSE">
+        <input type="hidden" name="jsonRespuestas" id="jsonRespuestas">
 
+        <input type="hidden" id="respuestaMarcada">
         <p>Seleccione la respuesta correcta :</p>
         <br><br>
 
-        <a class="V">V</a>
-
-        <a class="F">F</a>
+        <a class="V" onclick='javascript:$("#respuestaMarcada").val("V")'>V</a>
+        <a class="F" onclick='javascript:$("#respuestaMarcada").val("F")'>F</a>
+        
         <br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"></textarea>
         </div>
+        <input type="submit">
     </form>
 
     <div class="crearCuestionario d-none" id="preguntaDE">
@@ -127,13 +131,16 @@
                     break;
             }
 
-
-            // Mostrar u ocultar los elementos correspondientes según la opción seleccionada
-
         });
-
-
-
+        $("#preguntaVF").submit(function(e){
+            if($("#respuestaMarcada").val()=="V"){
+                jsonText="[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
+                $("#jsonRespuestas").val(jsonText);
+            }else{
+                jsonText="[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
+                $("#jsonRespuestas").val(jsonText);
+            }
+        });
 
     </script>
 </body>
