@@ -33,14 +33,14 @@
     <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaVF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="TRUE_FALSE">
-        <input type="hidden" name="jsonRespuestas" id="jsonRespuestas">
+        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
 
-        <input type="hidden" id="respuestaMarcada">
+        <input type="hidden" id="respuestaMarcadaVF">
         <p>Seleccione la respuesta correcta :</p>
         <br><br>
 
-        <a class="V" onclick='javascript:$("#respuestaMarcada").val("V")'>V</a>
-        <a class="F" onclick='javascript:$("#respuestaMarcada").val("F")'>F</a>
+        <a class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V")'>V</a>
+        <a class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F")'>F</a>
         
         <br>
         <div>
@@ -50,46 +50,54 @@
         <input class = "siguiente" type="submit">
     </form>
 
-    <div class="crearCuestionario d-none" id="preguntaDE">
-        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaDE">
+        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input type="hidden" name="type" value="RESPUESTA_CORTA">
+        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
         <br><br><br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
         <br><br><br><br><br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
             <textarea name="pista" placeholder="Escriba su pista"> </textarea>
         </div>
+        <input class = "siguiente" type="submit">
+    </form>
 
-    </div>
-    <div class="crearCuestionario d-none" id="preguntaOP">
-        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOP">
+        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input type="hidden" name="type" value="OPCION_MULTIPLE">
+        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasOP">
 
+        <input type="hidden" id="respuestaMarcadaOP">
         <p> Seleccione la respuesta correcta :</p>
-        <br><br><br>
+        <br>
         <div>
-            <a class="opciones">A</a>
-            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
-            <a class="opciones">B</a>
-            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
+            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
+            <input class="respuesta" type="text" name="texto" id = "respuestaOPA" placeholder="Escriba su respuesta">
+            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("B")'>B</a>
+            <input class="respuesta" type="text" name="texto" id = "respuestaOPB" placeholder="Escriba su respuesta">
         </div>
         <div>
 
-            <a class="opciones">C</a>
-            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
-            <a class="opciones">D</a>
-            <input class="respuesta" type="text" name="texto" placeholder="Escriba su respuesta">
+            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("C")'>C</a>
+            <input class="respuesta" type="text" name="texto" id = "respuestaOPC" placeholder="Escriba su respuesta">
+            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("D")'>D</a>
+            <input class="respuesta" type="text" name="texto" id = "respuestaOPD" placeholder="Escriba su respuesta">
             <br><br><br><br><br><br><br><br>
         </div>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
-    </div>
+        <input class = "siguiente" type="submit">
+    </form>
+
     <div class="crearCuestionario d-none" id="preguntaOF">
-        <p><input class="pregunta" type="text" name="texto" placeholder="Escriba su pregunta"></p>
+        <p><input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta"></p>
 
         <input class="respuesta" type="file" id="f_avatar" accept="image/jpeg,image/png">
 
@@ -130,12 +138,37 @@
 
         });
         $("#preguntaVF").submit(function(e){
-            if($("#respuestaMarcada").val()=="V"){
+            if($("#respuestaMarcadaVF").val()=="V"){
                 jsonText="[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
-                $("#jsonRespuestas").val(jsonText);
+                $("#jsonRespuestasVF").val(jsonText);
             }else{
                 jsonText="[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
-                $("#jsonRespuestas").val(jsonText);
+                $("#jsonRespuestasVF").val(jsonText);
+            }
+        });
+        $("#preguntaDE").submit(function(e){
+            let exp = document.getElementById("explicacionDE").value;
+            jsonText="[{'respuesta':" + exp + ", 'nota': 10.0}]";
+            $("#jsonRespuestasDE").val(jsonText);
+        });
+        $("#preguntaOP").submit(function(e){
+            let reA = document.getElementById("respuestaOPA").value;
+            let reB = document.getElementById("respuestaOPB").value;
+            let reC = document.getElementById("respuestaOPC").value;
+            let reD = document.getElementById("respuestaOPD").value;
+        
+            if($("#respuestaMarcadaOP").val()=="A"){
+                jsonText="[{'respuesta':" + reA + ", 'nota': 10.0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                $("#jsonRespuestasOP").val(jsonText);
+            }else if($("#respuestaMarcadaOP").val()=="B"){
+                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 10.0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                $("#jsonRespuestasOP").val(jsonText);
+            }else if($("#respuestaMarcadaOP").val()=="C"){
+                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 10.0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                $("#jsonRespuestasOP").val(jsonText);
+            }else {
+                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 10.0}]";
+                $("#jsonRespuestasOP").val(jsonText);
             }
         });
 
