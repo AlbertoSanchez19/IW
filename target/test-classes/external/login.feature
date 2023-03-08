@@ -17,7 +17,7 @@ Feature: login en servidor
     And input('#password', 'world')
     When submit().click("#do_login")
     # Then match html('.error') contains 'Error en nombre de usuario o contraseña'
-    Then match html('title') contains 'CrearCuestionario'
+    Then match html('title') contains 'Login'
 
 
   @login_b

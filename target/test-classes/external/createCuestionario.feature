@@ -46,8 +46,10 @@ Feature: crear un cuestionario
 @create_quizz
 Scenario: crear cuestionario correcto
     Given call read('login.feature@login_a')
-    Given  driver driver baseUrl + '/CC'
-    When submit().click().("#nuevo_cuestionario")
-    # Then match text('#response', 'Correcto')
-    # Then error
-    Then match html('title') contains 'Preguntas'
+    Given  driver baseUrl + '/CC'
+    And input('#titulo_cuestionario', 'titulo_prueba')
+    And input('#descripcion_cuestionario', 'esto es una descripcion')
+    When submit().click("#submit_cuestionario")
+    
+    # Then match html('title') contains 'Preguntas'
+    Then waitForUrl (baseUrl + '/{id}/CP')
