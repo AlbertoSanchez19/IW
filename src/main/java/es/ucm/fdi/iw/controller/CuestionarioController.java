@@ -19,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
+import org.json.*;
+
 
 /**
  * Site administration.
@@ -38,18 +40,37 @@ public class CuestionarioController {
     @Autowired
     private PreguntaRepository preguntaRepository;
 
+    @Autowired
+    private RespuestaRepository respuestaRepository;
+
     @PostMapping
     public Cuestionario crearCuestionario(@RequestBody Cuestionario cuestionario) {
         return cuestionarioRepository.save(cuestionario);
     }
 
     @PostMapping("/{idCuestionario}/CP")
-    public Pregunta agregarPregunta(@PathVariable Long idCuestionario, @RequestBody Pregunta pregunta)
+    public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
+            @PathVariable Long idCuestionario)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
-        return preguntaRepository.save(pregunta);
+        Pregunta p = preguntaRepository.save(pregunta);
+
+        JSONArray json = new JSONArray(jsonRespuestas);
+        for (int i = 0; i < json.length(); i++) {
+            JSONObject rJSON = json.getJSONObject(i);
+
+            Respuesta r = new Respuesta();
+            r.setPregunta(p);
+            r.setNota(rJSON.getFloat("nota"));
+            r.setRespuesta(rJSON.getString("respuesta"));
+             
+            respuestaRepository.save(r);
+            
+        }
+
+        return "redirect:/" + cuestionario.getId() + "/CP";
     }
 
     @PostMapping("/CC")

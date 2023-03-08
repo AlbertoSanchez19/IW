@@ -18,6 +18,10 @@ public class Respuesta {
     @OneToOne
     @JoinColumn(name = "id_pregunta")
     private Pregunta pregunta;
+
+    @Column
+    private String respuesta;
+
     @OneToMany(mappedBy = "respuesta" )
 	private List<Resultado> resultados = new ArrayList<>();
     @Column
