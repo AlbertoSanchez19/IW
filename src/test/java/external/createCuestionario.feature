@@ -50,6 +50,6 @@ Scenario: crear cuestionario correcto
     And input('#titulo_cuestionario', 'titulo_prueba')
     And input('#descripcion_cuestionario', 'esto es una descripcion')
     When submit().click("#submit_cuestionario")
-    
-    # Then match html('title') contains 'Preguntas'
-    Then waitForUrl (baseUrl + '/{id}/CP')
+    # Then match html('title') contains 'Login'
+    Then match html('title') contains 'Preguntas'
+    # Then waitForUrl (baseUrl + '/{id}/CP')
