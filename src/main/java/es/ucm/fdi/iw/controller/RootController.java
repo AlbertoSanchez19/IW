@@ -32,14 +32,8 @@ public class RootController {
         return "introducir_pin";
     }
 
-    
-    @GetMapping("/admin_profesores")
-    public String admin_profesores(Model model) {
-        return "admin_profesores";
 
-    }
-
-    @GetMapping("/admin_info_profesor")
+    @GetMapping("/info_profesor")
     public String admin_info_profesor(Model model) {
         return "admin_info_profesor";
 

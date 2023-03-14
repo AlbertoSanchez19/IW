@@ -13,12 +13,14 @@
         <div class="container">
             <h2 class="mt-5">Profesores registrados:</h2>
 
-            <div class="row mt-4 mb-4">
+            <div class="row mt-4 mb-3">
                 <button class="btn btn-lg btn-primary btn-block" type="button">+ Añadir nuevo profesor</button>
             </div>
 
-            <div>
-                <div class="d-flex flex-column h-100 row gy-3" id="listaProfesores">
+            <div class="d-flex flex-column h-100 row" th:each="profesor : ${profesores}">
+                <button class = "btn btn-lg btn-secondary btn-block mb-2" type="submit" name="profesorId" th:value="${profesor.id}">
+                    <span th:text="${profesor.username}"></span>
+                </button>
             </div>
         </div>
     </main>
