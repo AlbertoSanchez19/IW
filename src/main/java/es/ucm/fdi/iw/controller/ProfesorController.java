@@ -45,5 +45,20 @@ public class ProfesorController {
         return "admin_profesores";
     }
 
+    @GetMapping("/profesores/nuevo")
+    public String nuevoProfesor(Model model){
+        User profesor = new User();
+        model.addAttribute("profesor", profesor);
+        return "nuevo_profesor";
+    }
+
+    @PostMapping("/profesores")
+    public String guardarProfesor(@ModelAttribute("profesor") User profesor){
+        profesor.setId(0);
+        profesor.setEnabled(true);
+        profesor.setRoles("USER,PROFESOR");
+        profesorService.guardarProfesor(profesor);
+        return "redirect:/profesores";
+    }
     
 }

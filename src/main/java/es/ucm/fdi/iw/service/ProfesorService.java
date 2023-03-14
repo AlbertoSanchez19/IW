@@ -21,5 +21,9 @@ public class ProfesorService {
     public List<User> obtenerProfesores() {
         return profesorRepository.findByRolesContaining("PROFESOR");
     }
+
+    public User guardarProfesor(User profesor){
+        return profesorRepository.save(profesor);
+    }
     
 }
