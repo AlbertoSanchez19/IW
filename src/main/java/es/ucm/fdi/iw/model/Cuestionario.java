@@ -16,7 +16,7 @@ public class Cuestionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @OneToMany(targetEntity = User.class)
     @JoinColumn(name = "id_usuario")
@@ -27,8 +27,8 @@ public class Cuestionario {
     private String titulo;
 
     @OneToMany(mappedBy = "cuestionario")
-	private List<Tags> tags = new ArrayList<>();
+    private List<Tags> tags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cuestionario" )
-	private List<Pregunta> preguntas = new ArrayList<>();
+    @OneToMany(mappedBy = "cuestionario")
+    private List<Pregunta> preguntas = new ArrayList<>();
 }
