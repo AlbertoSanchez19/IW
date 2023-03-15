@@ -18,9 +18,9 @@ public class Cuestionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(targetEntity = User.class)
+    @ManyToOne
     @JoinColumn(name = "id_usuario")
-    private List<User> usuario = new ArrayList<>();
+    private User usuario;
     @Column
     private String descripcion;
     @Column

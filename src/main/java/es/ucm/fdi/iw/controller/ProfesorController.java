@@ -1,6 +1,8 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,6 +40,9 @@ public class ProfesorController {
     @Autowired
     private ProfesorService profesorService;
 
+    @Autowired
+    private CuestionarioService cuestionarioService;
+
     @GetMapping("/profesores")
     public String profesores(Model model){
         List<User> listaProfesores = profesorService.obtenerProfesores();
@@ -52,13 +57,29 @@ public class ProfesorController {
         return "nuevo_profesor";
     }
 
-    @PostMapping("/profesores")
+    @PostMapping("/profesores/nuevo")
     public String guardarProfesor(@ModelAttribute("profesor") User profesor){
-        profesor.setId(0);
         profesor.setEnabled(true);
         profesor.setRoles("USER,PROFESOR");
         profesorService.guardarProfesor(profesor);
         return "redirect:/profesores";
+    }
+
+    @PostMapping("/profesores/{profesorId}/info_profesor")
+    public String infoProfesor(@PathVariable Long profesorId, Model model) throws NotFoundException{
+        User profesor = profesorService.obtenerPorId(profesorId)
+                .orElseThrow(() -> new NotFoundException());
+        
+        // Solamente para ver si se muestran los cuestinoarios
+        Cuestionario cuest = new Cuestionario();
+        cuest.setUsuario(profesor);
+        cuest.setTitulo("prueba");
+        cuestionarioService.save(cuest);
+        List<Cuestionario> cuestionarios = cuestionarioService.obtenerCuestionarios(profesor);
+        
+        model.addAttribute("profesor", profesor);
+        model.addAttribute("cuestionarios", cuestionarios);
+        return "admin_info_profesor";
     }
     
 }

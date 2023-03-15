@@ -16,6 +16,9 @@ import es.ucm.fdi.iw.repository.*;
 public class CuestionarioService {
     
     @Autowired
+    private CuestionarioRepository cuestionarioRepository;
+
+    @Autowired
     private PreguntaRepository preguntaRepository;
     
     @Autowired
@@ -34,6 +37,10 @@ public class CuestionarioService {
     public Cuestionario save(Cuestionario cuestionario) {
 		return repository.save(cuestionario);
 	}
+
+    public List<Cuestionario> obtenerCuestionarios(User profesor){
+        return cuestionarioRepository.findAllByUsuario(profesor);
+    }
     // otros métodos para validar respuestas, obtener estadísticas, etc.
     
 }

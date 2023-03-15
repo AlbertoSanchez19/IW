@@ -16,7 +16,7 @@
                     <div class="card shadow">
                         <div class="card-body">
                             <h5 class="card-title mb-4">Crear una cuenta de profesor</h5>
-                            <form th:action="@{/profesores}" th:object="${profesor}" method="post">
+                            <form th:action="@{/profesores/nuevo}" th:object="${profesor}" method="post">
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre:</label>
                                     <input type="text" id="nombre" name="nombre" th:field="*{firstName}"

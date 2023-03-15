@@ -66,6 +66,9 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "usuario" )
     private List<Resultado> resultados = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Cuestionario> cuestionarios = new ArrayList<>();
+
     /**
      * Checks whether this user has a given role.
      * @param role to check

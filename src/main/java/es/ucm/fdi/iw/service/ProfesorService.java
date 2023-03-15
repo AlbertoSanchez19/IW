@@ -17,6 +17,10 @@ public class ProfesorService {
     
     @Autowired
     private ProfesorRepository profesorRepository;
+
+    public Optional<User> obtenerPorId(Long id){
+        return profesorRepository.findById(id);
+    }
     
     public List<User> obtenerProfesores() {
         return profesorRepository.findByRolesContaining("PROFESOR");
@@ -25,5 +29,6 @@ public class ProfesorService {
     public User guardarProfesor(User profesor){
         return profesorRepository.save(profesor);
     }
+
     
 }
