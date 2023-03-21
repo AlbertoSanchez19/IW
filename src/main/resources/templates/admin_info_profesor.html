@@ -28,7 +28,7 @@
                 <div class="d-flex flex-column h-100 mt-2" id="listaCuestionarios">
                     <h1> Cuestionarios creados: </h1>
                     <th:block th:each="cuestionario : ${cuestionarios}">
-                        <button class="btn btn-lg btn-info btn-block mt-3" type="submit" name="cuestionarioId">
+                        <button class="btn btn-lg btn-block mt-3 text-light" style="background-color: hsla(295, 41%, 16%, 0.9);"type="submit" name="cuestionarioId">
                             <span th:text="${cuestionario.titulo}"></span>
                         </button>
                     </th:block>

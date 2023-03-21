@@ -14,12 +14,12 @@
             <h2 class="mt-5">Profesores registrados:</h2>
 
             <div class="row mt-4 mb-3">
-                <a th:href="@{/profesores/nuevo}" class="btn btn-lg btn-primary btn-block" type="button">+ Añadir nuevo profesor</a>
+                <a th:href="@{/profesores/nuevo}" class="btn btn-lg btn-block text-light" style="background-color: hsla(295, 41%, 16%, 0.9);" type="button">+ Añadir nuevo profesor</a>
             </div>
 
             <th:block th:each="profesor : ${profesores}">
                 <form th:action = "@{/profesores/{profesorId}/info_profesor(profesorId=${profesor.id})}" method = "post" class="d-flex flex-column h-100 row">
-                    <button class = "btn btn-lg btn-secondary btn-block mb-2" type="submit" name="profesorId" th:value="${profesor.id}">
+                    <button class = "btn btn-lg btn-light btn-block mb-2" style="color: hsla(295, 41%, 16%, 0.9);"type="submit" name="profesorId" th:value="${profesor.id}">
                         <span th:text="${profesor.username}"></span>
                     </button>
                 </form>
