@@ -13,4 +13,7 @@ public interface ProfesorRepository extends JpaRepository <User, Long> {
 	public Optional<User> findById(long id);
 	public List<User> findByRolesContaining(String role);
 	public void deleteById(Long id);
+
+	@Query("SELECT u FROM User u WHERE NOT u.roles LIKE '%PROFESOR%'")
+	public List<User> findNotProfesor();
 }

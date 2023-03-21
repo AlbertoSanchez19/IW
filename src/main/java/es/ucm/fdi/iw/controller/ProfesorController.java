@@ -51,19 +51,24 @@ public class ProfesorController {
     }
 
     @GetMapping("/profesores/nuevo")
-    public String nuevoProfesor(Model model){
-        User profesor = new User();
-        model.addAttribute("profesor", profesor);
+    public String listarUsuarios(Model model){
+        List<User> usuarios = profesorService.obtenerUsuarios();
+        model.addAttribute("usuarios", usuarios);
         return "nuevo_profesor";
     }
 
-    @PostMapping("/profesores/nuevo")
-    public String guardarProfesor(@ModelAttribute("profesor") User profesor){
-        profesor.setEnabled(true);
-        profesor.setRoles("USER,PROFESOR");
-        profesorService.guardarProfesor(profesor);
+    @PostMapping("/usuarios/{id}/rol")
+    public String actualizarRol(@PathVariable("id") Long id, @RequestParam("rol") String rol) {
+        Optional<User> optionalUsuario = profesorService.obtenerPorId(id);
+        if (optionalUsuario.isPresent()) {
+            User usuario = optionalUsuario.get();
+            String roles = usuario.getRoles();
+            roles = roles + ",PROFESOR";
+            usuario.setRoles(roles);
+            profesorService.guardarProfesor(usuario);
+        }
         return "redirect:/profesores";
-    }
+}
 
     @PostMapping("/profesores/{profesorId}/info_profesor")
     public String infoProfesor(@PathVariable Long profesorId, Model model) throws NotFoundException{

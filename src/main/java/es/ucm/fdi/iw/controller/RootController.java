@@ -1,10 +1,18 @@
 package es.ucm.fdi.iw.controller;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import es.ucm.fdi.iw.model.User;
 
 /**
  * Non-authenticated requests only.
@@ -14,8 +22,26 @@ public class RootController {
 
     private static final Logger log = LogManager.getLogger(RootController.class);
 
+    @Autowired
+	private EntityManager entityManager;
+
     @GetMapping("/login")
     public String login(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/register")
+	public String register(Model model){
+		model.addAttribute("user", new User());
+		return "register";
+	}
+
+    @Transactional
+    @PostMapping("/register")
+    public String registered(@ModelAttribute("user") User user){
+        user.setRoles("USER");
+        entityManager.persist(user);
+        entityManager.flush();
         return "login";
     }
 

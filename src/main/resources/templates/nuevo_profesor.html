@@ -10,46 +10,32 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main>
-        <div class="container my-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <h5 class="card-title mb-4">Crear una cuenta de profesor</h5>
-                            <form th:action="@{/profesores/nuevo}" th:object="${profesor}" method="post">
-                                <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre:</label>
-                                    <input type="text" id="nombre" name="nombre" th:field="*{firstName}"
-                                        class="form-control" placeholder="Introduzca su nombre">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="apellidos" class="form-label">Apellidos:</label>
-                                    <input type="text" id="apellidos" name="apellidos" th:field="*{lastName}"
-                                        class="form-control" placeholder="Introduzca sus apellidos">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Nombre de usuario:</label>
-                                    <input type="text" id="username" name="username" th:field="*{username}"
-                                        class="form-control" placeholder="Introduzca su nombre de usuario">
-                                </div>
-
-                                <div class="mb-4">
-                                    <label for="password" class="form-label">Contraseña:</label>
-                                    <input type="password" id="password" name="password" th:field="*{password}"
-                                        class="form-control" placeholder="Introduzca su contraseña">
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">Crear cuenta</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2 class="text-center text-black mt-4 mb-4">Selecciona que usuario asignar el rol de profesor</h2>
+        <table class="table table-striped table-hover">
+            <thead class="text-white" style="background-color: hsla(295, 41%, 16%, 0.9);">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Nombre de usuario</th>
+                <th scope="col">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="usuario : ${usuarios}">
+                <td th:text="${usuario.firstName}" class="align-middle"></td>
+                <td th:text="${usuario.lastName}" class="align-middle"></td>
+                <td th:text="${usuario.username}" class="align-middle"></td>
+                <td class="align-middle">
+                  <form th:action="@{/usuarios/{id}/rol(id=${usuario.id})}" method="post">
+                    <input type="hidden" name="_method" value="put" />
+                    <input type="hidden" name="rol" value="PROFESOR" />
+                    <button type="submit" class="btn btn-success">Asignar rol de profesor</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />

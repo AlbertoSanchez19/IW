@@ -30,5 +30,8 @@ public class ProfesorService {
         return profesorRepository.save(profesor);
     }
 
+    public List<User> obtenerUsuarios(){
+        return profesorRepository.findNotProfesor();
+    }
     
 }
