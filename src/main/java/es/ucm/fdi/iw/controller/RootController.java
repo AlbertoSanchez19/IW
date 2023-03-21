@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.repository.*;
+import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.model.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 /**
  * Non-authenticated requests only.
@@ -49,10 +54,9 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
-    @GetMapping("/RP")
-    public String responderPreguntas(Model model) {
-        return "responderPreguntas";
-    }
+
+
+
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducir_pin";
