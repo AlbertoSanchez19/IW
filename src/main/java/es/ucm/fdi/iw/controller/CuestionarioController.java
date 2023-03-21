@@ -20,8 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.json.*;
-
-
+import java.util.*;
 /**
  * Site administration.
  *
@@ -98,5 +97,18 @@ public class CuestionarioController {
         model.addAttribute("cuestionario", cuestionario);
         return "creacionPreguntas";
     }
+
+    @GetMapping("/{idCuestionario}/RP")
+    public String responderPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        model.addAttribute("cuestionario", cuestionario);
+        
+        List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
+        model.addAttribute("preguntas", preguntas);
+        return "responderPreguntas";
+    }
+
+
 
 }

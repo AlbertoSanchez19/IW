@@ -5,6 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import es.ucm.fdi.iw.repository.*;
+import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.model.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 /**
  * Non-authenticated requests only.
@@ -23,10 +28,9 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
-    @GetMapping("/RP")
-    public String responderPreguntas(Model model) {
-        return "responderPreguntas";
-    }
+
+
+
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducir_pin";
