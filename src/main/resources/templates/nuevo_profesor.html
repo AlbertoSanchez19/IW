@@ -10,9 +10,9 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main>
-        <h2 class="text-center text-black mt-4 mb-4">Selecciona que usuario asignar el rol de profesor</h2>
+        <h2 class="text-center text-black mt-4 mb-4">Selecciona al usuario que asignar el rol de profesor</h2>
         <table class="table table-striped table-hover">
-            <thead class="text-white" style="background-color: hsla(295, 41%, 16%, 0.9);">
+            <thead class="text-white border-dark" style="background-color: hsla(295, 41%, 16%, 0.9);">
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Apellido</th>
@@ -20,7 +20,7 @@
                 <th scope="col">Acción</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class = "bg-light border-dark">
               <tr th:each="usuario : ${usuarios}">
                 <td th:text="${usuario.firstName}" class="align-middle"></td>
                 <td th:text="${usuario.lastName}" class="align-middle"></td>
