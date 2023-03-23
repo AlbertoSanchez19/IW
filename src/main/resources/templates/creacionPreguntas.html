@@ -15,6 +15,7 @@
 
 <body>
     <div class="alineados">
+      
         <h1 class = "titulocuestionario"> [[${cuestionario.titulo}]]</h1>
         <div class="sidebar-box">
             <select class="styled-select" id="miSelect">
@@ -24,11 +25,13 @@
                 <option value="OP">Opciones</option>
                 <option value="OF">Desarrollo con imagen</option>
             </select>
-        </div>
-        <div class = "botonañadir">
-            <a class="añadir" id=" crear" type="submit"> Crear</a>
-        </div>
+            
+        </div>  
+       
+        <br><br><br>
+        <a class="añadir"type="submit"> Crear</a> 
     </div>
+     
 
     <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaVF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
@@ -48,6 +51,7 @@
             <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"></textarea>
         </div>
         <input class = "siguiente" type="submit">
+        <br><br><br>
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaDE">
@@ -65,6 +69,7 @@
             <textarea name="pista" placeholder="Escriba su pista"> </textarea>
         </div>
         <input class = "siguiente" type="submit">
+        <br><br><br>
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOP">
@@ -94,25 +99,28 @@
             <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
         <input class = "siguiente" type="submit">
+        <br><br><br>
     </form>
-
-    <div class="crearCuestionario d-none" id="preguntaOF">
-        <p><input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta"></p>
-
-        <input class="respuesta" type="file" id="f_avatar" accept="image/jpeg,image/png">
-
+    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOF">
+        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input type="hidden" name="type" value="RESPUESTA_CORTA">
+        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
+        <br><br><br>
+        <input type="file" id="f_avatar" accept="image/jpeg,image/png">
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="pista" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
         <br><br><br><br><br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
             <textarea name="pista" placeholder="Escriba su pista"> </textarea>
         </div>
+        <input class = "siguiente" type="submit">
+        <br><br><br>
+    </form>
 
-    </div>
-
+    <br><br><br><br>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 

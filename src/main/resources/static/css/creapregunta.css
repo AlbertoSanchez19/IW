@@ -1,20 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 body{
     background: url(fondoPreguntas.jpg);
     background-size: cover;
     background-attachment: fixed;
     font-family: 'Varela Round', sans-serif;
 }
+
 .crearCuestionario{
     background-color: hsla(295, 41%, 16%, 0.9);
-    margin-right: 40%;
-    margin-left: 5%;
+    margin-right: 10%;
+    margin-left: 10%;
     border-radius: 30px;
-    height: 720px;
-    flex-direction: column;
+    height: auto;
     margin-top: 5%;
-   
+    align-items: center;
+    text-align: center;
 }
+
 .pregunta{
     margin-top: 3%;
     background: transparent;
@@ -23,30 +26,34 @@ body{
     color: white;
     font-size: 40px;
     padding: 30px;
-    width:650px;
+    width: 100%;
+    max-width: 80%;
     text-align: center;
-    margin-left: 8%;
-
 }
+
 .pregunta::placeholder{
     color:rgb(177, 177, 177);
 }
+
 div{
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
+    text-align: center;
 }
+
 h1{
     color: white;
     justify-content: center;
     font-size: 50px;
-    
 }
+
 h2{
     color: white;
     justify-content: center;
     font-size: 35px;
-    
 }
+
 .V{
 
     background-color: rgb(29, 76, 29);
@@ -63,6 +70,7 @@ h2{
     text-align:center;
     font-size: 20px;
     margin: 10px;
+    margin-bottom: 5%;
     border-radius: 15px;
     cursor: pointer;  
     
@@ -70,7 +78,10 @@ h2{
 p{
     color: white;
     font-size:20px;
+    text-align: center;
+    margin-bottom: 0;
 }
+
 .bombilla{
     font-size:50px;
     margin-right:5%;
@@ -113,7 +124,6 @@ textarea {
 }
 .opciones{
     text-decoration: none;
-    display:inline-block;
     padding:30px;
     border: 3px solid white;
     border-radius: 30px;
@@ -124,6 +134,7 @@ textarea {
     font-size: 20px;
     margin: 10px;
     cursor: pointer;
+    margin-left: 12%;
     
 }
 .opciones:hover{
@@ -163,15 +174,9 @@ textarea {
       background-position: right .7em top 50%, 0 0;
       background-size: .65em auto, 100%;
     }
-    .botonañadir{
-        
-        margin-left: 40%;
-        margin-right: 10%;
-        
-    }
+    
     .añadir{
         text-decoration: none;
-        position:absolute;
         width:10%;
         height:13%;
         padding:10px;
@@ -181,9 +186,9 @@ textarea {
         color: white;
         font-weight:bold;
         transition:all 0,9s;
-        text-align: center;
         font-size: 20px;
         margin: 10px;
+        margin-left: 45%;
         
     }
     .añadir:hover{
@@ -195,6 +200,9 @@ textarea {
         display: flex;
         margin-top: 5%;
         margin-bottom:5%;
+        align-items: center;
+        flex-wrap: wrap;
+        text-align: center;
     }
     .respuesta{
         margin-top: 3%;
@@ -286,7 +294,6 @@ textarea {
         transition:all 0,9s;
         text-align:center;
         font-size: 20px;
-        margin-left: 25%;
         margin-top: 10%;
         
     }
