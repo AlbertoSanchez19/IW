@@ -18,6 +18,7 @@ import es.ucm.fdi.iw.service.CuestionarioService;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Non-authenticated requests only.
@@ -26,6 +27,9 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 public class RootController {
 
     private static final Logger log = LogManager.getLogger(RootController.class);
+
+    @Autowired 
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
 	private EntityManager entityManager;
@@ -45,6 +49,8 @@ public class RootController {
     @PostMapping("/register")
     public String registered(@ModelAttribute("user") User user){
         user.setRoles("USER");
+        user.setEnabled(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
         entityManager.flush();
         return "login";
