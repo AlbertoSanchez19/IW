@@ -105,22 +105,29 @@
     </form>
     <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
-        <input type="hidden" name="type" value="RESPUESTA_CORTA">
-        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
-        <br><br><br>
-        <input type="file" id="f_avatar" accept="image/jpeg,image/png">
-        <div>
-            <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+        <input type="hidden" name="type" value="RESPUESTA_FOTO">
+          <!-- Agregue un campo de entrada para la foto -->
+         <div>
+            <input type="file" name="foto">
         </div>
-        <br><br><br><br><br>
-        <div>
-            <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
-            <textarea name="pista" placeholder="Escriba su pista"> </textarea>
-        </div>
-        <input class = "siguiente" type="submit">
+        <!-- Agregue un identificador único para la pregunta -->
+        <input type="hidden" name="preguntaId" value="__${pregunta.id}__">
         <br><br><br>
+            <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
+            <br><br><br>
+            <div>
+                <p class="bombilla"><i class="fa-solid fa-book"></i></p>
+                <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            </div>
+            <br><br><br><br><br>
+            <div>
+                <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
+                <textarea name="pista" placeholder="Escriba su pista"> </textarea>
+            </div>
+            <input class = "siguiente" type="submit">
+            <br><br><br>
     </form>
+
 
     <br><br><br><br>
 

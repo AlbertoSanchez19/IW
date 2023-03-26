@@ -15,11 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.json.*;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
@@ -54,12 +60,25 @@ public class CuestionarioController {
 
     @PostMapping("/{idCuestionario}/CP")
     public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
-            @PathVariable Long idCuestionario)
+            @PathVariable Long idCuestionario,
+            @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
+        if(p.getType() == PreguntaType.RESPUESTA_FOTO){
+            if (!file.isEmpty()) {
+                try {
+                    byte[] bytes = file.getBytes();
+                    pregunta.setImagen(bytes);
+                } catch (IOException e) {
+                    log.error("Error al guardar la imagen de la pregunta", e);
+                    attributes.addFlashAttribute("error", "Error al guardar la imagen de la pregunta");
+                }
+            }
+
+        }
 
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
