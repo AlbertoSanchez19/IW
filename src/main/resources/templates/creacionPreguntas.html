@@ -29,7 +29,7 @@
         </div>  
        
         <br><br><br>
-        <a class="añadir"type="submit"> Crear</a> 
+        <a href="/" class="añadir"type="submit"> Crear</a> 
     </div>
      
 
@@ -42,8 +42,10 @@
         <p>Seleccione la respuesta correcta :</p>
         <br><br>
 
-        <a class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V")'>V</a>
-        <a class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F")'>F</a>
+        <div class="btn-group" role="group">
+            <a class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
+            <a class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>    
+        </div>
         
         <br>
         <div>

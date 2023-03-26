@@ -21,6 +21,8 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.json.*;
 import java.util.*;
+
+import javax.servlet.http.HttpSession;
 /**
  * Site administration.
  *
@@ -30,6 +32,9 @@ import java.util.*;
 public class CuestionarioController {
 
     private static final Logger log = LogManager.getLogger(CuestionarioController.class);
+
+    @Autowired 
+    private HttpSession session;
 
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
@@ -74,7 +79,7 @@ public class CuestionarioController {
 
     @PostMapping("/CC")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-        log.info("crear cuestionario");
+        cuestionario.setUsuario((User)session.getAttribute("u"));
         Cuestionario c = cuestionarioService.save(cuestionario);
         return "redirect:/" + c.getId() + "/CP";
     }
