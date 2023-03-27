@@ -24,6 +24,9 @@ public class Respuesta {
 
     @OneToMany(mappedBy = "respuesta" )
 	private List<Resultado> resultados = new ArrayList<>();
+
+    boolean conImagen;
+
     @Column
     private float nota;
     public Respuesta() {
