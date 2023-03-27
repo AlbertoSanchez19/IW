@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
+
 /**
  * Site administration.
  *
@@ -39,7 +40,7 @@ public class CuestionarioController {
 
     private static final Logger log = LogManager.getLogger(CuestionarioController.class);
 
-    @Autowired 
+    @Autowired
     private HttpSession session;
 
     @Autowired
@@ -60,25 +61,28 @@ public class CuestionarioController {
 
     @PostMapping("/{idCuestionario}/CP")
     public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
-            @PathVariable Long idCuestionario,
-            @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
+            @PathVariable Long idCuestionario)
+            // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
-        if(p.getType() == PreguntaType.RESPUESTA_FOTO){
-            if (!file.isEmpty()) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    pregunta.setImagen(bytes);
-                } catch (IOException e) {
-                    log.error("Error al guardar la imagen de la pregunta", e);
-                    attributes.addFlashAttribute("error", "Error al guardar la imagen de la pregunta");
-                }
-            }
-
-        }
+        /*
+         * if (p.getType() == PreguntaType.RESPUESTA_FOTO) {
+         * if (!file.isEmpty()) {
+         * try {
+         * byte[] bytes = file.getBytes();
+         * pregunta.setImagen(bytes);
+         * } catch (IOException e) {
+         * log.error("Error al guardar la imagen de la pregunta", e);
+         * attributes.addFlashAttribute("error",
+         * "Error al guardar la imagen de la pregunta");
+         * }
+         * }
+         * 
+         * }
+         */
 
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
@@ -88,9 +92,9 @@ public class CuestionarioController {
             r.setPregunta(p);
             r.setNota(rJSON.getFloat("nota"));
             r.setRespuesta(rJSON.getString("respuesta"));
-             
+
             respuestaRepository.save(r);
-            
+
         }
 
         return "redirect:/" + cuestionario.getId() + "/CP";
@@ -98,7 +102,7 @@ public class CuestionarioController {
 
     @PostMapping("/CC")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-        cuestionario.setUsuario((User)session.getAttribute("u"));
+        cuestionario.setUsuario((User) session.getAttribute("u"));
         Cuestionario c = cuestionarioService.save(cuestionario);
         return "redirect:/" + c.getId() + "/CP";
     }
@@ -127,12 +131,10 @@ public class CuestionarioController {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
-        
+
         List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
         model.addAttribute("preguntas", preguntas);
         return "responderPreguntas";
     }
-
-
 
 }

@@ -81,20 +81,31 @@
 
         <input type="hidden" id="respuestaMarcadaOP">
         <p> Seleccione la respuesta correcta :</p>
-        <br>
-        <div>
-            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
-            <input class="respuesta" type="text" name="texto" id = "respuestaOPA" placeholder="Escriba su respuesta">
-            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("B")'>B</a>
-            <input class="respuesta" type="text" name="texto" id = "respuestaOPB" placeholder="Escriba su respuesta">
+        <br><br>
+        <div class="options-container">
+        <div class="btn-group" role="group">
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
+                    <input class="respuesta" type="text" name="texto" id="respuestaOPA" placeholder="Escriba su respuesta">
+                </div>
+                <div class="col-md-6">
+                    <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("B")'>B</a>
+                    <input class="respuesta" type="text" name="texto" id="respuestaOPB" placeholder="Escriba su respuesta">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("C")'>C</a>
+                    <input class="respuesta" type="text" name="texto" id="respuestaOPC" placeholder="Escriba su respuesta">
+                </div>
+                <div class="col-md-6">
+                    <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("D")'>D</a>
+                    <input class="respuesta" type="text" name="texto" id="respuestaOPD" placeholder="Escriba su respuesta">
+                </div>
+            </div>
         </div>
-        <div>
-
-            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("C")'>C</a>
-            <input class="respuesta" type="text" name="texto" id = "respuestaOPC" placeholder="Escriba su respuesta">
-            <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("D")'>D</a>
-            <input class="respuesta" type="text" name="texto" id = "respuestaOPD" placeholder="Escriba su respuesta">
-            <br><br><br><br><br><br><br><br>
+            <br><br><br>
         </div>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
@@ -108,10 +119,10 @@
         <input type="hidden" name="type" value="RESPUESTA_FOTO">
           <!-- Agregue un campo de entrada para la foto -->
          <div>
-            <input type="file" name="foto">
+             <!--<input type="file" name="foto"> -->
         </div>
         <!-- Agregue un identificador único para la pregunta -->
-        <input type="hidden" name="preguntaId" value="__${pregunta.id}__">
+         <!--<input type="hidden" name="preguntaId" value="__${pregunta.id}__"> -->
         <br><br><br>
             <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
             <br><br><br>
@@ -188,6 +199,14 @@
                 $("#jsonRespuestasOP").val(jsonText);
             }
         });
+
+        $('.opciones').click(function() {
+            $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
+            $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
+            $("#respuestaMarcadaOP").val($(this).text());
+        });
+
+
 
     </script>
 </body>
