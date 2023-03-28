@@ -205,11 +205,6 @@
         });
 
 
-        $('.opciones').click(function() {
-            $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
-            $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
-            $("#respuestaMarcadaOP").val($(this).text());
-
 
         document.querySelectorAll(".foto_pregunta").forEach(o => {
             document.querySelector(".input_foto").onchange = e => {
