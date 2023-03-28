@@ -34,8 +34,6 @@ public class Pregunta {
     private float nota;
     @Column
     private int prioridad;
-    @Lob
-    private byte[] imagen;
 
 
     @Enumerated(EnumType.STRING)
