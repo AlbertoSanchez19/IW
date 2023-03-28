@@ -4,10 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,19 +17,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.json.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -44,7 +49,11 @@ public class CuestionarioController {
     private HttpSession session;
 
     @Autowired
+    private LocalData localData;
+
+    @Autowired
     private CuestionarioRepository cuestionarioRepository;
+
     @Autowired
     private CuestionarioService cuestionarioService;
 
@@ -68,22 +77,6 @@ public class CuestionarioController {
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
-        /*
-         * if (p.getType() == PreguntaType.RESPUESTA_FOTO) {
-         * if (!file.isEmpty()) {
-         * try {
-         * byte[] bytes = file.getBytes();
-         * pregunta.setImagen(bytes);
-         * } catch (IOException e) {
-         * log.error("Error al guardar la imagen de la pregunta", e);
-         * attributes.addFlashAttribute("error",
-         * "Error al guardar la imagen de la pregunta");
-         * }
-         * }
-         * 
-         * }
-         */
-
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
             JSONObject rJSON = json.getJSONObject(i);
@@ -137,4 +130,53 @@ public class CuestionarioController {
         return "responderPreguntas";
     }
 
-}
+    /**
+     * Downloads a profile pic for a user id
+     * 
+     * @param id
+     * @return
+     * @throws IOException
+     */
+    @GetMapping("{id}/pic")
+    public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
+        File f = localData.getFile("respuesta", ""+id+".jpg");
+        InputStream in = new BufferedInputStream(f.exists() ?
+            new FileInputStream(f) : null);
+        return os -> FileCopyUtils.copy(in, os);
+    }
+
+    /**
+     * Uploads a profile pic for a user id
+     * 
+     * @param id
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("{id}/pic")
+	@ResponseBody
+    public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id, 
+        HttpServletResponse response, HttpSession session, Model model) throws IOException {
+
+        Respuesta target = respuestaRepository.findById(id);
+        model.addAttribute("user", target);
+		
+		log.info("Updating photo for respuesta {}", id);
+		File f = localData.getFile("respuesta", ""+id+".jpg");
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+		} else {
+			try (BufferedOutputStream stream =
+					new BufferedOutputStream(new FileOutputStream(f))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+                log.info("Uploaded photo for {} into {}!", id, f.getAbsolutePath());
+			} catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				log.warn("Error uploading " + id + " ", e);
+			}
+		}
+		return "{\"status\":\"photo uploaded correctly\"}";
+    }
+   
+
+

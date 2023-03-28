@@ -9,6 +9,7 @@ import es.ucm.fdi.iw.model.Respuesta;
 @Repository
 public interface RespuestaRepository extends JpaRepository <Respuesta, Long> {
 	public List<Respuesta> findAll();
-
+	public Respuesta findById(long id);
 	public void deleteById(Long id);
+
 }
