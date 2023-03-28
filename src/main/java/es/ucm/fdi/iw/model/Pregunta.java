@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name="Pregunta")
+@Table(name = "Pregunta")
 public class Pregunta {
 
     @Id
@@ -31,12 +31,13 @@ public class Pregunta {
     @Column
     @Lob
     private String explicacion;
-    /* 
-    @Column
-    private float nota;
-    @Column
-    private int prioridad;
-    */
+    /*
+     * @Column
+     * private float nota;
+     * 
+     * @Column
+     * private int prioridad;
+     */
 
     @Enumerated(EnumType.STRING)
     private PreguntaType type;
@@ -44,5 +45,8 @@ public class Pregunta {
     @OneToMany(mappedBy = "pregunta")
     private List<Respuesta> respuestas = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return "";
+    }
 }
-

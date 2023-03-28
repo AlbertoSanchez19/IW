@@ -34,12 +34,11 @@ public class RootController {
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
 
-
-    @Autowired 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-	private EntityManager entityManager;
+    private EntityManager entityManager;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -47,14 +46,14 @@ public class RootController {
     }
 
     @GetMapping("/register")
-	public String register(Model model){
-		model.addAttribute("user", new User());
-		return "register";
-	}
+    public String register(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
 
     @Transactional
     @PostMapping("/register")
-    public String registered(@ModelAttribute("user") User user){
+    public String registered(@ModelAttribute("user") User user) {
         user.setRoles("USER");
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -68,13 +67,10 @@ public class RootController {
         return "index";
     }
 
-
-
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducir_pin";
     }
-
 
     @GetMapping("/info_profesor")
     public String admin_info_profesor(Model model) {
@@ -96,9 +92,10 @@ public class RootController {
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
         List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
-        // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " + c.getUsuario().getLastName()).collect(Collectors.toList());
+        // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " +
+        // c.getUsuario().getLastName()).collect(Collectors.toList());
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
-    }   
-    
+    }
+
 }
