@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/'-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/iw.js}"></script>
 </head>
 
 <body>
@@ -114,15 +115,17 @@
         <input class = "siguiente" type="submit">
         <br><br><br>
     </form>
-    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOF">
+    <div class="foto_pregunta crearCuestionario d-none" id="preguntaOF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        
+        <input type="file" class="input_foto" accept="image/jpeg,image/png">
+        <img class="preview preview_foto" alt="ilustracion a subir" />
+        <form th:action="@{/__${cuestionario.id}__/pic}">
+            <button class="post_foto">Confirmar</button>
+        </form>
+     <!--<form  th:action="@{/__${cuestionario.id}__/CP}" method="post"></form>
         <input type="hidden" name="type" value="RESPUESTA_FOTO">
-          <!-- Agregue un campo de entrada para la foto -->
-         <div>
-             <!--<input type="file" name="foto"> -->
-        </div>
-        <!-- Agregue un identificador único para la pregunta -->
-         <!--<input type="hidden" name="preguntaId" value="__${pregunta.id}__"> -->
+
         <br><br><br>
             <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
             <br><br><br>
@@ -137,7 +140,8 @@
             </div>
             <input class = "siguiente" type="submit">
             <br><br><br>
-    </form>
+    </form>-->
+    </div>
 
 
     <br><br><br><br>
@@ -200,10 +204,28 @@
             }
         });
 
+
         $('.opciones').click(function() {
             $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
             $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
             $("#respuestaMarcadaOP").val($(this).text());
+
+
+        document.querySelectorAll(".foto_pregunta").forEach(o => {
+            document.querySelector(".input_foto").onchange = e => {
+                let img = o.querySelector(".preview_foto");
+                let fileInput = e.target;
+                console.log(img, fileInput);
+                readImageFileData(fileInput.files[0], img);
+            };    
+            // click en boton de enviar avatar
+            document.querySelector(".post_foto").onclick = e => {
+                e.preventDefault();
+                let url = o.querySelector(".post_foto").parentNode.action;
+                let img = o.querySelector(".preview_foto");
+                let file = o.querySelector(".input_foto");
+                postImage(img, url, "photo").then()
+            };
         });
 
 
