@@ -17,14 +17,14 @@ public class Resultado {
 	private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "usuario_id")
     private User usuario;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_evento")
+    @JoinColumn(name = "evento_id")
     private Evento evento;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_respuesta")
+    @JoinColumn(name = "respuesta_id")
     private Respuesta respuesta;
 }

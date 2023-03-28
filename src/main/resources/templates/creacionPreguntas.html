@@ -33,7 +33,7 @@
     </div>
      
 
-    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaVF">
+    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaVF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="TRUE_FALSE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
@@ -56,7 +56,7 @@
         <br><br><br>
     </form>
 
-    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaDE">
+    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaDE">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="RESPUESTA_CORTA">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
@@ -74,7 +74,7 @@
         <br><br><br>
     </form>
 
-    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOP">
+    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaOP">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="OPCION_MULTIPLE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasOP">
@@ -103,7 +103,7 @@
         <input class = "siguiente" type="submit">
         <br><br><br>
     </form>
-    <form class="crearCuestionario d-none" th:action="@{/__${cuestionario.id}__/CP}" method="post" id="preguntaOF">
+    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaOF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="RESPUESTA_FOTO">
           <!-- Agregue un campo de entrada para la foto -->

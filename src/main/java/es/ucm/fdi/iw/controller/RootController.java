@@ -1,5 +1,8 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -27,6 +30,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class RootController {
 
     private static final Logger log = LogManager.getLogger(RootController.class);
+
+    @Autowired
+    private CuestionarioRepository cuestionarioRepository;
+
 
     @Autowired 
     private PasswordEncoder passwordEncoder;
@@ -88,7 +95,10 @@ public class RootController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
+        List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
+        // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " + c.getUsuario().getLastName()).collect(Collectors.toList());
+        model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
-    }
+    }   
     
 }

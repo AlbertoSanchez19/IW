@@ -35,6 +35,7 @@ import javax.servlet.http.HttpSession;
  * Access to this end-point is authenticated - see SecurityConfig
  */
 @Controller
+@RequestMapping("cuestionario")
 public class CuestionarioController {
 
     private static final Logger log = LogManager.getLogger(CuestionarioController.class);
@@ -58,7 +59,7 @@ public class CuestionarioController {
         return cuestionarioRepository.save(cuestionario);
     }
 
-    @PostMapping("/{idCuestionario}/CP")
+    @PostMapping("/{idCuestionario}/crearpregunta")
     public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
             @PathVariable Long idCuestionario,
             @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
@@ -93,28 +94,28 @@ public class CuestionarioController {
             
         }
 
-        return "redirect:/" + cuestionario.getId() + "/CP";
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/crearpregunta";
     }
 
-    @PostMapping("/CC")
+    @PostMapping("crear")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-        cuestionario.setUsuario((User)session.getAttribute("u"));
+        cuestionario.setAutor((User)session.getAttribute("u"));
         Cuestionario c = cuestionarioService.save(cuestionario);
-        return "redirect:/" + c.getId() + "/CP";
+        return "redirect:/cuestionario/" + c.getId() + "/crearpregunta";
     }
 
-    @GetMapping("/CC")
+    @GetMapping("crear")
     public String newCuestionario(Model model) {
         model.addAttribute("cuestionario", new Cuestionario());
         return "CrearCuestionario";
     }
 
-    @GetMapping("/OC")
+    @GetMapping("/crear/opciones")
     public String opcionesCreado(Model model) {
         return "OpcionesCreado";
     }
 
-    @GetMapping("/{idCuestionario}/CP")
+    @GetMapping("/{idCuestionario}/crearpregunta")
     public String creacionPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
@@ -122,7 +123,7 @@ public class CuestionarioController {
         return "creacionPreguntas";
     }
 
-    @GetMapping("/{idCuestionario}/RP")
+    @GetMapping("/{idCuestionario}/responder")
     public String responderPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());

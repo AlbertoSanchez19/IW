@@ -66,7 +66,7 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany(mappedBy = "usuario" )
     private List<Resultado> resultados = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "autor")
     private List<Cuestionario> cuestionarios = new ArrayList<>();
 
     /**

@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Table(name="Cuestionario")
 public class Cuestionario {
 
     @Id
@@ -19,8 +20,8 @@ public class Cuestionario {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private User usuario;
+    @JoinColumn(name = "autor_id")
+    private User autor;
     @Column
     private String descripcion;
     @Column

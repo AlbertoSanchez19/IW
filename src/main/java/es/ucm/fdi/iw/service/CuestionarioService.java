@@ -39,7 +39,7 @@ public class CuestionarioService {
 	}
 
     public List<Cuestionario> obtenerCuestionarios(User profesor){
-        return cuestionarioRepository.findAllByUsuario(profesor);
+        return cuestionarioRepository.findAllByAutor(profesor);
     }
     // otros métodos para validar respuestas, obtener estadísticas, etc.
     

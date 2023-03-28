@@ -77,7 +77,7 @@ public class ProfesorController {
         
         // Solamente para ver si se muestran los cuestinoarios
         Cuestionario cuest = new Cuestionario();
-        cuest.setUsuario(profesor);
+        cuest.setAutor(profesor);
         cuest.setTitulo("prueba");
         cuestionarioService.save(cuest);
         List<Cuestionario> cuestionarios = cuestionarioService.obtenerCuestionarios(profesor);
