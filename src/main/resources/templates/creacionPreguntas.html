@@ -197,7 +197,7 @@
         document.querySelectorAll(".foto_pregunta").forEach(o => {
             document.querySelector(".input_foto").onchange = e => {
                 let img = o.querySelector(".preview_foto");
-                let fileInput = e;
+                let fileInput = e.target;
                 console.log(img, fileInput);
                 readImageFileData(fileInput.files[0], img);
             };    
@@ -205,7 +205,7 @@
             document.querySelector(".post_foto").onclick = e => {
                 e.preventDefault();
                 let url = o.querySelector(".post_foto").parentNode.action;
-                let img = e;
+                let img = o.querySelector(".preview_foto");
                 let file = o.querySelector(".input_foto");
                 postImage(img, url, "photo").then()
             };
