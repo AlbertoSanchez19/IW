@@ -29,12 +29,14 @@ public class Pregunta {
     @Column
     private String titulo;
     @Column
+    @Lob
     private String explicacion;
+    /* 
     @Column
     private float nota;
     @Column
     private int prioridad;
-
+    */
 
     @Enumerated(EnumType.STRING)
     private PreguntaType type;

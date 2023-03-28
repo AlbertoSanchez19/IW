@@ -20,12 +20,12 @@ public class Respuesta {
     private Pregunta pregunta;
 
     @Column
+    @Lob
     private String respuesta;
 
     @OneToMany(mappedBy = "respuesta" )
 	private List<Resultado> resultados = new ArrayList<>();
 
-    boolean conImagen;
 
     @Column
     private float nota;

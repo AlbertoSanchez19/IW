@@ -23,6 +23,7 @@ public class Cuestionario {
     @JoinColumn(name = "autor_id")
     private User autor;
     @Column
+    @Lob
     private String descripcion;
     @Column
     private String titulo;

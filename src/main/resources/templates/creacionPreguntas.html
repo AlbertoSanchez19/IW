@@ -116,33 +116,33 @@
         <br><br><br>
     </form>
     <div class="foto_pregunta crearCuestionario d-none" id="preguntaOF">
-        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
-        
-        <input type="file" class="input_foto" accept="image/jpeg,image/png">
-        <img class="preview preview_foto" alt="ilustracion a subir" />
-        <form th:action="@{/__${cuestionario.id}__/pic}">
-            <button class="post_foto">Confirmar</button>
+
+
+        <input type="file" id="input_foto" accept="image/jpeg,image/png">
+        <img class="preview" id="preview_foto" alt="ilustracion a subir" />
+        <form th:action="@{/__${cuestionario.id}__/pic}" id="formFoto">
+
         </form>
-<!--        <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaOF">
+        <form th:action="@{crearpregunta}" method="post" id="formOF">
+            <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
             <input type="hidden" name="type" value="RESPUESTA_FOTO">
 
-        <br><br><br>
-            <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
+            <br><br><br>
+            <input type="hidden" name="jsonRespuestas" id="jsonRespuestasOF">
             <br><br><br>
             <div>
                 <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+                <textarea id="respuestaOF" placeholder="Escriba la respuesta"></textarea>
             </div>
             <br><br><br><br><br>
             <div>
                 <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
-                <textarea name="pista" placeholder="Escriba su pista"> </textarea>
+                <textarea name="explicacion" placeholder="Escriba su explicacion"></textarea>
             </div>
-            <input class = "siguiente" type="submit">
+            <input class="siguiente" type="submit">
             <br><br><br>
-    </form>-->
+        </form>
     </div>
-
 
     <br><br><br><br>
 
@@ -169,59 +169,63 @@
             }
 
         });
-        $("#preguntaVF").submit(function(e){
-            if($("#respuestaMarcadaVF").val()=="V"){
-                jsonText="[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
+        $("#preguntaVF").submit(function (e) {
+            if ($("#respuestaMarcadaVF").val() == "V") {
+                jsonText = "[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
                 $("#jsonRespuestasVF").val(jsonText);
-            }else{
-                jsonText="[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
+            } else {
+                jsonText = "[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
                 $("#jsonRespuestasVF").val(jsonText);
             }
         });
-        $("#preguntaDE").submit(function(e){
+        $("#preguntaDE").submit(function (e) {
             let exp = document.getElementById("explicacionDE").value;
-            jsonText="[{'respuesta':" + exp + ", 'nota': 10.0}]";
+            jsonText = "[{'respuesta':" + exp + ", 'nota': 10.0}]";
             $("#jsonRespuestasDE").val(jsonText);
         });
-        $("#preguntaOP").submit(function(e){
+
+        $("#formOF").submit(function (e) {
+
+            let url = $("#formFoto").prop("action");
+            let img = document.getElementById("preview_foto");
+            let file = document.getElementById("input_foto");
+            postImage(img, url, "photo").then()
+
+            let respuesta = $("#respuestaOF").val();
+            jsonText = "[{'respuesta':" + respuesta + ", 'nota': 10.0}]";
+            $("#jsonRespuestasOF").val(jsonText);
+        });
+
+        $("#preguntaOP").submit(function (e) {
             let reA = document.getElementById("respuestaOPA").value;
             let reB = document.getElementById("respuestaOPB").value;
             let reC = document.getElementById("respuestaOPC").value;
             let reD = document.getElementById("respuestaOPD").value;
-        
-            if($("#respuestaMarcadaOP").val()=="A"){
-                jsonText="[{'respuesta':" + reA + ", 'nota': 10.0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+
+            if ($("#respuestaMarcadaOP").val() == "A") {
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 10.0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
-            }else if($("#respuestaMarcadaOP").val()=="B"){
-                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 10.0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+            } else if ($("#respuestaMarcadaOP").val() == "B") {
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 10.0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
-            }else if($("#respuestaMarcadaOP").val()=="C"){
-                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 10.0} , {'respuesta':" + reD + ", 'nota': 0}]";
+            } else if ($("#respuestaMarcadaOP").val() == "C") {
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 10.0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
-            }else {
-                jsonText="[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 10.0}]";
+            } else {
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 10.0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             }
         });
 
 
 
-        document.querySelectorAll(".foto_pregunta").forEach(o => {
-            document.querySelector(".input_foto").onchange = e => {
-                let img = o.querySelector(".preview_foto");
-                let fileInput = e.target;
-                console.log(img, fileInput);
-                readImageFileData(fileInput.files[0], img);
-            };    
-            // click en boton de enviar avatar
-            document.querySelector(".post_foto").onclick = e => {
-                e.preventDefault();
-                let url = o.querySelector(".post_foto").parentNode.action;
-                let img = o.querySelector(".preview_foto");
-                let file = o.querySelector(".input_foto");
-                postImage(img, url, "photo").then()
-            };
-        });
+        document.querySelector("#input_foto").onchange = e => {
+            let img = document.querySelector("#preview_foto");
+            let fileInput = e.target;
+            console.log(img, fileInput);
+            readImageFileData(fileInput.files[0], img);
+        };
+
 
 
 

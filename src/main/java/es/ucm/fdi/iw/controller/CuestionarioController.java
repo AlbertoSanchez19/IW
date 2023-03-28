@@ -81,7 +81,6 @@ public class CuestionarioController {
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
             JSONObject rJSON = json.getJSONObject(i);
-
             Respuesta r = new Respuesta();
             r.setPregunta(p);
             r.setNota(rJSON.getFloat("nota"));
@@ -96,11 +95,7 @@ public class CuestionarioController {
 
     @PostMapping("crear")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-<<<<<<< HEAD
         cuestionario.setAutor((User)session.getAttribute("u"));
-=======
-        cuestionario.setUsuario((User) session.getAttribute("u"));
->>>>>>> c53f815db9f7b964c5f759c9bc5535dea64cd2a1
         Cuestionario c = cuestionarioService.save(cuestionario);
         return "redirect:/cuestionario/" + c.getId() + "/crearpregunta";
     }
