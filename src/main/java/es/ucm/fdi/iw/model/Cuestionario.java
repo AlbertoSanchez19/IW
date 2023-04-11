@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name="Cuestionario")
+@Table(name = "Cuestionario")
 public class Cuestionario {
 
     @Id
@@ -33,4 +33,9 @@ public class Cuestionario {
 
     @OneToMany(mappedBy = "cuestionario")
     private List<Pregunta> preguntas = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

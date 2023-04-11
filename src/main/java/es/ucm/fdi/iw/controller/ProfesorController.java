@@ -26,7 +26,6 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.json.*;
 
-
 /**
  * Site administration.
  *
@@ -44,14 +43,14 @@ public class ProfesorController {
     private CuestionarioService cuestionarioService;
 
     @GetMapping("/profesores")
-    public String profesores(Model model){
+    public String profesores(Model model) {
         List<User> listaProfesores = profesorService.obtenerProfesores();
         model.addAttribute("profesores", listaProfesores);
         return "admin_profesores";
     }
 
     @GetMapping("/profesores/nuevo")
-    public String listarUsuarios(Model model){
+    public String listarUsuarios(Model model) {
         List<User> usuarios = profesorService.obtenerUsuarios();
         model.addAttribute("usuarios", usuarios);
         return "nuevo_profesor";
@@ -68,23 +67,41 @@ public class ProfesorController {
             profesorService.guardarProfesor(usuario);
         }
         return "redirect:/profesores";
-}
+    }
 
     @PostMapping("/profesores/{profesorId}/info_profesor")
-    public String infoProfesor(@PathVariable Long profesorId, Model model) throws NotFoundException{
+    public String infoProfesor(@PathVariable Long profesorId, Model model) throws NotFoundException {
         User profesor = profesorService.obtenerPorId(profesorId)
                 .orElseThrow(() -> new NotFoundException());
-        
+
         // Solamente para ver si se muestran los cuestinoarios
-        Cuestionario cuest = new Cuestionario();
-        cuest.setAutor(profesor);
-        cuest.setTitulo("prueba");
-        cuestionarioService.save(cuest);
+        /*
+         * Cuestionario cuest = new Cuestionario();
+         * cuest.setAutor(profesor);
+         * cuest.setTitulo("prueba");
+         * cuestionarioService.save(cuest);
+         */
         List<Cuestionario> cuestionarios = cuestionarioService.obtenerCuestionarios(profesor);
-        
+
         model.addAttribute("profesor", profesor);
         model.addAttribute("cuestionarios", cuestionarios);
         return "admin_info_profesor";
     }
-    
+
+    @PostMapping("/profesores/{profesorId}/bloquear")
+    public String bloquearUsuario(@PathVariable Long profesorId) throws NotFoundException {
+        User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
+        String roles = profesor.getRoles();
+        String newRoles = roles.replaceAll(",?PROFESOR\\b", "");
+        profesor.setRoles(newRoles);
+        profesorService.guardarProfesor(profesor);
+        return "redirect:/profesores";
+    }
+
+    @PostMapping("/profesores/{profesorId}/expulsar")
+    public String expulsarUsuario(@PathVariable Long profesorId) throws NotFoundException {
+        User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
+        profesorService.eliminar(profesor);
+        return "redirect:/profesores";
+    }
 }

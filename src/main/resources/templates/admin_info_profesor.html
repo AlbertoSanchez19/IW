@@ -21,9 +21,13 @@
                             <h5 class="text-break"><span th:text="${profesor.username}"></span></h5>
                         </div>
                     </span>
-
-                    <button class="btn btn-lg btn-dark btn-block mt-4" type="button">Bloquear</button>
-                    <button class="btn btn-lg btn-danger btn-block mt-4" type="button">Expulsar</button>
+                    
+                    <form id="form-bloquear" th:action = "@{/profesores/{profesorId}/bloquear(profesorId=${profesor.id})}" method = "post" class="d-flex flex-column h-100 row">
+                        <button class="btn btn-lg btn-dark btn-block mt-4" type="submit">Bloquear</button>
+                    </form>
+                    <form id="form-expulsar" th:action = "@{/profesores/{profesorId}/expulsar(profesorId=${profesor.id})}" method = "post" class="d-flex flex-column h-100 row">
+                        <button class="btn btn-lg btn-danger btn-block mt-4" type="submit">Expulsar</button>
+                    </form>
                 </div>
                 <div class="d-flex flex-column h-100 mt-2" id="listaCuestionarios">
                     <h1> Cuestionarios creados: </h1>
