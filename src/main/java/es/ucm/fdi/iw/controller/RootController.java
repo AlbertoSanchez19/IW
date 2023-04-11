@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.CuestionarioService;
+import lombok.extern.java.Log;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -95,7 +96,7 @@ public class RootController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
-        List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
+        List<Cuestionario> cuestionarios = cuestionarioRepository.findAllJoinUsuarios();
         // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " + c.getUsuario().getLastName()).collect(Collectors.toList());
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
