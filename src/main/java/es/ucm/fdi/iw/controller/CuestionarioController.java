@@ -172,7 +172,7 @@ public class CuestionarioController {
      */
     @GetMapping("{id}/pic")
     public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
-        File f = localData.getFile("respuesta", "" + id + ".jpg");
+        File f = localData.getFile("pregunta", "" + id + ".jpg");
         InputStream in = new BufferedInputStream(f.exists() ? new FileInputStream(f) : null);
         return os -> FileCopyUtils.copy(in, os);
     }
