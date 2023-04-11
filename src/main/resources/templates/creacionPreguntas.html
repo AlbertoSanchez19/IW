@@ -30,11 +30,10 @@
         </div>  
        
         <br><br><br>
-        <a href="/admin/" class="añadir"type="submit"> Crear</a> 
     </div>
      
 
-    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/crearpregunta}" method="post" id="preguntaVF">
+    <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaVF">
         <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="TRUE_FALSE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
@@ -217,7 +216,11 @@
             }
         });
 
-
+        $('.opciones').click(function() {
+            $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
+            $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
+            $("#respuestaMarcadaOP").val($(this).text());
+        });
 
         document.querySelector("#input_foto").onchange = e => {
             let img = document.querySelector("#preview_foto");

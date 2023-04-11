@@ -16,6 +16,14 @@
    <br><br><br>
 
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+    
+    <form th:action="@{/cuestionario/__${cuestionario.id}__/verpreguntas}" th:object="${pregunta}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <input class = "añadir"type="submit" value="Nueva Pregunta" />
+    </form>
+
+    <a href="/admin/" class="añadir"type="submit"> Crear</a> 
+
     <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
@@ -73,10 +81,6 @@
 
         </th:block>
     </div>
-    <form th:action="@{/__${cuestionario.id}__/verPreguntas}" th:object="${pregunta}" method="post">
-        <input type="hidden" th:field="*{id}" />
-        <input class = "añadir"type="submit" value="Nueva Pregunta" />
-    </form>
 
 </body>
 

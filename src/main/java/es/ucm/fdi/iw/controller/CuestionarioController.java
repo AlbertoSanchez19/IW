@@ -71,14 +71,18 @@ public class CuestionarioController {
 
     @PostMapping("/{idCuestionario}/{idPregunta}/crearpregunta")
     public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
-            @PathVariable Long idCuestionario, @PathVariable Long idPregunta )
+            @PathVariable Long idCuestionario, @PathVariable Long idPregunta)
             // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.findById(idPregunta)
-                    .orElseThrow(() -> new NotFoundException());
+                .orElseThrow(() -> new NotFoundException());
+        p.setTitulo(pregunta.getTitulo());
+        p.setExplicacion(pregunta.getExplicacion());
+        p.setType(pregunta.getType());
+        preguntaRepository.save(p);
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
             JSONObject rJSON = json.getJSONObject(i);
@@ -96,7 +100,7 @@ public class CuestionarioController {
 
     @PostMapping("crear")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
-        cuestionario.setAutor((User)session.getAttribute("u"));
+        cuestionario.setAutor((User) session.getAttribute("u"));
         Cuestionario c = cuestionarioService.save(cuestionario);
         return "redirect:/cuestionario/" + c.getId() + "/verpreguntas";
     }
@@ -113,7 +117,8 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/{idPregunta}/crearpregunta")
-    public String creacionPreguntas(Model model, @PathVariable long idCuestionario,  @PathVariable long idPregunta) throws NotFoundException {
+    public String creacionPreguntas(Model model, @PathVariable long idCuestionario, @PathVariable long idPregunta)
+            throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         Pregunta pregunta = preguntaRepository.findById(idPregunta).orElseThrow(() -> new NotFoundException());
@@ -135,25 +140,26 @@ public class CuestionarioController {
 
     @GetMapping("/{idCuestionario}/verpreguntas")
     public String verPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
-        
+
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
         Pregunta pregunta = new Pregunta();
         model.addAttribute("pregunta", pregunta);
 
-
         List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
         model.addAttribute("preguntas", preguntas);
         return "verPreguntas";
     }
-    
+
     @PostMapping("/{idCuestionario}/verpreguntas")
-    public String nuevaPregunta( @ModelAttribute("pregunta")Pregunta pregunta, @PathVariable long idCuestionario)throws NotFoundException {
-        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario).orElseThrow(() -> new NotFoundException());
+    public String nuevaPregunta(@ModelAttribute("pregunta") Pregunta pregunta, @PathVariable long idCuestionario)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
-        return "redirect:/cuestionario/" + cuestionario.getId() + "/"+ p.getId()+ "/crearpreguntas" ;
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/" + p.getId() + "/crearpregunta";
 
     }
 
@@ -166,9 +172,8 @@ public class CuestionarioController {
      */
     @GetMapping("{id}/pic")
     public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
-        File f = localData.getFile("respuesta", ""+id+".jpg");
-        InputStream in = new BufferedInputStream(f.exists() ?
-            new FileInputStream(f) : null);
+        File f = localData.getFile("respuesta", "" + id + ".jpg");
+        InputStream in = new BufferedInputStream(f.exists() ? new FileInputStream(f) : null);
         return os -> FileCopyUtils.copy(in, os);
     }
 
@@ -178,32 +183,31 @@ public class CuestionarioController {
      * @param id
      * @return
      * @throws IOException
+     * @throws NotFoundException
      */
     @PostMapping("{id}/pic")
-	@ResponseBody
-    public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id, 
-        HttpServletResponse response, HttpSession session, Model model) throws IOException {
+    @ResponseBody
+    public String setPic(@RequestParam("photo") MultipartFile photo, @PathVariable long id,
+            HttpServletResponse response, HttpSession session, Model model) throws IOException, NotFoundException {
 
-        Respuesta target = respuestaRepository.findById(id);
+        Pregunta target = preguntaRepository.findById(id).orElseThrow(() -> new NotFoundException());
         model.addAttribute("user", target);
-		
-		log.info("Updating photo for respuesta {}", id);
-		File f = localData.getFile("respuesta", ""+id+".jpg");
-		if (photo.isEmpty()) {
-			log.info("failed to upload photo: emtpy file?");
-		} else {
-			try (BufferedOutputStream stream =
-					new BufferedOutputStream(new FileOutputStream(f))) {
-				byte[] bytes = photo.getBytes();
-				stream.write(bytes);
-                log.info("Uploaded photo for {} into {}!", id, f.getAbsolutePath());
-			} catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				log.warn("Error uploading " + id + " ", e);
-			}
-		}
-		return "{\"status\":\"photo uploaded correctly\"}";
-    }
-   
-}
 
+        log.info("Updating photo for respuesta {}", id);
+        File f = localData.getFile("respuesta", "" + id + ".jpg");
+        if (photo.isEmpty()) {
+            log.info("failed to upload photo: emtpy file?");
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
+                byte[] bytes = photo.getBytes();
+                stream.write(bytes);
+                log.info("Uploaded photo for {} into {}!", id, f.getAbsolutePath());
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                log.warn("Error uploading " + id + " ", e);
+            }
+        }
+        return "{\"status\":\"photo uploaded correctly\"}";
+    }
+
+}
