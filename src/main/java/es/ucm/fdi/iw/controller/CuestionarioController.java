@@ -147,7 +147,15 @@ public class CuestionarioController {
         model.addAttribute("preguntas", preguntas);
         return "verPreguntas";
     }
+    
+    @PostMapping("/{idCuestionario}/verpreguntas")
+    public String nuevaPregunta( @ModelAttribute("pregunta")Pregunta pregunta, @PathVariable long idCuestionario)throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario).orElseThrow(() -> new NotFoundException());
+        pregunta.setCuestionario(cuestionario);
+        Pregunta p = preguntaRepository.save(pregunta);
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/"+ p.getId()+ "/crearpreguntas" ;
 
+    }
 
     /**
      * Downloads a profile pic for a user id
