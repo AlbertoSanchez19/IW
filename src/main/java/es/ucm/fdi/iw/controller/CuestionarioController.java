@@ -69,15 +69,16 @@ public class CuestionarioController {
         return cuestionarioRepository.save(cuestionario);
     }
 
-    @PostMapping("/{idCuestionario}/crearpregunta")
+    @PostMapping("/{idCuestionario}/{idPregunta}/crearpregunta")
     public String agregarPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
-            @PathVariable Long idCuestionario)
+            @PathVariable Long idCuestionario, @PathVariable Long idPregunta )
             // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
-        Pregunta p = preguntaRepository.save(pregunta);
+        Pregunta p = preguntaRepository.findById(idPregunta)
+                    .orElseThrow(() -> new NotFoundException());
         JSONArray json = new JSONArray(jsonRespuestas);
         for (int i = 0; i < json.length(); i++) {
             JSONObject rJSON = json.getJSONObject(i);
@@ -90,14 +91,14 @@ public class CuestionarioController {
 
         }
 
-        return "redirect:/cuestionario/" + cuestionario.getId() + "/crearpregunta";
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/verpreguntas";
     }
 
     @PostMapping("crear")
     public String addCuestionario(@ModelAttribute("cuestionario") Cuestionario cuestionario) {
         cuestionario.setAutor((User)session.getAttribute("u"));
         Cuestionario c = cuestionarioService.save(cuestionario);
-        return "redirect:/cuestionario/" + c.getId() + "/crearpregunta";
+        return "redirect:/cuestionario/" + c.getId() + "/verpreguntas";
     }
 
     @GetMapping("crear")
@@ -111,11 +112,13 @@ public class CuestionarioController {
         return "OpcionesCreado";
     }
 
-    @GetMapping("/{idCuestionario}/crearpregunta")
-    public String creacionPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+    @GetMapping("/{idCuestionario}/{idPregunta}/crearpregunta")
+    public String creacionPreguntas(Model model, @PathVariable long idCuestionario,  @PathVariable long idPregunta) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
+        Pregunta pregunta = preguntaRepository.findById(idPregunta).orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
+        model.addAttribute("pregunta", pregunta);
         return "creacionPreguntas";
     }
 
@@ -129,6 +132,22 @@ public class CuestionarioController {
         model.addAttribute("preguntas", preguntas);
         return "responderPreguntas";
     }
+
+    @GetMapping("/{idCuestionario}/verpreguntas")
+    public String verPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+        
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        model.addAttribute("cuestionario", cuestionario);
+        Pregunta pregunta = new Pregunta();
+        model.addAttribute("pregunta", pregunta);
+
+
+        List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
+        model.addAttribute("preguntas", preguntas);
+        return "verPreguntas";
+    }
+
 
     /**
      * Downloads a profile pic for a user id
