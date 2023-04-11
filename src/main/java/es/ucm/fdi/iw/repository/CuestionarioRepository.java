@@ -17,6 +17,9 @@ public interface CuestionarioRepository extends JpaRepository <Cuestionario, Lon
 	// @Query("SELECT c.*, u.firstName, u.lastName from Cuestionario c join User u on c.id = u.id")
 	// @Query("Select * from Cuestionario")
 	public List<Cuestionario> findAll();
+
+	@Query("SELECT c, u FROM Cuestionario c JOIN c.autor u")
+	public List<Cuestionario> findAllJoinUsuarios();
 	
 	// @Query("SELECT c.*, u.first_name, u.last_name from CUESTIONARIO c join IWUSER u on c.id_usuario = u.id where u:profesor")
 	public List<Cuestionario> findAllByAutor(User profesor);

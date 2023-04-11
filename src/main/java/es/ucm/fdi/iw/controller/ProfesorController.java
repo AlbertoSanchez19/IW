@@ -88,4 +88,20 @@ public class ProfesorController {
         return "admin_info_profesor";
     }
 
+    @PostMapping("/profesores/{profesorId}/bloquear")
+    public String bloquearUsuario(@PathVariable Long profesorId) throws NotFoundException {
+        User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
+        String roles = profesor.getRoles();
+        String newRoles = roles.replaceAll(",?PROFESOR\\b", "");
+        profesor.setRoles(newRoles);
+        profesorService.guardarProfesor(profesor);
+        return "redirect:/profesores";
+    }
+
+    @PostMapping("/profesores/{profesorId}/expulsar")
+    public String expulsarUsuario(@PathVariable Long profesorId) throws NotFoundException {
+        User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
+        profesorService.eliminar(profesor);
+        return "redirect:/profesores";
+    }
 }

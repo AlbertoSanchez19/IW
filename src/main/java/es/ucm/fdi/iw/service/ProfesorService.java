@@ -11,27 +11,30 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ucm.fdi.iw.model.*;
 import es.ucm.fdi.iw.repository.*;
 
-
 @Service
 public class ProfesorService {
-    
+
     @Autowired
     private ProfesorRepository profesorRepository;
 
-    public Optional<User> obtenerPorId(Long id){
+    public Optional<User> obtenerPorId(Long id) {
         return profesorRepository.findById(id);
     }
-    
+
     public List<User> obtenerProfesores() {
         return profesorRepository.findByRolesContaining("PROFESOR");
     }
 
-    public User guardarProfesor(User profesor){
+    public User guardarProfesor(User profesor) {
         return profesorRepository.save(profesor);
     }
 
-    public List<User> obtenerUsuarios(){
+    public List<User> obtenerUsuarios() {
         return profesorRepository.findNotProfesor();
     }
-    
+
+    public void eliminar(User profesor) {
+        profesorRepository.deleteById(profesor.getId());
+    }
+
 }
