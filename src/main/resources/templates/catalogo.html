@@ -8,22 +8,13 @@
 
 <body class="d-flex flex-column h-100" style="background:url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');" onload="carga()">
     <header th:replace="fragments/nav.html :: nav"></header>
-
-    <!-- <script>
-
-        function carga() {
-            console.log("aaaa");
-            console.log("[[${cuestionarios[1].autor.firstName}]]");
-        }
-        
-    </script> -->
     
     <main class="flex-shrink-0">
         <div class="container mt-5">
             <h1 class="mt-5">Catálogo</h1>
             <div th:each="cuestionario : ${cuestionarios}">
                 <p th:text="${cuestionario}"></p>
-                <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo=${cuestionario.titulo}, descripcion=${cuestionario.descripcion}, autor=${cuestionario.autor.username}, pos=${cuestionario.id})"></th:block>
+                <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo=${cuestionario.titulo}, descripcion=${cuestionario.descripcion}, autor=${cuestionario.autor.firstName + ' ' + cuestionario.autor.lastName}, pos=${cuestionario.id})"></th:block>
             </div>
         </div>
     </main>

@@ -92,11 +92,9 @@ public class RootController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
-        // List<Cuestionario> cuestionarios = cuestionarioRepository.findAllJoinUsuarios();
-        // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " + c.getUsuario().getLastName()).collect(Collectors.toList());
+        
         List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
-        // cuestionarios.stream().map(c -> c.getUsuario().getFirstName() + " " +
-        // c.getUsuario().getLastName()).collect(Collectors.toList());
+        log.info(cuestionarios.toString());
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
     }
