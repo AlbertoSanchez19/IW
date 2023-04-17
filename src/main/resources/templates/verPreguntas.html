@@ -22,7 +22,7 @@
         <input class = "añadir"type="submit" value="Nueva Pregunta" />
     </form>
 
-    <a href="/admin/" class="añadir"type="submit"> Crear</a> 
+    <a href="/" class="añadir"type="submit"> Crear</a> 
 
     <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
@@ -40,24 +40,28 @@
                 <p> Seleccione la respuesta correcta:</p>
 
                 <br>
-                <div>
-                    <a class="opciones">A </a>
-                    <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
-
-                    <a class="opciones">B </a>
-                    <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
-
+                <div class="row options-container">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <a class="opciones">A</a>
+                        <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <a class="opciones">B</a>
+                        <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
+                    </div>
                 </div>
-                <div>
-
-                    <a class="opciones">C </a>
-                    <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
-
-                    <a class="opciones">D </a>
-                    <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
-
-
+                <div class="row options-container">
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <a class="opciones">C</a>
+                        <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center justify-content-center">
+                        <a class="opciones">D</a>
+                        <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
+                    </div>
                 </div>
+                
+                
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
                 <p>Responda a continuación:</p>
