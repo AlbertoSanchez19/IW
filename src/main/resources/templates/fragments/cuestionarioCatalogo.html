@@ -8,11 +8,14 @@
 <body>
 
     <th:block th:fragment="cuestionarioCatalogo (titulo, descripcion, autor, pos)">
+        
         <div class="card mt-4 text-light" style="background-color: hsla(295, 41%, 16%, 0.9);" >
             <div class="card-header" th:id="'heading' + ${pos}">
-                <h2 class="card-title stretched-link text-light" th:text="${titulo}" th:attr="data-bs-target='#collapse' + ${pos},aria-controls='collapse' + ${pos}" data-bs-toggle="collapse" aria-expanded="true" ></h2>
+                <h2 class="card-title stretched-link text-light" th:text="${titulo}" ></h2>
+                <!-- th:attr="data-bs-target='#collapse' + ${pos},aria-controls='collapse' + ${pos}" data-bs-toggle="collapse" aria-expanded="true" --> 
                 <h4 class="card-subtitle text-secondary mt-3" th:text="${autor}"></h4>
                 <div class="d-flex flex-row justify-content-between mt-3">
+                    
                     <!-- <div class="d-flex justify-content-start gap-2">
                         <button class="btn btn-sm btn-light" style="color: hsla(295, 41%, 16%, 0.9);" type="button" th:each="tag : ${tags}" th:text="${tag}"></button>
                     </div> -->
@@ -25,10 +28,15 @@
             <div th:id="'collapse' + ${pos}" class="collapse" th:attr="aria-labelledby='heading' + ${pos}">
                 <div class="card-body">
                     <p th:text="${descripcion}" class="card-text"></p>
-                    <button type="button" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
+                    
                 </div>
             </div>
+            
         </div>
+        <form th:action="@{/__${pos}__/quizz_link}" id="formLink">
+            <button type="submit" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
+        </form>
+        
     </th:block>
 </body>
 

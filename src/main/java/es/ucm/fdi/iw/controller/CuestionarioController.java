@@ -200,7 +200,7 @@ public class CuestionarioController {
         model.addAttribute("user", target);
 
         log.info("Updating photo for respuesta {}", id);
-        File f = localData.getFile("respuesta", "" + id + ".jpg");
+        File f = localData.getFile("pregunta", "" + id + ".jpg");
         if (photo.isEmpty()) {
             log.info("failed to upload photo: emtpy file?");
         } else {
