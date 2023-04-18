@@ -28,7 +28,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.json.*;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,6 +40,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
@@ -169,6 +174,26 @@ public class CuestionarioController {
 
     }
 
+    @PostMapping("/lanzar")
+    public String lanzarCuestionario(
+            @RequestParam("clasesSeleccionadas") String clasesSeleccionadas,
+            @RequestParam("cuestionario-id") String cuestionarioId,
+            Model model) {
+
+        // Guardar la ID del cuestionario y la lista de clases en el modelo
+        model.addAttribute("cuestionarioId", cuestionarioId);
+        model.addAttribute("clasesSeleccionadas", clasesSeleccionadas);
+
+        // Redireccionar a la otra URL después de que la solicitud POST se haya
+        // completado
+        return "redirect:/cuestionario/" + cuestionarioId + "/link";
+    }
+
+    @GetMapping("/{idCuestionario}/link")
+    public String lanzarCuestionario(@PathVariable long idCuestionario) {
+        return "quizz_link";
+    }
+
     /**
      * Downloads a profile pic for a user id
      * 
@@ -218,13 +243,14 @@ public class CuestionarioController {
 
     @GetMapping("importar")
     public String vistaImportar(Model model) {
-        
+
         return "importarCuestionario";
     }
 
     @PostMapping("importar")
     @ResponseBody
-    public String importarCuestionario(@RequestParam("fichero") MultipartFile fichero, Model model) throws IOException, NotFoundException {
+    public String importarCuestionario(@RequestParam("fichero") MultipartFile fichero, Model model)
+            throws IOException, NotFoundException {
 
         log.info("Uploading fichero importacion");
         File f = localData.getFile("importacion", "importacion.xml");
@@ -257,7 +283,7 @@ public class CuestionarioController {
                 questions.add(questionText);
                 pregunta.setCuestionario(cuestionario);
                 pregunta.setTitulo(questionText.trim());
-                switch(questionType){
+                switch (questionType) {
                     case "multichoice":
                         pregunta.setType(PreguntaType.OPCION_MULTIPLE);
                         break;
@@ -268,9 +294,9 @@ public class CuestionarioController {
                         pregunta.setType(PreguntaType.RESPUESTA_CORTA);
                         break;
                 }
-                
+
                 preguntaRepository.save(pregunta);
-                
+
                 List<String> answerList = new ArrayList<>();
                 NodeList answerNodes = question.getElementsByTagName("answer");
                 for (int j = 0; j < answerNodes.getLength(); j++) {
@@ -281,19 +307,18 @@ public class CuestionarioController {
 
                     Respuesta r = new Respuesta();
                     r.setPregunta(pregunta);
-                    r.setNota(notaPregunta/10);
+                    r.setNota(notaPregunta / 10);
                     r.setRespuesta(answerText.trim());
-        
-                    respuestaRepository.save(r);
-                } 
 
+                    respuestaRepository.save(r);
+                }
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-          
-        return "{\"status\":\"Importado correctamente\", \"preguntas\": \""+ questions +"\"}";
+
+        return "{\"status\":\"Importado correctamente\", \"preguntas\": \"" + questions + "\"}";
     }
 
 }

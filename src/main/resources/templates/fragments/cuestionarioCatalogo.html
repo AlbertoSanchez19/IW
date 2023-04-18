@@ -8,14 +8,14 @@
 <body>
 
     <th:block th:fragment="cuestionarioCatalogo (titulo, descripcion, autor, pos)">
-        
-        <div class="card mt-4 text-light" style="background-color: hsla(295, 41%, 16%, 0.9);" >
+
+        <div class="card mt-4 text-light" style="background-color: hsla(295, 41%, 16%, 0.9);">
             <div class="card-header" th:id="'heading' + ${pos}">
-                <h2 class="card-title stretched-link text-light" th:text="${titulo}" ></h2>
-                <!-- th:attr="data-bs-target='#collapse' + ${pos},aria-controls='collapse' + ${pos}" data-bs-toggle="collapse" aria-expanded="true" --> 
+                <h2 class="card-title stretched-link text-light" th:text="${titulo}"></h2>
+                <!-- th:attr="data-bs-target='#collapse' + ${pos},aria-controls='collapse' + ${pos}" data-bs-toggle="collapse" aria-expanded="true" -->
                 <h4 class="card-subtitle text-secondary mt-3" th:text="${autor}"></h4>
                 <div class="d-flex flex-row justify-content-between mt-3">
-                    
+
                     <!-- <div class="d-flex justify-content-start gap-2">
                         <button class="btn btn-sm btn-light" style="color: hsla(295, 41%, 16%, 0.9);" type="button" th:each="tag : ${tags}" th:text="${tag}"></button>
                     </div> -->
@@ -28,16 +28,149 @@
             <div th:id="'collapse' + ${pos}" class="collapse" th:attr="aria-labelledby='heading' + ${pos}">
                 <div class="card-body">
                     <p th:text="${descripcion}" class="card-text"></p>
-                    
+
                 </div>
             </div>
-            
+
         </div>
-        <form th:action="@{/__${pos}__/quizz_link}" id="formLink">
-            <button type="submit" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
-        </form>
-        
+        <button type="button" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3"
+            data-bs-toggle="modal" data-bs-target="#myModal">Lanzar</button>
+
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Seleccionar clases</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <!-- <div class="modal-body">
+                        <form>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="clase1">
+                                <label class="form-check-label" for="clase1">
+                                    Clase 1
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="clase2">
+                                <label class="form-check-label" for="clase2">
+                                    Clase 2
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="clase3">
+                                <label class="form-check-label" for="clase3">
+                                    Clase 3
+                                </label>
+                            </div>
+                        </form>
+                    </div> -->
+
+                    <div class="modal-body">
+                        <form id="clases-form">
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <form th:action="@{/cuestionario/lanzar}" method="post" id="formLa" onsubmit="lanzarCuestionario()">
+                        <input type="hidden" name="clasesSeleccionadas" id="clasesSeleccionadas">
+                        <input type="hidden" name="cuestionario-id" id="cuestionario-id" th:value="${pos}">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Lanzar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script>
+            function obtenerClases() {
+                // obtener las clases del formulario
+                const clasesForm = document.getElementById('clases-form');
+                const clasesCheckboxes = Array.from(clasesForm.querySelectorAll('input[type="checkbox"]'));
+                const clasesSeleccionadas = clasesCheckboxes.filter(c => c.checked).map(c => c.value);
+
+                // enviar la información al controller
+                // TODO: reemplazar la URL de la petición con la URL correcta
+                fetch('/obtener_clases')
+                    .then(response => response.text())
+                    .then(data => {
+                        // convertir la cadena en una lista de clases
+                        const clases = data.split(',');
+
+                        // actualizar el contenido del formulario con las clases obtenidas
+                        const clasesHtml = clases.map(c => `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="${c}" id="${c}" ${clasesSeleccionadas.includes(c) ? 'checked' : ''}>
+                    <label class="form-check-label" for="${c}">
+                        ${c}
+                    </label>
+                </div>
+            `).join('');
+                        clasesForm.innerHTML = clasesHtml;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+            function lanzarCuestionario() {
+                //const url = "/cuestionario/lanzar";
+                //const formData = new FormData();
+
+                // Agregar las clases seleccionadas al objeto FormData
+                const clasesForm = document.getElementById('clases-form');
+                const clasesCheckboxes = Array.from(clasesForm.querySelectorAll('input[type="checkbox"]'));
+                const clasesSeleccionadas = clasesCheckboxes.filter(c => c.checked).map(c => c.value);
+
+                var values = Array.prototype.map.call(clasesSeleccionadas, function (el) {
+                    return el.value;
+                });
+
+                document.getElementById('clasesSeleccionadas').value = values.join(',');
+                /*formData.append("clasesSeleccionadas", JSON.stringify(clasesSeleccionadas));
+
+                // Agregar la ID del cuestionario al objeto FormData
+                const cuestionarioId = document.getElementById('cuestionario-id').value;
+                formData.append("cuestionarioId", cuestionarioId);
+
+                go(url, 'POST', formData);
+
+                let params = {
+                    method: POST,
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8",
+                    },
+                    body: formData,
+                    credentials: "include"
+                };
+                params.headers["X-CSRF-TOKEN"] = config.csrf.value;
+
+                fetch(url, params)
+                    .then(response => {
+                        const r = response;
+                        if (r.ok) {
+                            return r.json().then(json => Promise.resolve(json));
+                        } else {
+                            return r.text().then(text => Promise.reject({
+                                url,
+                                data: JSON.stringify(data),
+                                status: r.status,
+                                text
+                            }));
+                        }
+                    })
+                    .catch(error => console.error(error));*/
+
+            }
+
+        </script>
     </th:block>
+
 </body>
 
 </html>
