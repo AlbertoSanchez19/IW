@@ -215,7 +215,7 @@ textarea {
     
     .añadir{
         text-decoration: none;
-        width:10%;
+        width:190px;
         height:13%;
         padding:10px;
         background-color:hsl(297, 42%, 16%, 0.9);
@@ -341,4 +341,8 @@ textarea {
     }
     .titulocuestionario{
         margin-left: 5%;
+    }
+    .principal{
+        display: flex;
+        justify-content: center;
     }

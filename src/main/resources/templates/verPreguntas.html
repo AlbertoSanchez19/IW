@@ -14,15 +14,20 @@
 
 <body>
    <br><br><br>
+   
 
-    <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+    <div class="principal">
+        <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+    </div>
+    <div class="principal">
     
-    <form th:action="@{/cuestionario/__${cuestionario.id}__/verpreguntas}" th:object="${pregunta}" method="post">
-        <input type="hidden" th:field="*{id}" />
-        <input class = "añadir"type="submit" value="Nueva Pregunta" />
-    </form>
+        <form th:action="@{/cuestionario/__${cuestionario.id}__/verpreguntas}" th:object="${pregunta}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <input class = "añadir" type="submit" value="Nueva Pregunta" />
+        </form>
 
-    <a href="/" class="añadir"type="submit"> Crear</a> 
+        <a href="/" class="añadir"type="submit"> Crear</a> 
+    </div>
 
     <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
@@ -73,8 +78,8 @@
                 <a class="btnEnviar">ENVIAR</a>
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
-                <p>Responda a continuación:</p>
-                <img src="/img/earth.jpg" class="img_respuesta">
+                <img class="img_respuesta" th:src="@{/pregunta/{id}/pic(id=${pregunta.id})}">
+
                 <p>Responda a continuación:</p>
                 <div>
                     <input name="respuesta" class="formInput" placeholder="respuesta">
