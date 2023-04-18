@@ -119,7 +119,7 @@
 
         <input type="file" id="input_foto" accept="image/jpeg,image/png">
         <img class="preview" id="preview_foto" alt="ilustracion a subir" />
-        <form th:action="@{/cuestionario/__${cuestionario.id}__/pic}" id="formFoto">
+        <form th:action="@{/cuestionario/__${pregunta.id}__/pic}" id="formFoto">
 
         </form>
         <form th:action="@{crearpregunta}" method="post" id="formOF">

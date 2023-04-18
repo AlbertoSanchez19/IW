@@ -15,6 +15,7 @@
             <div th:each="cuestionario : ${cuestionarios}">
                 <p th:text="${cuestionario}"></p>
                 <th:block th:replace="fragments/cuestionarioCatalogo.html :: cuestionarioCatalogo(titulo=${cuestionario.titulo}, descripcion=${cuestionario.descripcion}, autor=${cuestionario.autor.firstName + ' ' + cuestionario.autor.lastName}, pos=${cuestionario.id})"></th:block>
+            <br><br>
             </div>
         </div>
     </main>
