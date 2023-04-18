@@ -12,25 +12,19 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Table(name="Participacion")
+@Data
+@Table(name="participacion")
 public class Participacion {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User usuario;
  
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clase_id")
     private Clases clase;
-
-    public void setClase(Clases clase) {
-        clase = this.clase;
-    }
-
-    public void setUsuario(User attribute) {
-        usuario = this.usuario;
-    }
+  
 }

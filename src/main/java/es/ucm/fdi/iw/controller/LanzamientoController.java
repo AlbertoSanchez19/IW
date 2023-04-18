@@ -59,7 +59,6 @@ public class LanzamientoController {
 
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
-
     @Autowired
     private ParticipacionRepository participacionRepository;
 
@@ -94,12 +93,10 @@ public class LanzamientoController {
     public String crearClase(Model model) {
         return "crearClase";
     }
-    @PostMapping("/crearclase")
-    public String crearClaseSubmit(@ModelAttribute("clases") Clases clase) {
+      @PostMapping("/crearclase")
+    public String crearClaseSubmit(@ModelAttribute("clases") Clases clase, Participacion participacion) {
         Clases savedClase = claseRepository.save(clase);
-        Participacion participacion = new Participacion();
-        participacion.setUsuario((User) session.getAttribute("u"));
-        participacion.setClase(savedClase);
+        participacion = new Participacion();
         participacionRepository.save(participacion);
         return "redirect:/crearclase";
      }
