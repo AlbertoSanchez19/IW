@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
@@ -35,6 +38,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Site administration.
@@ -209,6 +214,86 @@ public class CuestionarioController {
             }
         }
         return "{\"status\":\"photo uploaded correctly\"}";
+    }
+
+    @GetMapping("importar")
+    public String vistaImportar(Model model) {
+        
+        return "importarCuestionario";
+    }
+
+    @PostMapping("importar")
+    @ResponseBody
+    public String importarCuestionario(@RequestParam("fichero") MultipartFile fichero, Model model) throws IOException, NotFoundException {
+
+        log.info("Uploading fichero importacion");
+        File f = localData.getFile("importacion", "importacion.xml");
+        if (fichero.isEmpty()) {
+            log.info("failed to upload file: emtpy file?");
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
+                byte[] bytes = fichero.getBytes();
+                stream.write(bytes);
+                log.info("Uploaded fichero importacion!");
+            } catch (Exception e) {
+                log.warn("Error uploading ", e);
+            }
+        }
+        Cuestionario cuestionario = new Cuestionario();
+        cuestionarioRepository.save(cuestionario);
+
+        List<String> questions = new ArrayList<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(f);
+            NodeList questionNodes = document.getElementsByTagName("question");
+            for (int i = 0; i < questionNodes.getLength(); i++) {
+                Pregunta pregunta = new Pregunta();
+                Element question = (Element) questionNodes.item(i);
+                String questionText = question.getElementsByTagName("questiontext").item(0).getTextContent();
+                String questionType = question.getAttribute("type").trim();
+
+                questions.add(questionText);
+                pregunta.setCuestionario(cuestionario);
+                pregunta.setTitulo(questionText.trim());
+                switch(questionType){
+                    case "multichoice":
+                        pregunta.setType(PreguntaType.OPCION_MULTIPLE);
+                        break;
+                    case "truefalse":
+                        pregunta.setType(PreguntaType.TRUE_FALSE);
+                        break;
+                    case "shortanswer":
+                        pregunta.setType(PreguntaType.RESPUESTA_CORTA);
+                        break;
+                }
+                
+                preguntaRepository.save(pregunta);
+                
+                List<String> answerList = new ArrayList<>();
+                NodeList answerNodes = question.getElementsByTagName("answer");
+                for (int j = 0; j < answerNodes.getLength(); j++) {
+                    Element answer = (Element) answerNodes.item(j);
+                    String answerText = answer.getTextContent();
+                    Integer notaPregunta = Integer.parseInt(answer.getAttribute("fraction"));
+                    answerList.add(answerText);
+
+                    Respuesta r = new Respuesta();
+                    r.setPregunta(pregunta);
+                    r.setNota(notaPregunta/10);
+                    r.setRespuesta(answerText.trim());
+        
+                    respuestaRepository.save(r);
+                } 
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+          
+        return "{\"status\":\"Importado correctamente\", \"preguntas\": \""+ questions +"\"}";
     }
 
 }
