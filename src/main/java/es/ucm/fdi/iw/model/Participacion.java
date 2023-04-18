@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Data
+@Entity
 @Table(name="Participacion")
 public class Participacion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -22,4 +25,12 @@ public class Participacion {
     @ManyToOne
     @JoinColumn(name = "clase_id")
     private Clases clase;
+
+    public void setClase(Clases clase) {
+        clase = this.clase;
+    }
+
+    public void setUsuario(User attribute) {
+        usuario = this.usuario;
+    }
 }

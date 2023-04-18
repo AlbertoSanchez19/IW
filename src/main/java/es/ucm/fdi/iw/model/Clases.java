@@ -19,7 +19,7 @@ public class Clases {
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
     @Column
-    private String Nombre;
+    private String nombre;
 
 	@ManyToMany(mappedBy ="clases" )
     private List<User> usuarios = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Clases {
 	public Clases(Long id, String Nombre, List<User> usuarios) {
 		super();
 		this.id = id;
-		this.Nombre = Nombre;
+		this.nombre = Nombre;
 		this.usuarios = usuarios;
 	}
     public Long getId() {
@@ -41,10 +41,10 @@ public class Clases {
 		this.id = id;
 	}
     public String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 	public void setNombre(String Nombre) {
-		this.Nombre = Nombre;
+		this.nombre = Nombre;
 	}
 	public List<User> getUsuarios() {
 		return usuarios;
