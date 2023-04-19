@@ -94,9 +94,9 @@ public class LanzamientoController {
         return "crearClase";
     }
       @PostMapping("/crearclase")
-    public String crearClaseSubmit(@ModelAttribute("clases") Clases clase, Participacion participacion) {
+    public String crearClaseSubmit(@ModelAttribute("clases") Clases clase) {
         Clases savedClase = claseRepository.save(clase);
-        participacion = new Participacion();
+        Participacion participacion = new Participacion();
         participacionRepository.save(participacion);
         return "redirect:/crearclase";
      }
