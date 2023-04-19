@@ -190,7 +190,18 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/link")
-    public String lanzarCuestionario(@PathVariable long idCuestionario) {
+    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model) throws NotFoundException {
+        String code = UserController.generateRandomBase64Token(6);
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+
+        Evento evento = new Evento();
+
+        evento.setCodigo(code);
+
+        model.addAttribute("code", code);
+        model.addAttribute("cuestionario", cuestionario);
+
         return "quizz_link";
     }
 
