@@ -1,4 +1,5 @@
 package es.ucm.fdi.iw.controller;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.model.*;
+
 /**
  * Site administration.
  *
@@ -78,34 +80,32 @@ public class LanzamientoController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
-        
+
         List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
         log.info(cuestionarios.toString());
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
     }
-    
+
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducir_pin";
     }
+
     @GetMapping("/crearclase")
     public String crearClase(Model model) {
         return "crearClase";
     }
-      @PostMapping("/crearclase")
-    public String crearClaseSubmit(@ModelAttribute("clases") Clases clase) {
-        Clases savedClase = claseRepository.save(clase);
+
+    @PostMapping("/crearclase")
+    public String crearClaseSubmit(@RequestParam("nombre") String nombre, Model model) {
+        Clases clase = new Clases();
+        clase.setNombre(nombre);
+        claseRepository.save(clase);
         Participacion participacion = new Participacion();
+        participacion.setClase(clase);
         participacionRepository.save(participacion);
-        return "redirect:/crearclase";
-     }
+        return "redirect:/lanzamiento/crearclase";
+    }
 
 }
-
-
-
-
-
-
-
