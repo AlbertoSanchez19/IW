@@ -11,15 +11,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Entity
 @Data
-@Table(name="Participacion")
+@Table(name="participacion")
 public class Participacion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User usuario;
  
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clase_id")
     private Clases clase;
+  
 }

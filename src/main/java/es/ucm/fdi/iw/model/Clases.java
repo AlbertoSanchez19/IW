@@ -11,47 +11,51 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 @Entity
 @Data
-@Table(name="Clases")
+@Table(name = "Clases")
 public class Clases {
-    @Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-    @Column
-    private String Nombre;
+	@Column
+	private String nombre;
 
-	@ManyToMany(mappedBy ="clases" )
-    private List<User> usuarios = new ArrayList<>();
+	/*
+	 * @ManyToMany(mappedBy ="clases" )
+	 * private List<User> usuarios = new ArrayList<>();
+	 */
 
-    public Clases() {
+	public Clases() {
 		super();
 	}
-	
+
 	public Clases(Long id, String Nombre, List<User> usuarios) {
 		super();
 		this.id = id;
-		this.Nombre = Nombre;
+		this.nombre = Nombre;
 		this.usuarios = usuarios;
 	}
-    public Long getId() {
+
+	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-    public String getNombre() {
-		return Nombre;
+
+	public String getNombre() {
+		return nombre;
 	}
+
 	public void setNombre(String Nombre) {
-		this.Nombre = Nombre;
+		this.nombre = Nombre;
 	}
+
 	public List<User> getUsuarios() {
 		return usuarios;
 	}
-	
-	
 
 }
-
-

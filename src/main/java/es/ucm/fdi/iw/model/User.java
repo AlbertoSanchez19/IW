@@ -56,9 +56,13 @@ public class User implements Transferable<User.Transfer> {
     @JoinColumn(name = "recipient_id")
     private List<Message> received = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "Participacion", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "clases_id"))
-    private List<Clases> clases = new ArrayList<>();
+    /*
+     * @ManyToMany
+     * 
+     * @JoinTable(name = "Participacion", joinColumns = @JoinColumn(name =
+     * "user_id"), inverseJoinColumns = @JoinColumn(name = "clases_id"))
+     * private List<Clases> clases = new ArrayList<>();
+     */
 
     @OneToMany(mappedBy = "usuario")
     private List<Resultado> resultados = new ArrayList<>();

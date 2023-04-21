@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Clase</title>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" type="text/css" href = "/css/opcionesCreado.css">
+</head>
+<body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br>
+    <main>
+        <h1>Crear Clase</h1>
+    
+        <form class ="crearclase" th:action="@{/lanzamiento/crearclase}"  method="post">
+            <p>
+                <input class = "pregunta" type="text" name="nombre" />
+            </p>
+            <button class = "siguiente" type="submit">Crear Clase</button>
+        </form>
+    
+    </main>
+     
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+</html>
