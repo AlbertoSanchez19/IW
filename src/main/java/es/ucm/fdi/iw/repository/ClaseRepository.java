@@ -12,6 +12,8 @@ import es.ucm.fdi.iw.model.Clases;
 public interface ClaseRepository extends JpaRepository<Clases, Long> {
 
     public List<Clases> findAll();
+
+    public Clases findByNombre(String classInput);
 }
 
     

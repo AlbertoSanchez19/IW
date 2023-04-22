@@ -6,13 +6,13 @@
     <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" type="text/css" href = "/css/opcionesCreado.css">
 </head>
-<body>
+<body class = "background: url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
     <header th:replace="fragments/nav.html :: nav"></header>
     <br><br>
     <main>
         <h1>Crear Clase</h1>
     
-        <form class ="crearclase" th:action="@{/lanzamiento/crearclase}"  method="post">
+        <form class ="crearclase" th:action="@{/clases/crearclase}"  method="post">
             <p>
                 <input class = "pregunta" type="text" name="nombre" />
             </p>

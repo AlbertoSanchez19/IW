@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Clase</title>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" type="text/css" href = "/css/seleccionclases.css">
+</head>
+<body class = "background: url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br>
+    <main>
+        <h1>¿A que clases desea lanzar el cuestionario?</h1>
+    
+    <form>
+            <fieldset>
+                <div class="container"  th:each="clase : ${clases}" >
+                    <ul>
+                        <li>
+                            <input type="checkbox" id="checkbox1" name="checkbox01">
+                            <label for="checkbox1">[[${clase.nombre}]]</label>
+                        </li>   
+                </div>
+                <div class = "botones">
+                    <a class = "siguiente" href = "/clases/crearclase" > Nueva Clase</a>
+                    <a class = "siguiente" > Lanzar</a>
+                </div>
+             
+            </fieldset>
+           
+            <br><br>
+            
+    </form>
+    
+    </main>
+     
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+</html>

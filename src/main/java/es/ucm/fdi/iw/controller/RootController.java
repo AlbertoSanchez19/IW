@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.*;
@@ -34,6 +35,10 @@ public class RootController {
 
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
+    @Autowired
+    private ClaseRepository claseRepository;
+    @Autowired
+    private ParticipacionRepository participacionRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -54,10 +59,20 @@ public class RootController {
 
     @Transactional
     @PostMapping("/register")
-    public String registered(@ModelAttribute("user") User user) {
+    public String registered(@ModelAttribute("user") User user, @RequestParam("classInput") String classInput) {
         user.setRoles("USER");
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Clases clase = claseRepository.findByNombre(classInput);
+
+        if (clase == null) {
+            // Maneja el caso en que la clase no existe
+            throw new RuntimeException("La clase no existe: " + classInput);
+        }
+        Participacion participacion = new Participacion();
+        participacion.setUsuario(user);
+        participacion.setClase(clase);
+        participacionRepository.save(participacion);
         entityManager.persist(user);
         entityManager.flush();
         return "login";
