@@ -82,6 +82,10 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
+    @GetMapping("/profesor")
+    public String profesorMain(Model model) {
+        return "Profesor";
+    }
 
     @GetMapping("/PIN")
     public String introducirPin(Model model) {

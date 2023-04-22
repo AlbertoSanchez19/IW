@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <meta charset="UTF-8">
+    <title>Crear Clase</title>
+    <link rel="stylesheet" type="text/css" href="/css/seleccionclases.css">
+</head>
+
+<body class="background: url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br>
+    <main style="min-height: calc(100vh - 120px);">
+        <h1>¿A que clases desea lanzar el cuestionario?</h1>
+
+        <div style="margin-top: auto;">
+            <fieldset>
+                <div class="container" th:each="cuestionario : ${cuestionarios}">
+                    <ul>
+                        <li>
+                            <p th:text="${clase}"></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="botones text-center" style="margin-top: 20px;">
+                    <a class="siguiente" href="/clases/crearclase"> Nueva Clase</a>
+                </div>
+
+
+            </fieldset>
+
+            <br><br>
+
+        </div>
+
+    </main>
+
+    <script>
+        var miFormulario = document.getElementById("mi-formulario");
+        miFormulario.addEventListener("submit", function(event) {
+          // Previene el envío del formulario para poder manipularlo antes de enviarlo
+          event.preventDefault();
+  
+          // Recopila los valores de las checkboxes seleccionadas
+          var checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+          var valoresCheckboxes = [];
+          checkboxes.forEach(function(checkbox) {
+            valoresCheckboxes.push(checkbox.value);
+          });
+  
+          // Asigna los valores de las checkboxes al campo de entrada oculto
+          var inputClasesSeleccionadas = document.getElementById("clasesSeleccionadas");
+          inputClasesSeleccionadas.value = valoresCheckboxes.join(",");
+  
+          // Envía el formulario
+          miFormulario.submit();
+        });
+      </script>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

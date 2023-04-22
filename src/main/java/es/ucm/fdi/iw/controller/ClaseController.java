@@ -88,6 +88,14 @@ public class ClaseController {
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
     }
+    @GetMapping("/listaclases")
+    public String listaclases(Model model) {
+
+        List<Clases> clases = claseRepository.findAll();
+        model.addAttribute("clases", clases);
+        return "listaclase";
+    }
+
 
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
