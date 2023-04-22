@@ -1,39 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <th:block th:replace="fragments/head :: header" />
     <meta charset="UTF-8">
     <title>Crear Clase</title>
-    <th:block th:replace="fragments/head :: header" />
-    <link rel="stylesheet" type="text/css" href = "/css/seleccionclases.css">
+    <link rel="stylesheet" type="text/css" href="/css/seleccionclases.css">
 </head>
-<body class = "background: url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
+
+<body class="background: url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
     <header th:replace="fragments/nav.html :: nav"></header>
     <br><br>
-    <main>
+    <main style="min-height: calc(100vh - 120px);">
         <h1>¿A que clases desea lanzar el cuestionario?</h1>
-    
-    <form>
+
+        <div style="margin-top: auto;">
             <fieldset>
-                <div class="container"  th:each="clase : ${clases}" >
+                <div class="container" th:each="clase, iter : ${clases}">
                     <ul>
                         <li>
-                            <input type="checkbox" id="checkbox1" name="checkbox01">
-                            <label for="checkbox1">[[${clase.nombre}]]</label>
-                        </li>   
+                            <input type="checkbox" th:id="'checkbox' + ${iter.index}"
+                                th:name="'checkbox' + ${iter.index}" th:value = "${clase.id}">
+                            <label th:for="'checkbox' + ${iter.index}" th:text="${clase.nombre}">Nombre de la
+                                clase</label>
+                        </li>
+                    </ul>
                 </div>
-                <div class = "botones">
-                    <a class = "siguiente" href = "/clases/crearclase" > Nueva Clase</a>
-                    <a class = "siguiente" > Lanzar</a>
+
+                <form id="mi-formulario" method = "post" th:action="@{/cuestionario/__${cuestionario.id}__/clases}">
+                <div class="botones text-center" style="margin-top: 20px;">
+                    <a class="siguiente" href="/clases/crearclase"> Nueva Clase</a>
+                    <input type="hidden" id="clasesSeleccionadas" name="clasesSeleccionadas" value="">
+                    <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Lanzar</a>
                 </div>
-             
+                </form>
+
+
             </fieldset>
-           
+
             <br><br>
-            
-    </form>
-    
+
+        </div>
+
     </main>
-     
+
+    <script>
+        var miFormulario = document.getElementById("mi-formulario");
+        miFormulario.addEventListener("submit", function(event) {
+          // Previene el envío del formulario para poder manipularlo antes de enviarlo
+          event.preventDefault();
+  
+          // Recopila los valores de las checkboxes seleccionadas
+          var checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
+          var valoresCheckboxes = [];
+          checkboxes.forEach(function(checkbox) {
+            valoresCheckboxes.push(checkbox.value);
+          });
+  
+          // Asigna los valores de las checkboxes al campo de entrada oculto
+          var inputClasesSeleccionadas = document.getElementById("clasesSeleccionadas");
+          inputClasesSeleccionadas.value = valoresCheckboxes.join(",");
+  
+          // Envía el formulario
+          miFormulario.submit();
+        });
+      </script>
+
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
+
 </html>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -37,6 +38,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
@@ -98,7 +100,8 @@ public class ClaseController {
     }
 
     @PostMapping("/crearclase")
-    public String crearClaseSubmit(@RequestParam("nombre") String nombre, Model model) {
+    public RedirectView crearClaseSubmit(@RequestParam("nombre") String nombre, Model model,
+            HttpSession session) {
         Clases clase = new Clases();
         clase.setNombre(nombre);
         claseRepository.save(clase);
@@ -106,15 +109,7 @@ public class ClaseController {
         participacion.setClase(clase);
         participacion.setUsuario((User) session.getAttribute("u"));
         participacionRepository.save(participacion);
-        return "redirect:/clases/seleccionClases";
-    }
-
-    @GetMapping("/seleccionClases")
-    public String obtenerClases(Model model) {
-        List<Clases> clases = claseService.obtenerClases();
-        model.addAttribute("clases", clases);
-        Clases clase = new Clases();
-        model.addAttribute("clase", clase);
-        return "seleccionClases";
+        return new RedirectView((String) session.getAttribute("previousUrl"));
+        // return "redirect:/clases/seleccionClases";
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import es.ucm.fdi.iw.repository.*;
+import es.ucm.fdi.iw.service.ClaseService;
 import es.ucm.fdi.iw.service.CuestionarioService;
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.*;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -40,6 +42,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -58,6 +61,15 @@ public class CuestionarioController {
     private static final Logger log = LogManager.getLogger(CuestionarioController.class);
 
     @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
+    private ClaseRepository claseRepository;
+
+    @Autowired
+    private ClaseService claseService;
+
+    @Autowired
     private HttpSession session;
 
     @Autowired
@@ -74,6 +86,9 @@ public class CuestionarioController {
 
     @Autowired
     private RespuestaRepository respuestaRepository;
+
+    @Autowired
+    private EventoRepository eventoRepository;
 
     @PostMapping
     public Cuestionario crearCuestionario(@RequestBody Cuestionario cuestionario) {
@@ -174,6 +189,50 @@ public class CuestionarioController {
 
     }
 
+    @PostMapping("/clases")
+    public String seleccionClases(@RequestParam("cuestionario-id") String cuestionarioId,
+            Model model) {
+
+        return "redirect:/cuestionario/" + cuestionarioId + "/clases";
+    }
+
+    @GetMapping("/{idCuestionario}/clases")
+    public String obtenerClases(@PathVariable long idCuestionario, Model model) throws NotFoundException {
+        List<Clases> clases = claseService.obtenerClases();
+        model.addAttribute("clases", clases);
+        Clases clase = new Clases();
+        model.addAttribute("clase", clase);
+        String previousUrl = UriComponentsBuilder.fromPath("/cuestionario/{idCuestionario}/clases")
+                .buildAndExpand(idCuestionario)
+                .toUriString();
+        session.setAttribute("previousUrl", previousUrl);
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+
+        model.addAttribute("cuestionario", cuestionario);
+        return "seleccionClases";
+    }
+
+    @PostMapping("/{idCuestionario}/clases")
+    public String procesarClases(@PathVariable long idCuestionario, Model model,
+            @RequestParam("clasesSeleccionadas") String clasesSeleccionadas, RedirectAttributes attributes)
+            throws NumberFormatException, NotFoundException {
+
+        List<String> checkboxValues = Arrays.asList(clasesSeleccionadas.split(","));
+        List<Clases> clases = new ArrayList<>();
+        if (checkboxValues != null) {
+            for (String checkboxValue : checkboxValues) {
+                Clases clase = claseRepository.findById((long) Integer.parseInt(checkboxValue))
+                        .orElseThrow(() -> new NotFoundException());
+                clases.add(clase);
+            }
+        }
+
+        attributes.addAttribute("clases", clases);
+        return "redirect:/cuestionario/" + idCuestionario + "/link";
+
+    }
+
     @PostMapping("/lanzar")
     public String lanzarCuestionario(
             @RequestParam("clasesSeleccionadas") String clasesSeleccionadas,
@@ -190,7 +249,8 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/link")
-    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model) throws NotFoundException {
+    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model,
+            @ModelAttribute("clases") List<Clases> clases) throws NotFoundException {
         String code = UserController.generateRandomBase64Token(6);
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
@@ -198,6 +258,9 @@ public class CuestionarioController {
         Evento evento = new Evento();
 
         evento.setCodigo(code);
+        evento.setClases(clases);
+
+        eventoRepository.save(evento);
 
         model.addAttribute("code", code);
         model.addAttribute("cuestionario", cuestionario);

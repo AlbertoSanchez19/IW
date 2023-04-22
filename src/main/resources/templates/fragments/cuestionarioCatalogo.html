@@ -33,11 +33,13 @@
             </div>
 
         </div>
-        <button type="button" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3"
-            href= "clases/seleccionClases">Lanzar</button>
+        <form th:action="@{/cuestionario/clases}" method="post" id="formLa">
+            <input type="hidden" name="cuestionario-id" id="cuestionario-id" th:value="${pos}">
+            <button type="submit" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
+        </form>
 
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -68,7 +70,7 @@
                                 </label>
                             </div>
                         </form>
-                    </div> -->
+                    </div> 
 
                     <div class="modal-body">
                         <form id="clases-form">
@@ -168,7 +170,7 @@
 
             }
 
-        </script>
+        </script> -->
     </th:block>
 
 </body>
