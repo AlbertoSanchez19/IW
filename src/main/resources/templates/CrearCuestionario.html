@@ -2,19 +2,21 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <th:block th:replace="fragments/head :: header" />
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IW: Crear Cuestionario</title>
+    <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" type="text/css" href = "/css/creapregunta.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+
  <form class ="crearCuestionario" th:object="${cuestionario}" th:action="@{/cuestionario/crear}" method="post">
-    
         <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Escriba el nombre del cuestionario">
         <br><br><br> 
             <div>
@@ -24,8 +26,9 @@
             <input class = "siguiente" type= "submit" value = "Siguiente"  id="submit_cuestionario">  </input>
             <br><br><br><br>
         </form>
+        <br><br><br>
+        <th:block th:replace="fragments/footer.html :: footer" />
 
-<br><br><br><br>
 
 
 </body>

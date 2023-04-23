@@ -120,4 +120,20 @@ public class ClaseController {
         return new RedirectView((String) session.getAttribute("previousUrl"));
         // return "redirect:/clases/seleccionClases";
     }
+    @GetMapping("/crearclase2")
+    public String crearClase2(Model model) {
+        return "crearClase2";
+    }
+    @PostMapping("/crearclase2")
+    public String crearClaseSubmit2(@RequestParam("nombre") String nombre, Model model){
+        Clases clase = new Clases();
+        clase.setNombre(nombre);
+        claseRepository.save(clase);
+        Participacion participacion = new Participacion();
+        participacion.setClase(clase);
+        participacion.setUsuario((User) session.getAttribute("u"));
+        participacionRepository.save(participacion);
+        return "redirect:/clases/listaclases";
+    }
+
 }

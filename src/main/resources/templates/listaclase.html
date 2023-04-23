@@ -12,20 +12,21 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <br><br>
     <main style="min-height: calc(100vh - 120px);">
-        <h1>¿A que clases desea lanzar el cuestionario?</h1>
-
-        <div style="margin-top: auto;">
+        <h1>Estas son sus clases</h1>
+        <br><br>
+        <div>
             <fieldset>
-                <div class="container" th:each="cuestionario : ${cuestionarios}">
+                <div class="container" th:each="clase : ${clases}">
                     <ul>
                         <li>
-                            <p th:text="${clase}"></p>
+                            <label class="lista" th:text="${clase.nombre}"></label>
+                            
                         </li>
                     </ul>
                 </div>
 
-                <div class="botones text-center" style="margin-top: 20px;">
-                    <a class="siguiente" href="/clases/crearclase"> Nueva Clase</a>
+                <div class="botones text-center">
+                    <a class="siguiente" href="/clases/crearclase2"> Nueva Clase</a>
                 </div>
 
 

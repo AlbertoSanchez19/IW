@@ -75,6 +75,21 @@ label {
 	background: white;
 	transition: all 0.5s ease 0s;
 }
+.lista {
+	font-weight: 600;
+	color: hsl(297, 42%, 16%, 0.9);;
+	margin-bottom: 3%;
+	width: 30%;
+	float: left;
+	cursor: pointer;
+	padding: 0 0.6em;
+	box-sizing: border-box;
+	background: white;
+	transition: all 0.5s ease 0s;
+	text-align:center;
+	font-size: 30px;
+	margin-right: 3%;
+}
 
 input[type="radio"],
 input[type="checkbox"] {

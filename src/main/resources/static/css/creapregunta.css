@@ -306,15 +306,17 @@ textarea {
     
     }
     .formInput{
-        font-size: 30px;
+        font-size: 25px;
         text-align: center;
         margin-top: 3%;
         background: transparent;
         border: 3px solid white;
         border-radius: 15px;
-        color: white;
-        padding: 30px;
-        width:100%;
+        color: hsl(297, 42%, 16%, 0.9);
+        background: white;
+        padding: 15px;
+        width:60%;
+        justify-content: center;
         text-transform: uppercase;
         text-align: center;
         font-weight: bold;

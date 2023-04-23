@@ -45,6 +45,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import es.ucm.fdi.iw.model.*;
+import es.ucm.fdi.iw.repository.*;
+
 /**
  *  User management.
  *
@@ -67,6 +70,13 @@ public class UserController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+    private ClaseRepository claseRepository;
+    @Autowired
+    private ParticipacionRepository participacionRepository;
+	
+	
+	
 
     /**
      * Exception to use when denying access to unauthorized users.

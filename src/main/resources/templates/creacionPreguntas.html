@@ -2,11 +2,11 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <th:block th:replace="fragments/head :: header" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IW: Crear Preguntas</title>
+    <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" type="text/css" href="/css/creapregunta.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/'-awesome/4.7.0/css/font-awesome.min.css">
@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <header th:replace="fragments/nav.html :: nav"></header>
     <div class="alineados">
       
         <h1 class = "titulocuestionario"> [[${cuestionario.titulo}]]</h1>
@@ -233,6 +234,7 @@
 
 
     </script>
+    <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 
 </html>

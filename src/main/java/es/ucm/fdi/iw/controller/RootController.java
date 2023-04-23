@@ -36,17 +36,24 @@ public class RootController {
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
     @Autowired
+	private EntityManager entityManager;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	@Autowired
     private ClaseRepository claseRepository;
     @Autowired
     private ParticipacionRepository participacionRepository;
+	
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @GetMapping("/login")
+    @GetMapping("/")
+    public String index(Model model) {
+        return "index";
+    }
+    @GetMapping("/profesor")
+    public String profesorMain(Model model) {
+        return "Profesor";
+    }@GetMapping("/login")
     public String login(Model model) {
         return "login";
     }
@@ -78,19 +85,7 @@ public class RootController {
         return "login";
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        return "index";
-    }
-    @GetMapping("/profesor")
-    public String profesorMain(Model model) {
-        return "Profesor";
-    }
-
-    @GetMapping("/PIN")
-    public String introducirPin(Model model) {
-        return "introducir_pin";
-    }
+    
 
     @GetMapping("/info_profesor")
     public String admin_info_profesor(Model model) {
@@ -116,6 +111,31 @@ public class RootController {
         log.info(cuestionarios.toString());
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
+    }
+    @GetMapping("/PIN")
+    public String introducirPin(Model model) {
+        return "introducir_pin";
+    }
+    @PostMapping("/PIN")
+    public String PinRegistro(@ModelAttribute("user") User user, @RequestParam("classInput") String classInput) {
+        user.setRoles("USER_NOREG");
+        user.setEnabled(true);
+        Clases clase = claseRepository.findByNombre(classInput);
+        if (clase == null) {
+            // Maneja el caso en que la clase no existe
+            throw new RuntimeException("La clase no existe: " + classInput);
+        }
+        Participacion participacion = new Participacion();
+        participacion.setUsuario(user);
+        participacion.setClase(clase);
+        participacionRepository.save(participacion);
+        entityManager.persist(user);
+        entityManager.flush();
+        return "redirect:/PIN";
+    }
+	@GetMapping("/PIN_log")
+    public String introducirPinlogeado(Model model) {
+        return "introducir_pin_logeado";
     }
 
 }
