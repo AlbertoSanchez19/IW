@@ -61,7 +61,7 @@ public class RootController {
     }
     @GetMapping("/profesor")
     public String profesorMain(Model model) {
-        return "Profesor";
+        return "profesor";
     }@GetMapping("/login")
     public String login(Model model) {
         return "login";
@@ -108,7 +108,7 @@ public class RootController {
 
     @GetMapping("/info_profesor")
     public String admin_info_profesor(Model model) {
-        return "admin_info_profesor";
+        return "adminInfoProfesor";
 
     }
 
@@ -120,7 +120,7 @@ public class RootController {
 
     @GetMapping("/quizz_link")
     public String quizz_link(Model model) {
-        return "quizz_link";
+        return "quizzLink";
     }
 
     @GetMapping("/catalogo")
@@ -133,7 +133,7 @@ public class RootController {
     }
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
-        return "introducir_pin";
+        return "introducirPin";
     }
     /* 
     @PostMapping("/PIN")
@@ -156,7 +156,7 @@ public class RootController {
     */
 	@GetMapping("/PIN_log")
     public String introducirPinlogeado(Model model) {
-        return "introducir_pin_logeado";
+        return "introducirPinLoggeado";
     }
 
 }

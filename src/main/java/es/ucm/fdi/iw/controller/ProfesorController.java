@@ -46,14 +46,14 @@ public class ProfesorController {
     public String profesores(Model model) {
         List<User> listaProfesores = profesorService.obtenerProfesores();
         model.addAttribute("profesores", listaProfesores);
-        return "admin_profesores";
+        return "adminProfesores";
     }
 
     @GetMapping("/profesores/nuevo")
     public String listarUsuarios(Model model) {
         List<User> usuarios = profesorService.obtenerUsuarios();
         model.addAttribute("usuarios", usuarios);
-        return "nuevo_profesor";
+        return "nuevoProfesor";
     }
 
     @PostMapping("/usuarios/{id}/rol")
@@ -85,7 +85,7 @@ public class ProfesorController {
 
         model.addAttribute("profesor", profesor);
         model.addAttribute("cuestionarios", cuestionarios);
-        return "admin_info_profesor";
+        return "adminInfoProfesor";
     }
 
     @PostMapping("/profesores/{profesorId}/bloquear")

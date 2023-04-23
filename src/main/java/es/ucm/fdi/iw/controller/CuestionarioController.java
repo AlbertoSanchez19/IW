@@ -134,12 +134,12 @@ public class CuestionarioController {
     @GetMapping("crear")
     public String newCuestionario(Model model) {
         model.addAttribute("cuestionario", new Cuestionario());
-        return "CrearCuestionario";
+        return "crearCuestionario";
     }
 
     @GetMapping("/crear/opciones")
     public String opcionesCreado(Model model) {
-        return "OpcionesCreado";
+        return "opcionesCreado";
     }
 
     @GetMapping("/{idCuestionario}/{idPregunta}/crearpregunta")

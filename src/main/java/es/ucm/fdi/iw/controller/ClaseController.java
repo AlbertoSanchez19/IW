@@ -77,7 +77,7 @@ public class ClaseController {
 
     @GetMapping("/quizz_link")
     public String quizz_link(Model model) {
-        return "quizz_link";
+        return "quizzLink";
     }
 
     @GetMapping("/catalogo")
@@ -96,12 +96,12 @@ public class ClaseController {
 
         List<Clases> clases = claseRepository.findAll();
         model.addAttribute("clases", clases);
-        return "listaclase";
+        return "listaClase";
     }
 
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
-        return "introducir_pin";
+        return "introducirPin";
     }
 
     @GetMapping("/crearclase")
