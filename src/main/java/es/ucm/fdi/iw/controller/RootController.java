@@ -3,7 +3,9 @@ package es.ucm.fdi.iw.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.service.EventoService;
 import lombok.extern.java.Log;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +37,9 @@ public class RootController {
     private static final Logger log = LogManager.getLogger(RootController.class);
 
     @Autowired
+    private HttpSession session;
+
+    @Autowired
     private CuestionarioRepository cuestionarioRepository;
     @Autowired
 	private EntityManager entityManager;
@@ -44,7 +50,10 @@ public class RootController {
     private ClaseRepository claseRepository;
     @Autowired
     private ParticipacionRepository participacionRepository;
-	
+
+    @Autowired
+    private EventoService eventoService;
+
 
     @GetMapping("/")
     public String index(Model model) {
@@ -85,7 +94,17 @@ public class RootController {
         return "login";
     }
 
-    
+ 
+
+    @PostMapping("/PIN")
+    public String PostintroducirPin(Model model, @RequestParam("nombre") String nombre,
+            @RequestParam("pin") String pin) {
+
+        Evento evento = eventoService.obtenerPorCodigo(pin);
+        Cuestionario cuestionario = evento.getCuestionario();
+
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
+    }
 
     @GetMapping("/info_profesor")
     public String admin_info_profesor(Model model) {
@@ -106,7 +125,7 @@ public class RootController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
-        
+
         List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
         log.info(cuestionarios.toString());
         model.addAttribute("cuestionarios", cuestionarios);
@@ -116,6 +135,7 @@ public class RootController {
     public String introducirPin(Model model) {
         return "introducir_pin";
     }
+    /* 
     @PostMapping("/PIN")
     public String PinRegistro(@ModelAttribute("user") User user, @RequestParam("classInput") String classInput) {
         user.setRoles("USER_NOREG");
@@ -133,6 +153,7 @@ public class RootController {
         entityManager.flush();
         return "redirect:/PIN";
     }
+    */
 	@GetMapping("/PIN_log")
     public String introducirPinlogeado(Model model) {
         return "introducir_pin_logeado";

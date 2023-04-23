@@ -222,13 +222,19 @@ public class CuestionarioController {
         List<Clases> clases = new ArrayList<>();
         if (checkboxValues != null) {
             for (String checkboxValue : checkboxValues) {
-                Clases clase = claseRepository.findById((long) Integer.parseInt(checkboxValue))
-                        .orElseThrow(() -> new NotFoundException());
-                clases.add(clase);
+                if (!checkboxValue.isEmpty()) {
+                    Clases clase = claseRepository.findById((long) Integer.parseInt(checkboxValue))
+                            .orElseThrow(() -> new NotFoundException());
+                    clases.add(clase);
+                }
             }
         }
 
-        attributes.addAttribute("clases", clases);
+        Evento evento = new Evento();
+        evento.setClases(clases);
+        eventoRepository.save(evento);
+
+        attributes.addAttribute("evento", evento);
         return "redirect:/cuestionario/" + idCuestionario + "/link";
 
     }
@@ -250,15 +256,13 @@ public class CuestionarioController {
 
     @GetMapping("/{idCuestionario}/link")
     public String lanzarCuestionario(@PathVariable long idCuestionario, Model model,
-            @ModelAttribute("clases") List<Clases> clases) throws NotFoundException {
+            @ModelAttribute("evento") Evento evento) throws NotFoundException {
         String code = UserController.generateRandomBase64Token(6);
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
 
-        Evento evento = new Evento();
-
         evento.setCodigo(code);
-        evento.setClases(clases);
+        evento.setCuestionario(cuestionario);
 
         eventoRepository.save(evento);
 
@@ -266,6 +270,11 @@ public class CuestionarioController {
         model.addAttribute("cuestionario", cuestionario);
 
         return "quizz_link";
+    }
+
+    @PostMapping("/{idCuestionario}/link")
+    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model) {
+        return "redirect:/cuestionario/" + idCuestionario + "/responder";
     }
 
     /**

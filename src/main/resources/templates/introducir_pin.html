@@ -15,6 +15,7 @@
 </head>
 
 <body>
+<!--
     <header th:replace="fragments/nav.html :: nav"></header>
     <form  class="crearCuestionario" method="post" th:action="@{/PIN}" th:object="${user}">
         <br><br>
@@ -23,7 +24,7 @@
 
             <input type="text" class="formInput" name="classInput" placeholder="clase">
     
-            <!--<input type="text" class="formInput" name="pin" placeholder="pin de la partida"> -->
+            <input type="text" class="formInput" name="pin" placeholder="pin de la partida"> 
        
         
         <button class="siguiente">ENVIAR</button>
@@ -32,6 +33,22 @@
     </form>
     <br><br><br>
     <th:block th:replace="fragments/footer.html :: footer" />
+-->
+    <div class ="responderCuestionario">
+        <form method = "post" th:action = "@{/PIN}">
+            <h2 class="enunciado">PIN DE LA PARTIDA</h2>
+           
+            <div>
+                <input type="text" class="formInput" name="nombre" placeholder="Apodo">
+            </div>
+            <div>
+                   
+                <input type="text" class="formInput" name="pin" placeholder="Pin de la partida">
+            </div>
+            
+            <button type = "submit" class="btnEnviar">ENVIAR</button>
+        </form>
+    </div>
    
 </body>
 

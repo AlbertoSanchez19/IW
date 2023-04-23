@@ -21,6 +21,15 @@
                         <li>
                             <label class="lista" th:text="${clase.nombre}"></label>
                             
+<!--
+                <div class="container" th:each="clase, iter : ${clases}">
+                    <ul>
+                        <li>
+                            <input type="checkbox" th:id="'checkbox' + ${iter.index}"
+                                th:name="'checkbox' + ${iter.index}" th:value = "${clase.id}">
+                            <label th:for="'checkbox' + ${iter.index}" th:text="${clase.nombre}">Nombre de la
+                                clase</label>
+-->
                         </li>
                     </ul>
                 </div>
@@ -28,8 +37,6 @@
                 <div class="botones text-center">
                     <a class="siguiente" href="/clases/crearclase2"> Nueva Clase</a>
                 </div>
-
-
             </fieldset>
 
             <br><br>
@@ -37,29 +44,6 @@
         </div>
 
     </main>
-
-    <script>
-        var miFormulario = document.getElementById("mi-formulario");
-        miFormulario.addEventListener("submit", function(event) {
-          // Previene el envío del formulario para poder manipularlo antes de enviarlo
-          event.preventDefault();
-  
-          // Recopila los valores de las checkboxes seleccionadas
-          var checkboxes = document.querySelectorAll("input[type='checkbox']:checked");
-          var valoresCheckboxes = [];
-          checkboxes.forEach(function(checkbox) {
-            valoresCheckboxes.push(checkbox.value);
-          });
-  
-          // Asigna los valores de las checkboxes al campo de entrada oculto
-          var inputClasesSeleccionadas = document.getElementById("clasesSeleccionadas");
-          inputClasesSeleccionadas.value = valoresCheckboxes.join(",");
-  
-          // Envía el formulario
-          miFormulario.submit();
-        });
-      </script>
-
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 
