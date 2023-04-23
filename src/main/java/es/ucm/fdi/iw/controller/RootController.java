@@ -3,7 +3,9 @@ package es.ucm.fdi.iw.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.service.EventoService;
 import lombok.extern.java.Log;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,11 +37,16 @@ public class RootController {
     private static final Logger log = LogManager.getLogger(RootController.class);
 
     @Autowired
+    private HttpSession session;
+
+    @Autowired
     private CuestionarioRepository cuestionarioRepository;
     @Autowired
     private ClaseRepository claseRepository;
     @Autowired
     private ParticipacionRepository participacionRepository;
+    @Autowired
+    private EventoService eventoService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -82,6 +90,7 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
+
     @GetMapping("/profesor")
     public String profesorMain(Model model) {
         return "Profesor";
@@ -90,6 +99,16 @@ public class RootController {
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducir_pin";
+    }
+
+    @PostMapping("/PIN")
+    public String PostintroducirPin(Model model, @RequestParam("nombre") String nombre,
+            @RequestParam("pin") String pin) {
+
+        Evento evento = eventoService.obtenerPorCodigo(pin);
+        Cuestionario cuestionario = evento.getCuestionario();
+
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
 
     @GetMapping("/info_profesor")
@@ -111,7 +130,7 @@ public class RootController {
 
     @GetMapping("/catalogo")
     public String catalogo(Model model) {
-        
+
         List<Cuestionario> cuestionarios = cuestionarioRepository.findAll();
         log.info(cuestionarios.toString());
         model.addAttribute("cuestionarios", cuestionarios);

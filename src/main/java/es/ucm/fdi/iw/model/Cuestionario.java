@@ -34,6 +34,9 @@ public class Cuestionario {
     @OneToMany(mappedBy = "cuestionario")
     private List<Pregunta> preguntas = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cuestionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Evento> eventos = new ArrayList<>();
+
     @Override
     public String toString() {
         return "";

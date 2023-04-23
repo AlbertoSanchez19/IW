@@ -12,6 +12,8 @@ import es.ucm.fdi.iw.model.Evento;
 
 public interface EventoRepository extends JpaRepository<Evento, Long> {
 
+    public Evento findByCodigo(String codigo);
+
     public List<Evento> findAll();
 
 }
