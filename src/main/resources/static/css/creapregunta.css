@@ -283,7 +283,11 @@ textarea {
         display: inline;
     }
     .enunciado{
-        margin: 30px;
+        margin-top: 3%;
+        color: white;
+        font-size: 40px;
+        padding: 30px;
+        width: 100%;
         text-align: center;
     }
     .img_respuesta{

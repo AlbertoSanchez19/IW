@@ -2,53 +2,59 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <th:block th:replace="fragments/head :: header" />
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IW: Welcome</title>
-    <link rel="stylesheet" type="text/css" href="/css/creapregunta.css">
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" type="text/css" href="/css/responder.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br><br>
+    
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
-    <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
+    <form th:each="pregunta : ${preguntas}" class="crearCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
                 <p> Seleccione la respuesta correcta:</p>
                 <br>
                 <div class="botonesVF">
-                    <a class="V">VERDADERO</a>
-                    <a class="F">FALSO</a>
+                    <a class="V">V</a>
+                    <a class="F">F</a>
                 </div>
                 <br>
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
                 <p> Seleccione la respuesta correcta:</p>
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
+                        <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("B")'>B</a>
+                        <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("C")'>C</a>
+                        <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("D")'>D</a>
+                        <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
+                    </div>
+                </div>
                 <br>
-                <div>
-                    <a class="opciones">A </a>
-                    <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
-
-                    <a class="opciones">B </a>
-                    <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
-
-                </div>
-                <div>
-
-                    <a class="opciones">C </a>
-                    <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
-
-                    <a class="opciones">D </a>
-                    <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
-
-
-                </div>
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
                 <p>Responda a continuación:</p>
@@ -57,7 +63,7 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
                 <br>
-                <a class="btnEnviar">ENVIAR</a>
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
                 <p>Responda a continuación:</p>
@@ -67,12 +73,12 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
         
-                <a class="btnEnviar">ENVIAR</a>
+                <input class="siguiente" type="submit">
             </th:block>
 
         </th:block>
-    </div>
-    
+    </form>
+    <th:block th:replace="fragments/footer.html :: footer" />
 
 </body>
 
