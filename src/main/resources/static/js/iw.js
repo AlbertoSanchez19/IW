@@ -197,6 +197,9 @@ function postImage(img, endpoint, name, filename) {
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
         let subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
+        if (config.codigoEvento !== undefined) {
+            subs.push("/topic/" + config.codigoEvento);
+        }
         ws.initialize(config.socketUrl, subs);
 
         let p = document.querySelector("#nav-unread");

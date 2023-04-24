@@ -26,6 +26,7 @@ import lombok.extern.java.Log;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -42,11 +43,11 @@ public class RootController {
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
     @Autowired
-	private EntityManager entityManager;
+    private EntityManager entityManager;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	@Autowired
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
     private ClaseRepository claseRepository;
     @Autowired
     private ParticipacionRepository participacionRepository;
@@ -54,15 +55,20 @@ public class RootController {
     @Autowired
     private EventoService eventoService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/")
     public String index(Model model) {
         return "index";
     }
+
     @GetMapping("/profesor")
     public String profesorMain(Model model) {
         return "profesor";
-    }@GetMapping("/login")
+    }
+
+    @GetMapping("/login")
     public String login(Model model) {
         return "login";
     }
@@ -94,14 +100,15 @@ public class RootController {
         return "login";
     }
 
- 
-
     @PostMapping("/PIN")
     public String PostintroducirPin(Model model, @RequestParam("nombre") String nombre,
             @RequestParam("pin") String pin) {
 
         Evento evento = eventoService.obtenerPorCodigo(pin);
         Cuestionario cuestionario = evento.getCuestionario();
+
+        messagingTemplate.convertAndSend("/topic/" + evento.getCodigo(),
+                "{ \"type\": \"enter\", \"name\": \"" + nombre + "\"}");
 
         return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
@@ -131,32 +138,48 @@ public class RootController {
         model.addAttribute("cuestionarios", cuestionarios);
         return "catalogo";
     }
+
     @GetMapping("/PIN")
     public String introducirPin(Model model) {
         return "introducirPin";
     }
-    /* 
-    @PostMapping("/PIN")
-    public String PinRegistro(@ModelAttribute("user") User user, @RequestParam("classInput") String classInput) {
-        user.setRoles("USER_NOREG");
-        user.setEnabled(true);
-        Clases clase = claseRepository.findByNombre(classInput);
-        if (clase == null) {
-            // Maneja el caso en que la clase no existe
-            throw new RuntimeException("La clase no existe: " + classInput);
-        }
-        Participacion participacion = new Participacion();
-        participacion.setUsuario(user);
-        participacion.setClase(clase);
-        participacionRepository.save(participacion);
-        entityManager.persist(user);
-        entityManager.flush();
-        return "redirect:/PIN";
-    }
-    */
-	@GetMapping("/PIN_log")
+
+    /*
+     * @PostMapping("/PIN")
+     * public String PinRegistro(@ModelAttribute("user") User
+     * user, @RequestParam("classInput") String classInput) {
+     * user.setRoles("USER_NOREG");
+     * user.setEnabled(true);
+     * Clases clase = claseRepository.findByNombre(classInput);
+     * if (clase == null) {
+     * // Maneja el caso en que la clase no existe
+     * throw new RuntimeException("La clase no existe: " + classInput);
+     * }
+     * Participacion participacion = new Participacion();
+     * participacion.setUsuario(user);
+     * participacion.setClase(clase);
+     * participacionRepository.save(participacion);
+     * entityManager.persist(user);
+     * entityManager.flush();
+     * return "redirect:/PIN";
+     * }
+     */
+    @GetMapping("/PIN_log")
     public String introducirPinlogeado(Model model) {
         return "introducirPinLoggeado";
+    }
+
+    @PostMapping("/PIN_log")
+    public String PostintroducirPinlogeado(Model model,
+            @RequestParam("pin") String pin) {
+
+        Evento evento = eventoService.obtenerPorCodigo(pin);
+        Cuestionario cuestionario = evento.getCuestionario();
+        User usuario = (User) session.getAttribute("u");
+        messagingTemplate.convertAndSend("/topic/" + evento.getCodigo(),
+                "{ \"type\": \"enter\", \"name\": \"" + usuario.getUsername() + "\"}");
+
+        return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
 
 }

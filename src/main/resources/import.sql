@@ -21,11 +21,19 @@ INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, passwor
 VALUES (7, TRUE, 'USER,PROFESOR', 'David', 'Apellido', 'danielinho',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 
--- INSERT INTO CUESTIONARIO (id, descripcion, titulo, autor_id)
--- values (1, 'descripcion primera', 'cuestionatelo', 4);
-
--- INSERT INTO CUESTIONARIO (id, descripcion, titulo, autor_id)
--- values (2, 'descripcion segunda', 'kuestionario', 5);
+INSERT INTO "PUBLIC"."CLASES" VALUES
+(1, 'f', 1);            
+INSERT INTO "PUBLIC"."CUESTIONARIO" VALUES
+(1, ' fsadfasdf', 'asdfasd', 1);  
+ALTER TABLE "PUBLIC"."EVENTO" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_7A" PRIMARY KEY("ID");      
+-- 1 +/- SELECT COUNT(*) FROM PUBLIC.EVENTO;  
+INSERT INTO "PUBLIC"."EVENTO" VALUES
+(1, 'E9aiVtth', 1);     
+INSERT INTO "PUBLIC"."PREGUNTA" VALUES
+(1, 'asdf', 'asdfafsd', 'TRUE_FALSE', 1);             
+INSERT INTO "PUBLIC"."RESPUESTA" VALUES
+(1, 10.0, 'V', 1),
+(2, 0.0, 'F', 1);
 
 
 -- start id numbering from a value that is larger than any assigned above

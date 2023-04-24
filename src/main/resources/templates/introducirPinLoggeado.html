@@ -15,6 +15,7 @@
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <div class ="responderCuestionario">
+    <form method = "post" th:action = "@{/PIN_log}">
         <h2 class="enunciado">PIN DE LA PARTIDA</h2>
         <div>
                
@@ -23,7 +24,9 @@
         
         <button class="siguiente">ENVIAR</button>
         <br><br>
+    </form>
     </div>
+
     <br><br><br>
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>

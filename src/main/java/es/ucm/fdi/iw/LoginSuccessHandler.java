@@ -77,7 +77,10 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		String url = request.getRequestURL().toString()
 				.replaceFirst("/[^/]*$", "") // ...foo/bar => ...foo/
 				.replaceFirst("[^/]*", ""); // http[s]://...foo/ => //...foo/
-		String ws = "wss:" + url + "/ws"; // //...foo/ => ws://...foo/ws
+		String ws = "ws:" + url + "/ws"; // //...foo/ => ws://...foo/ws
+		if (url.contains("ucm.es")) {
+			ws = ws.replace("ws:", "wss:"); // for deployment in containers
+		}
 		session.setAttribute("url", url);
 		session.setAttribute("ws", ws);
 
