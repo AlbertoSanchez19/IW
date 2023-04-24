@@ -153,16 +153,37 @@ public class CuestionarioController {
         return "creacionPreguntas";
     }
 
-    @GetMapping("/{idCuestionario}/responder")
-    public String responderPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+    @GetMapping("/{idCuestionario}/{idPregunta}/responder")
+    public String responderPreguntas(Model model, @PathVariable long idCuestionario,@PathVariable long idPregunta) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
 
-        List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
-        model.addAttribute("preguntas", preguntas);
+        Pregunta pregunta = preguntaRepository.findById(idPregunta).orElseThrow(() -> new NotFoundException());
+        model.addAttribute("pregunta", pregunta);
         return "responderPreguntas";
     }
+    @PostMapping("/{idCuestionario}/{idPregunta}/responder")
+    public String postResponderPregunta(Pregunta pregunta, @RequestParam String jsonRespuestas,
+            @PathVariable Long idCuestionario, @PathVariable Long idPregunta)
+            // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        pregunta.setCuestionario(cuestionario);
+        Pregunta siguiente = preguntaRepository.findById(idPregunta + 1)
+        .orElseThrow(() -> new NotFoundException());
+        if(siguiente.getCuestionario() == cuestionario)
+            return "redirect:/cuestionario/" + cuestionario.getId() +"/"+ p.getId()+1 +"/verpreguntas";
+        else
+            return "redirect:/cuestionario/ranking";
+
+    }
+    @GetMapping("/ranking")
+    public String ranking(Model model) {
+        return "ranking";
+    }
+
 
     @GetMapping("/{idCuestionario}/verpreguntas")
     public String verPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
@@ -273,8 +294,11 @@ public class CuestionarioController {
     }
 
     @PostMapping("/{idCuestionario}/link")
-    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model) {
-        return "redirect:/cuestionario/" + idCuestionario + "/responder";
+    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model)throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        List<Pregunta> pregunta = preguntaRepository.findByCuestionario(cuestionario);
+        return "redirect:/cuestionario/" + idCuestionario + "/" +pregunta.get(0).getId() +  "/responder";
     }
 
     /**

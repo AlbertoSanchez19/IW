@@ -18,7 +18,7 @@
     <br><br><br>
     
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
-    <form th:each="pregunta : ${preguntas}" class="crearCuestionario">
+    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/responder}" class="crearCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
@@ -29,7 +29,7 @@
                     <a class="F">F</a>
                 </div>
                 <br>
-                <input class="siguiente" type="submit">
+                <button class="siguiente" type="submit">Siguiente</button>
             </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
                 <p> Seleccione la respuesta correcta:</p>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <br>
-                <input class="siguiente" type="submit">
+                <button class="siguiente" type="submit">Siguiente</button>
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
                 <p>Responda a continuación:</p>
@@ -63,7 +63,7 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
                 <br>
-                <input class="siguiente" type="submit">
+                <button class="siguiente" type="submit"></button>
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
                 <p>Responda a continuación:</p>
@@ -73,11 +73,12 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
         
-                <input class="siguiente" type="submit">
+                <button class="siguiente" type="submit">Siguente</button>
             </th:block>
-
+           
         </th:block>
     </form>
+    <br><br><br>
     <th:block th:replace="fragments/footer.html :: footer" />
 
 </body>
