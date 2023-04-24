@@ -269,7 +269,7 @@ public class CuestionarioController {
         model.addAttribute("code", code);
         model.addAttribute("cuestionario", cuestionario);
 
-        return "quizz_link";
+        return "quizzLink";
     }
 
     @PostMapping("/{idCuestionario}/link")
