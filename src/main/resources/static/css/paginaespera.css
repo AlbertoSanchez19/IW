@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
+body{
+    padding: 0;
+    margin: 0;
+    background:url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');
+    text-align: center;
+    height:100vh;
+    font-family: 'lato';
+    font-weight: 100;;
+  }
+.wrapper{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%, -50%);
+}
+.info{
+position:absolute;
+top:75%;
+font-weight: 500;
+font-size:24px;
+width:100%;
+text-align: center;
+}
+.circle{
+display: inline-block;
+width: 15px;
+height: 15px;
+background-color: #330065;
+border-radius: 50%;
+animation: loading 1.5s cubic-bezier(.8, .5, .2, 1.4) infinite;
+transform-origin: bottom center;
+position: relative;
+}
+@keyframes loading{
+0%{
+  transform: translateY(0px);
+  background-color: #330065;
+}
+50%{
+  transform: translateY(50px);
+  background-color: #ef584a;
+}
+100%{
+  transform: translateY(0px);
+  background-color: #fcdc29;
+}
+}
+.circle-1{
+animation-delay: 0.1s;
+}
+.circle-2{
+animation-delay: 0.2s;
+}
+.circle-3{
+animation-delay: 0.3s;
+}
+.circle-4{
+animation-delay: 0.4s;
+}
+.circle-5{
+animation-delay: 0.5s;
+}
+.circle-6{
+animation-delay: 0.6s;
+}
+.circle-7{
+animation-delay: 0.7s;
+}
+.circle-8{
+animation-delay: 0.8s;
+}

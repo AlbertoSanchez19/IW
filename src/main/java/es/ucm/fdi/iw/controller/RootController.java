@@ -181,5 +181,9 @@ public class RootController {
 
         return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
+    @GetMapping("/paginaespera")
+    public String paginaEspera(Model model) {
+        return "paginaespera";
+    }
 
 }
