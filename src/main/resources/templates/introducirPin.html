@@ -35,12 +35,16 @@
     <th:block th:replace="fragments/footer.html :: footer" />
 -->
     <div class ="responderCuestionario">
-        <form method = "post" th:action = "@{/PIN}">
+        <form method = "post" th:action = "@{/PIN}" th:object="${user}">
             <h2 class="enunciado">PIN DE LA PARTIDA</h2>
            
             <div>
-                <input type="text" class="formInput" name="nombre" placeholder="Apodo">
+                <input type="text" class="formInput" name="username" placeholder="Apodo">
             </div>
+            <div>
+                <input type="text" class="formInput" name="classInput" placeholder="Clase">
+            </div>
+            
             <div>
                    
                 <input type="text" class="formInput" name="pin" placeholder="Pin de la partida">

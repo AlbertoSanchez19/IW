@@ -101,14 +101,33 @@ public class RootController {
     }
 
     @PostMapping("/PIN")
-    public String PostintroducirPin(Model model, @RequestParam("nombre") String nombre,
-            @RequestParam("pin") String pin) {
+    public String PostintroducirPin(@ModelAttribute("user") User user,
+            @RequestParam("pin") String pin, @RequestParam("classInput") String classInput) {
+        user.setRoles("USER_NOREG");
+        user.setEnabled(true);
+        user.setPassword(null);
+        Clases clase = claseRepository.findByNombre(classInput);
+
+        if (clase == null) {
+            // Maneja el caso en que la clase no existe
+            throw new RuntimeException("La clase no existe: " + classInput);
+        }
+        Participacion participacion = new Participacion();
+        participacion.setUsuario(user);
+        participacion.setClase(clase);
+        participacionRepository.save(participacion);
+        entityManager.persist(user);
+        entityManager.flush();
+     
 
         Evento evento = eventoService.obtenerPorCodigo(pin);
         Cuestionario cuestionario = evento.getCuestionario();
 
+
         messagingTemplate.convertAndSend("/topic/" + evento.getCodigo(),
-                "{ \"type\": \"enter\", \"name\": \"" + nombre + "\"}");
+                "{ \"type\": \"enter\", \"name\": \"" + user.getUsername() + "\"}");
+       
+                
 
         return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
@@ -143,27 +162,6 @@ public class RootController {
     public String introducirPin(Model model) {
         return "introducirPin";
     }
-
-    /*
-     * @PostMapping("/PIN")
-     * public String PinRegistro(@ModelAttribute("user") User
-     * user, @RequestParam("classInput") String classInput) {
-     * user.setRoles("USER_NOREG");
-     * user.setEnabled(true);
-     * Clases clase = claseRepository.findByNombre(classInput);
-     * if (clase == null) {
-     * // Maneja el caso en que la clase no existe
-     * throw new RuntimeException("La clase no existe: " + classInput);
-     * }
-     * Participacion participacion = new Participacion();
-     * participacion.setUsuario(user);
-     * participacion.setClase(clase);
-     * participacionRepository.save(participacion);
-     * entityManager.persist(user);
-     * entityManager.flush();
-     * return "redirect:/PIN";
-     * }
-     */
     @GetMapping("/PIN_log")
     public String introducirPinlogeado(Model model) {
         return "introducirPinLoggeado";

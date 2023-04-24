@@ -22,7 +22,7 @@ VALUES (7, TRUE, 'USER,PROFESOR', 'David', 'Apellido', 'danielinho',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 
 INSERT INTO "PUBLIC"."CLASES" VALUES
-(1, 'f', 1);            
+(1, '3D', 1);            
 INSERT INTO "PUBLIC"."CUESTIONARIO" VALUES
 (1, ' fsadfasdf', 'asdfasd', 1);  
 ALTER TABLE "PUBLIC"."EVENTO" ADD CONSTRAINT "PUBLIC"."CONSTRAINT_7A" PRIMARY KEY("ID");      
