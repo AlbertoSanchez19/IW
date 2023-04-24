@@ -110,7 +110,10 @@ public class RootController {
         messagingTemplate.convertAndSend("/topic/" + evento.getCodigo(),
                 "{ \"type\": \"enter\", \"name\": \"" + nombre + "\"}");
 
-        return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
+        model.addAttribute("cuestionario", cuestionario);
+        model.addAttribute("code", evento.getCodigo());
+
+        return "paginaespera";
     }
 
     @GetMapping("/info_profesor")
@@ -181,6 +184,7 @@ public class RootController {
 
         return "redirect:/cuestionario/" + cuestionario.getId() + "/responder";
     }
+
     @GetMapping("/paginaespera")
     public String paginaEspera(Model model) {
         return "paginaespera";

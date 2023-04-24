@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.json.*;
@@ -89,6 +90,9 @@ public class CuestionarioController {
 
     @Autowired
     private EventoRepository eventoRepository;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     @PostMapping
     public Cuestionario crearCuestionario(@RequestBody Cuestionario cuestionario) {
@@ -273,7 +277,12 @@ public class CuestionarioController {
     }
 
     @PostMapping("/{idCuestionario}/link")
-    public String lanzarCuestionario(@PathVariable long idCuestionario, Model model) {
+    public String lanzarCuestionarioPost(@PathVariable long idCuestionario, Model model,
+            @RequestParam("code") String code) {
+        model.addAttribute("code", code);
+
+        messagingTemplate.convertAndSend("/topic/" + code,
+                "{ \"type\": \"start\"}");
         return "redirect:/cuestionario/" + idCuestionario + "/responder";
     }
 
@@ -281,7 +290,9 @@ public class CuestionarioController {
      * Downloads a profile pic for a user id
      * 
      * @param id
+     * 
      * @return
+     * 
      * @throws IOException
      */
     @GetMapping("{id}/pic")

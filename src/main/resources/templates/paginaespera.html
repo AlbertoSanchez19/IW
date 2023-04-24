@@ -8,8 +8,8 @@
     <title>IW: Welcome</title>
     <th:block th:replace="fragments/head :: header" />
     <link rel="stylesheet" type="text/css" href="/css/paginaespera.css">
-    <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script> -->
 </head>
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
@@ -30,7 +30,22 @@
     
     <br><br><br><br><br><br><br><br><br><br><br><br>
     <br><br><br><br><br><br><br><br><br>
+
+    <script>
+        config.codigoEvento = "[[${code}]]";
+    </script>
     <th:block th:replace="fragments/footer.html :: footer" />
+
+    <script>
+        const oldReceive = ws.receive;
+        ws.receive = (d) => {
+          oldReceive(d);
+          if (d.type === "start") {
+            window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]" + "/responder";
+          }
+        };
+  
+      </script>
 </body>
 
 </html>

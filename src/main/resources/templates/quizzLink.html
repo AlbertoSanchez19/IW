@@ -17,6 +17,7 @@
           <h1 style="font-size: 24px; margin-top: 40px; margin-bottom: 10px;">Número de jugadores:</h1>
           <h1 style="font-size: 72px; margin-top: 0; margin-bottom: 10px;" id ="n-alumnos">0</h1>
           <form method = "post" th:action =@{/cuestionario/__${cuestionario.id}__/link}>
+            <input type="hidden" name="code" th:value="${code}" />
             <button type = "submit" class="btn btn-primary mt-4" style="margin: 0 auto;">COMENZAR</button>
           </form>
         </div>
@@ -44,7 +45,7 @@
         
         config.codigoEvento = "[[${code}]]";
         console.log("Felicidad: ", config);
-    </script>
+    </script> 
 
     <th:block id="footer" th:replace="fragments/footer.html :: footer" />
 
