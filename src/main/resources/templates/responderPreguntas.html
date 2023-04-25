@@ -94,7 +94,11 @@
     <script>
         config.codigoEvento = "[[${code}]]";
     </script>
-
+    <script>
+        $(".botonRespuesta").click(function(){
+            $("#id_respuesta").val($(this).data("id"));
+        })
+    </script>
 
 
     <br><br><br>
