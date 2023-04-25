@@ -158,7 +158,8 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/{idPregunta}/responder")
-    public String responderPreguntas(Model model, @PathVariable long idCuestionario, @PathVariable int idPregunta)
+    public String responderPreguntas(@RequestParam("code") String code, Model model, @PathVariable long idCuestionario,
+            @PathVariable int idPregunta)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
@@ -166,12 +167,12 @@ public class CuestionarioController {
         model.addAttribute("idLista", idPregunta);
         Pregunta pregunta = cuestionario.getPreguntas().get(idPregunta);
         model.addAttribute("pregunta", pregunta);
-        // model.addAttribute("code", code);
+        model.addAttribute("code", code);
         return "responderPreguntas";
     }
 
     @PostMapping("/{idCuestionario}/{idPregunta}/responder")
-    public String postResponderPregunta(
+    public String postResponderPregunta(@RequestParam("code") String code,
             @PathVariable Long idCuestionario, @PathVariable int idPregunta)
             // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
@@ -180,10 +181,17 @@ public class CuestionarioController {
         List<Pregunta> preguntas = cuestionario.getPreguntas();
         if (preguntas.size() > idPregunta + 1) {
             idPregunta++;
-            return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responder";
+            // return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta +
+            // "/responder";
+            messagingTemplate.convertAndSend("/topic/" + code,
+                    "{ \"type\": \"next\", \"pregunta\": \"" + idPregunta + "\"}");
+            return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responder?code=" + code;
 
-        } else
+        } else {
+            messagingTemplate.convertAndSend("/topic/" + code,
+                    "{ \"type\": \"end\"}");
             return "redirect:/cuestionario/ranking";
+        }
 
         /*
          * if(siguiente.getCuestionario() == cuestionario && siguiente != null)
@@ -315,12 +323,10 @@ public class CuestionarioController {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
 
-        /*
-         * messagingTemplate.convertAndSend("/topic/" + code,
-         * "{ \"type\": \"start\"}");
-         */
+        messagingTemplate.convertAndSend("/topic/" + code,
+                "{ \"type\": \"start\"}");
 
-        return "redirect:/cuestionario/" + idCuestionario + "/" + 0 + "/responder";
+        return "redirect:/cuestionario/" + idCuestionario + "/" + 0 + "/responder?code=" + code;
     }
 
     @GetMapping("/{idCuestionario}/responderProfesor")
