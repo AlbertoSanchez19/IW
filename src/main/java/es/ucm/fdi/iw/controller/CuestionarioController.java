@@ -157,19 +157,46 @@ public class CuestionarioController {
         return "creacionPreguntas";
     }
 
-    @GetMapping("/{idCuestionario}/responder")
-    public String responderPreguntas(Model model, @PathVariable long idCuestionario,
-            @RequestParam("code") String code) throws NotFoundException {
+
+   
+    @GetMapping("/{idCuestionario}/{idPregunta}/responder")
+    public String responderPreguntas(Model model, @PathVariable long idCuestionario,@PathVariable int idPregunta, @RequestParam("code") String code) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
-
-        List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
-        model.addAttribute("preguntas", preguntas);
+        model.addAttribute("idLista", idPregunta);
+        Pregunta pregunta = cuestionario.getPreguntas().get(idPregunta);
+        model.addAttribute("pregunta", pregunta);
         model.addAttribute("code", code);
-
         return "responderPreguntas";
     }
+    @PostMapping("/{idCuestionario}/{idPregunta}/responder")
+    public String postResponderPregunta(
+            @PathVariable Long idCuestionario, @PathVariable int idPregunta)
+            // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        List<Pregunta> preguntas = cuestionario.getPreguntas();
+        if(preguntas.size() > idPregunta + 1 ){
+            idPregunta++;
+            return "redirect:/cuestionario/" + cuestionario.getId() +"/"+ idPregunta+"/responder";
+
+        }
+        else
+        return "redirect:/cuestionario/ranking";
+
+       /* 
+        if(siguiente.getCuestionario() == cuestionario && siguiente != null)
+            return "redirect:/cuestionario/" + cuestionario.getId() +"/"+ siguiente.getId()+"/responder";
+        
+            */
+    }
+    @GetMapping("/ranking")
+    public String ranking(Model model) {
+        return "ranking";
+    }
+
 
     @GetMapping("/{idCuestionario}/verpreguntas")
     public String verPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
@@ -283,13 +310,14 @@ public class CuestionarioController {
 
     @PostMapping("/{idCuestionario}/link")
     public String lanzarCuestionarioPost(@PathVariable long idCuestionario, Model model,
-            @RequestParam("code") String code) {
+            @RequestParam("code") String code) throws NotFoundException{
         model.addAttribute("code", code);
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario).orElseThrow(() -> new NotFoundException());
 
         messagingTemplate.convertAndSend("/topic/" + code,
                 "{ \"type\": \"start\"}");
 
-        return "redirect:/cuestionario/" + idCuestionario + "/responderProfesor?code=" + code;
+        return "redirect:/cuestionario/" + idCuestionario +"/"+ 0 + "/responderProfesor?code=" + code;
     }
 
     @GetMapping("/{idCuestionario}/responderProfesor")
@@ -313,7 +341,7 @@ public class CuestionarioController {
         model.addAttribute("code", code);
 
         return "responderProfesor";
-    }
+            }
 
     /**
      * Downloads a profile pic for a user id
