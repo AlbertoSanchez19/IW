@@ -30,6 +30,11 @@ INSERT INTO "PUBLIC"."PREGUNTA" VALUES
 INSERT INTO "PUBLIC"."RESPUESTA" VALUES
 (1, 10.0, 'V', 1),
 (2, 0.0, 'F', 1);
+INSERT INTO "PUBLIC"."PREGUNTA" VALUES
+(2, 'asdf', 'asdfafsd', 'TRUE_FALSE', 1);             
+INSERT INTO "PUBLIC"."RESPUESTA" VALUES
+(3, 10.0, 'V', 2),
+(4, 0.0, 'F', 2);
 
 
 -- start id numbering from a value that is larger than any assigned above

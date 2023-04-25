@@ -2,7 +2,7 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,9 +16,9 @@
 <body>
     <header th:replace="fragments/nav.html :: nav"></header>
     <br><br><br>
-    
+
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
-    <form th:each="pregunta : ${preguntas}" class="crearCuestionario">
+    <form th:each="pregunta, iter : ${preguntas}" class="crearCuestionario" th:if="${iter.index == contador}">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
@@ -72,13 +72,27 @@
                 <div>
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
-        
+
                 <input class="siguiente" type="submit">
             </th:block>
 
         </th:block>
     </form>
+
+    <script>
+        config.codigoEvento = "[[${code}]]";
+    </script>
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script>
+        const oldReceive = ws.receive;
+        let contador = 0;
+        ws.receive = (d) => {
+            oldReceive(d);
+            if (d.type === "next") {
+                contador++;
+            }
+        };
+    </script>
 
 </body>
 

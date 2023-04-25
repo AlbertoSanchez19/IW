@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IW: Welcome</title>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" type="text/css" href="/css/creapregunta.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+   <header th:replace="fragments/nav.html :: nav"></header>
+   <br><br>
+    <div class="principal">
+    
+        <form th:action="@{/cuestionario/__${idCuestionario}__/responderProfesor}" method="post">
+            <input type="hidden" name="code" th:value="${code}" />
+            <h1>[[${code}]]</h1>
+            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Siguiente</button>
+        </form>
+
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

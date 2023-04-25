@@ -23,6 +23,7 @@
     
         <form th:action="@{/cuestionario/__${cuestionario.id}__/verpreguntas}" th:object="${pregunta}" method="post">
             <input type="hidden" th:field="*{id}" />
+            <input type="hidden" name="code" th:value="${code}" />
             <input href ="clases/catalogo"class = "añadir" type="submit" value="Nueva Pregunta" />
         </form>
 

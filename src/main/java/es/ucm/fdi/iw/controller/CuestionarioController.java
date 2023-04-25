@@ -158,13 +158,16 @@ public class CuestionarioController {
     }
 
     @GetMapping("/{idCuestionario}/responder")
-    public String responderPreguntas(Model model, @PathVariable long idCuestionario) throws NotFoundException {
+    public String responderPreguntas(Model model, @PathVariable long idCuestionario,
+            @RequestParam("code") String code) throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         model.addAttribute("cuestionario", cuestionario);
 
         List<Pregunta> preguntas = preguntaRepository.findByCuestionario(cuestionario);
         model.addAttribute("preguntas", preguntas);
+        model.addAttribute("code", code);
+
         return "responderPreguntas";
     }
 
@@ -183,12 +186,14 @@ public class CuestionarioController {
     }
 
     @PostMapping("/{idCuestionario}/verpreguntas")
-    public String nuevaPregunta(@ModelAttribute("pregunta") Pregunta pregunta, @PathVariable long idCuestionario)
+    public String nuevaPregunta(@ModelAttribute("pregunta") Pregunta pregunta, @PathVariable long idCuestionario,
+            @RequestParam("code") String code)
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
+
         return "redirect:/cuestionario/" + cuestionario.getId() + "/" + p.getId() + "/crearpregunta";
 
     }
@@ -283,7 +288,31 @@ public class CuestionarioController {
 
         messagingTemplate.convertAndSend("/topic/" + code,
                 "{ \"type\": \"start\"}");
-        return "redirect:/cuestionario/" + idCuestionario + "/responder";
+
+        return "redirect:/cuestionario/" + idCuestionario + "/responderProfesor?code=" + code;
+    }
+
+    @GetMapping("/{idCuestionario}/responderProfesor")
+    public String responderProfesor(@RequestParam("code") String code, @PathVariable long idCuestionario, Model model)
+            throws NotFoundException {
+
+        model.addAttribute("code", code);
+        model.addAttribute("idCuestionario", idCuestionario);
+
+        return "responderProfesor";
+    }
+
+    @PostMapping("/{idCuestionario}/responderProfesor")
+    public String responderProfesorPost(@RequestParam("code") String code, @PathVariable long idCuestionario,
+            Model model)
+            throws NotFoundException {
+
+        messagingTemplate.convertAndSend("/topic/" + code,
+                "{ \"type\": \"next\"}");
+
+        model.addAttribute("code", code);
+
+        return "responderProfesor";
     }
 
     /**
