@@ -85,7 +85,7 @@
         </th:block>
         <form th:action="@{/cuestionario/__${idCuestionario}__/__${idLista}__/responder}" method="post">
             <input type="hidden" name="code" th:value="${code}" />
-            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Siguiente</button>
+            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn" th:if="${#authorization.expression('hasRole(''PROFESOR'')')}"> Siguiente</button>
         </form>
      
        

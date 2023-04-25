@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 
@@ -85,7 +86,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		session.setAttribute("ws", ws);
 
 		// redirects to 'admin' or 'user/{id}', depending on the user
-		String nextUrl = u.hasRole(User.Role.ADMIN) ? "admin/" : "user/" + u.getId();
+		String nextUrl;
+		if (u.hasRole(User.Role.ADMIN))
+			nextUrl = "admin/";
+		else if (u.hasRole(User.Role.PROFESOR))
+			nextUrl = "profesor/";
+		else
+			nextUrl = "";
 
 		log.info("LOG IN: {} (id {}) -- session is {}, websocket is {} -- redirected to {}",
 				u.getUsername(), u.getId(), session.getId(), ws, nextUrl);
