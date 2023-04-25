@@ -18,7 +18,7 @@
     <br><br><br>
     
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
-    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/responder}" method= "post" class="crearCuestionario">
+    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${idLista}__/responder}" method= "post" class="crearCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
