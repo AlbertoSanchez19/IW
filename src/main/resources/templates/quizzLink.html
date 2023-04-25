@@ -13,7 +13,8 @@
         <!-- LEFT COLUMN -->
         <div class="col-6 px-5" id="leftColumn" style="margin-top: 0px;  padding-right: 1 !important; height: 100vh; text-align: center;">
           <h1 style="margin-top: 200px; font-size: 26px; margin-bottom: 40px;">¡Hora de jugar! 😄</h1>
-          <h1 style="font-size: 60px; margin-top: 0;" th:text="'quizzol.com/' + ${code}">quizzol.com/unCodigoDeEjemplo</h1>
+          <h1 style="font-size: 60px; margin-top: 0;" th:text="${code}">unCodigoDeEjemplo</h1>
+          <h1 style="font-size: 30px; margin-top: 0;"> Introduce tu código en /PIN !</h1>
           <h1 style="font-size: 24px; margin-top: 40px; margin-bottom: 10px;">Número de jugadores:</h1>
           <h1 style="font-size: 72px; margin-top: 0; margin-bottom: 10px;" id ="n-alumnos">0</h1>
           <form method = "post" th:action =@{/cuestionario/__${cuestionario.id}__/link}>

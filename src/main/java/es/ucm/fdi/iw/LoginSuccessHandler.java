@@ -85,7 +85,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		session.setAttribute("url", url);
 		session.setAttribute("ws", ws);
 
-		// redirects to 'admin' or 'user/{id}', depending on the user
 		String nextUrl;
 		if (u.hasRole(User.Role.ADMIN))
 			nextUrl = "admin/";
