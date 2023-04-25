@@ -18,8 +18,7 @@
     <br><br><br>
 
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
-
-    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${idLista}__/responder}" method= "post" class="crearCuestionario">
+    <form th:each="pregunta, iter : ${preguntas}" class="crearCuestionario" th:if="${iter.index == contador}">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
@@ -30,7 +29,7 @@
                     <a class="F">F</a>
                 </div>
                 <br>
-
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
                 <p> Seleccione la respuesta correcta:</p>
@@ -55,7 +54,7 @@
                     </div>
                 </div>
                 <br>
-
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
                 <p>Responda a continuación:</p>
@@ -64,7 +63,7 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
                 <br>
-
+                <input class="siguiente" type="submit">
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
                 <p>Responda a continuación:</p>
@@ -74,22 +73,15 @@
                     <input name="respuesta" class="formInput" placeholder="respuesta">
                 </div>
 
+                <input class="siguiente" type="submit">
             </th:block>
-           
+
         </th:block>
-            <input class = "siguiente" type="submit">
-     
-       
     </form>
 
     <script>
         config.codigoEvento = "[[${code}]]";
     </script>
-
-    
-    
-    <br><br><br>
-
     <th:block th:replace="fragments/footer.html :: footer" />
     <script>
         const oldReceive = ws.receive;
