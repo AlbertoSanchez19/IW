@@ -28,9 +28,9 @@
                 <input name="respuesta" type="hidden" placeholder="respuesta">
                 <p> Seleccione la respuesta correcta:</p>
                 <br>
-                <div class="botonesVF">
-                    <a class="V botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >V</a>
-                    <a class="F botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >F</a>
+                <div class="botonesVF btn-group" role="group">
+                    <a class="V botonRespuesta opciones" th:attr="data-id=${pregunta.respuestas[0].id}" onclick='$(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
+                    <a class="F botonRespuesta opciones" th:attr="data-id=${pregunta.respuestas[1].id}" onclick='$(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>
                 </div>
                 <br>
 
@@ -92,6 +92,11 @@
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
+        $('.opciones').click(function() {
+            $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
+            $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
+            $("#respuestaMarcadaOP").val($(this).text());
+        });
         config.codigoEvento = "[[${code}]]";
     </script>
     <script>
