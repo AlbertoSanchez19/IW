@@ -19,38 +19,43 @@
 
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
 
-    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${idLista}__/responder}" method= "post" class="crearCuestionario">
+    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${idLista}__/responder}" method="post"
+        class="crearCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta">
+                <input name="respuesta" type="hidden" placeholder="respuesta">
                 <p> Seleccione la respuesta correcta:</p>
                 <br>
                 <div class="botonesVF">
-                    <a class="V">V</a>
-                    <a class="F">F</a>
+                    <a class="V botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >V</a>
+                    <a class="F botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >F</a>
                 </div>
                 <br>
 
             </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta">
+                <input name="respuesta" type="hidden" placeholder="respuesta">
                 <p> Seleccione la respuesta correcta:</p>
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >A</a>
                         <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
                     </div>
                     <div class="col-md-6">
-                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("B")'>B</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >B</a>
                         <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("C")'>C</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[2].id}" >C</a>
                         <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
                     </div>
                     <div class="col-md-6">
-                        <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("D")'>D</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[3].id}" >D</a>
                         <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
                     </div>
                 </div>
@@ -58,36 +63,41 @@
 
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
                 <p>Responda a continuación:</p>
                 <br>
                 <div>
-                    <input name="respuesta" class="formInput" placeholder="respuesta">
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
                 </div>
                 <br>
 
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
                 <p>Responda a continuación:</p>
                 <img src="/img/earth.jpg" class="img_respuesta">
                 <p>Responda a continuación:</p>
                 <div>
-                    <input name="respuesta" class="formInput" placeholder="respuesta">
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
                 </div>
 
             </th:block>
-           
-        </th:block>
-            <input class = "siguiente" type="submit">
-     
-       
-    </form>
 
+        </th:block>
+        <input class="siguiente" type="submit">
+
+
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
-        //config.codigoEvento = "[[${code}]]";
+        $(".botonRespuesta").click(function(){
+            alert($(this).data("id"));
+            $("#id_respuesta").val($(this).data("id"));
+        });
     </script>
 
-    
-    
+
+
     <br><br><br>
 
     <th:block th:replace="fragments/footer.html :: footer" />

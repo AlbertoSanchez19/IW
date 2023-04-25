@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.ClaseService;
 import es.ucm.fdi.iw.service.CuestionarioService;
+import es.ucm.fdi.iw.service.ResultadoService;
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.validation.BindingResult;
@@ -87,6 +88,9 @@ public class CuestionarioController {
 
     @Autowired
     private RespuestaRepository respuestaRepository;
+
+    @Autowired
+    private ResultadoRepository resultadoRepository;
 
     @Autowired
     private EventoRepository eventoRepository;
@@ -172,25 +176,52 @@ public class CuestionarioController {
 
     @PostMapping("/{idCuestionario}/{idPregunta}/responder")
     public String postResponderPregunta(
-            @PathVariable Long idCuestionario, @PathVariable int idPregunta)
+            @PathVariable Long idCuestionario, @PathVariable int idPregunta, @RequestParam Long id_respuesta,
+            @RequestParam String respuesta)
             // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
             throws NotFoundException {
+
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
         List<Pregunta> preguntas = cuestionario.getPreguntas();
-        if (preguntas.size() > idPregunta + 1) {
-            idPregunta++;
+
+        Pregunta preguntaActual = preguntas.get(idPregunta);
+
+        // GUARDAR RESULTADO
+        Respuesta respuestaSeleccionada = null;
+        List<Respuesta> respuestas = preguntaActual.getRespuestas();
+        if (preguntaActual.getType() == PreguntaType.RESPUESTA_CORTA
+                || preguntaActual.getType() == PreguntaType.RESPUESTA_FOTO) {
+            for (Respuesta r : respuestas) {
+                if (r.getRespuesta().toUpperCase().trim().equals(respuesta.toUpperCase().trim())) {
+
+                    respuestaSeleccionada = r;
+                }
+
+            }
+        } else {
+            for (Respuesta r : respuestas) {
+                if (r.getId() == id_respuesta) {
+                    respuestaSeleccionada = r;
+                }
+            }
+
+        }
+        if (respuestaSeleccionada != null) {
+            Resultado resultado = new Resultado();
+            resultado.setRespuesta(respuestaSeleccionada);
+            resultadoRepository.save(resultado);
+        }
+
+        // SIGUIENTE PREGUNTA SI EXISTE
+        idPregunta++;
+        if (preguntas.size() > idPregunta) {
+
             return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responder";
 
         } else
             return "redirect:/cuestionario/ranking";
 
-        /*
-         * if(siguiente.getCuestionario() == cuestionario && siguiente != null)
-         * return "redirect:/cuestionario/" + cuestionario.getId() +"/"+
-         * siguiente.getId()+"/responder";
-         * 
-         */
     }
 
     @GetMapping("/ranking")
