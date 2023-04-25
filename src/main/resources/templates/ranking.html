@@ -1,17 +1,116 @@
-<!DOCTYPE html>
-<html class="h-100" xmlns:th="http://www.thymeleaf.org">
-
-<head>
+<html><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/ranking.css">
     <th:block th:replace="fragments/head :: header" />
-    <title>IW: Mi Vista</title>
-</head>
-
-<body class="d-flex flex-column h-100" style="background:url('http://cdn.wallpapersafari.com/13/6/Mpsg2b.jpg');">
+  <div style="display: none;"></div></head>
+  <body class="page-leaderboard">
     <header th:replace="fragments/nav.html :: nav"></header>
-    
-    Esto es el futuro ranking un saludo
-    
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
 
-</html>
+        <section class="leaderboard-progress">
+            <div class="contain text-center">
+                <img alt="Android Basics Leaderboard" class=" imagen mb-2" src="https://d125fmws0bore1.cloudfront.net/assets/svgs/icon_trophy_leaderboard-3442a4b2312e6cdd02aa9870e636dc082890277a6267c4ed986a750fef7cbb35.svg">
+                <h2>Ranking del Cuestionario</h2>
+            </div>
+        </section>
+        <section class="ranking">
+            <div class="contain">
+                <div class="ranking-table">
+                    <div class="ranking-table-header-row">
+                        <div class="ranking-table-header-data h6">Rank</div>
+                        <div class="ranking-table-header-data h6">Name</div>
+                        <div class="ranking-table-header-data h6">Nota</div>
+                    </div>
+                    <div class="ranking-table-row-leader-1">
+                        <div class="ranking-table-data-leader-1">
+                            <div class="medal-gold"></div>
+                        </div>
+                        <div class="ranking-table-data">
+                            Daniel
+  </div>
+                        <div class="ranking-table-data">
+                            10
+                        </div>
+                    </div>
+                    <div class="ranking-table-row-leader-2">
+                        <div class="ranking-table-data-leader-2">
+                            <div class="medal-silver"></div>
+                        </div>
+                        <div class="ranking-table-data">
+                            Alberto
+  </div>
+                        <div class="ranking-table-data">
+                            10
+                        </div>
+                    </div>
+                    <div class="ranking-table-row-leader-3">
+                        <div class="ranking-table-data-leader-3">
+                            <div class="medal-bronze"></div>
+                        </div>
+                        <div class="ranking-table-data">
+                            Adrian
+  </div>
+                        <div class="ranking-table-data">
+                            9
+                        </div>
+                    </div>
+                    <div class="ranking-table-body">
+                        <div class="ranking-table-row">
+                            <div class="ranking-table-data">
+                                4
+  </div>
+                            <div class="ranking-table-data">
+                                Gonzalo
+  </div>
+                            <div class="ranking-table-data">
+                                8
+                            </div>
+                        </div>
+                        <div class="ranking-table-row">
+                            <div class="ranking-table-data">
+                                5
+  </div>
+                            <div class="ranking-table-data">
+                                Juan
+  </div>
+                            <div class="ranking-table-data">
+                                7
+                            </div>
+                        </div>
+                        <div class="ranking-table-row">
+                            <div class="ranking-table-data">
+                                6
+  </div>
+                            <div class="ranking-table-data">
+                                Paco
+  </div>
+                            <div class="ranking-table-data">
+                                7
+                            </div>
+                        </div>
+                        <div class="ranking-table-row">
+                            <div class="ranking-table-data">
+                                7
+  </div>
+                            <div class="ranking-table-data">
+                                Javier
+  </div>
+                            <div class="ranking-table-data">
+                                6
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Use Date Formatter-->
+            </div>
+        </section>
+        <br><br>
+        
+  
+  
+  
+  
+  
+  
+  
+  </body></html>
