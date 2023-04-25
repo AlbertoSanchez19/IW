@@ -79,8 +79,7 @@
                 <a class="btnEnviar">ENVIAR</a>
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
-                <img class="img_respuesta" th:src="@{/pregunta/{id}/pic(id=${pregunta.id})}">
-
+                <img class="img_respuesta" th:src="@{/cuestionario/1/pic(id=${pregunta.id})}">
                 <p>Responda a continuación:</p>
                 <div>
                     <input name="respuesta" class="formInput" placeholder="respuesta">
