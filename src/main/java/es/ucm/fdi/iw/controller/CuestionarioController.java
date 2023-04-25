@@ -210,6 +210,8 @@ public class CuestionarioController {
         }
         if (respuestaSeleccionada != null) {
             Resultado resultado = new Resultado();
+            resultado.setUsuario((User) session.getAttribute("u"));
+            resultado.setEvento(eventoRepository.findByCodigo(code));
             resultado.setRespuesta(respuestaSeleccionada);
             resultadoRepository.save(resultado);
         }
