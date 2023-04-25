@@ -41,7 +41,7 @@
         ws.receive = (d) => {
           oldReceive(d);
           if (d.type === "start") {
-            window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]" + "/responder?code=" + "[[${code}]]";
+            window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]" +  "/0/responder?code=" + "[[${code}]]";
           }
         };
   
