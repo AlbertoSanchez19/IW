@@ -2,32 +2,114 @@
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IW: Welcome</title>
     <th:block th:replace="fragments/head :: header" />
-    <link rel="stylesheet" type="text/css" href="/css/creapregunta.css">
-    <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="/css/responder.css">
+    <!--<link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
+     <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>-->
 </head>
 
 <body>
-   <header th:replace="fragments/nav.html :: nav"></header>
-   <br><br>
-    <div class="principal">
-    
-        <form th:action="@{/cuestionario/__${idCuestionario}__/responderProfesor}" method="post">
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br><br>
+
+    <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+
+    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${idLista}__/responderProfesor}" method="post"
+        class="crearCuestionario">
+        <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
+        <th:block th:switch="${pregunta.type.name()}">
+            <th:block th:case="'TRUE_FALSE'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta">
+                <input name="respuesta" type="hidden" placeholder="respuesta">
+                <p> Seleccione la respuesta correcta:</p>
+                <br>
+                <div class="botonesVF btn-group" role="group">
+                    <a class="V botonRespuesta opciones" th:attr="data-id=${pregunta.respuestas[0].id}" onclick='$(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
+                    <a class="F botonRespuesta opciones" th:attr="data-id=${pregunta.respuestas[1].id}" onclick='$(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>
+                </div>
+                <br>
+
+            </th:block>
+            <th:block th:case="'OPCION_MULTIPLE'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta">
+                <input name="respuesta" type="hidden" placeholder="respuesta">
+                <p> Seleccione la respuesta correcta:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >A</a>
+                        <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >B</a>
+                        <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[2].id}" >C</a>
+                        <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[3].id}" >D</a>
+                        <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
+                    </div>
+                </div>
+                <br>
+
+            </th:block>
+            <th:block th:case="'RESPUESTA_CORTA'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
+                <p>Responda a continuación:</p>
+                <br>
+                <div>
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
+                </div>
+                <br>
+
+            </th:block>
+            <th:block th:case="'RESPUESTA_FOTO'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
+                <img class="img_respuesta" th:src="@{/cuestionario/1/pic(id=${pregunta.id})}">
+                <p>Responda a continuación:</p>
+                <div>
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
+                </div>
+
+            </th:block>
+
+        </th:block>
+        <form th:action="@{/cuestionario/__${idCuestionario}__/__${idLista}__/responderProfesor}" method="post">
             <input type="hidden" name="code" th:value="${code}" />
-            <h1>[[${code}]]</h1>
             <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Siguiente</button>
         </form>
+     
+       
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $('.opciones').click(function() {
+            $(this).addClass('marcado').parent().parent().siblings().find('.opciones').removeClass('marcado');
+            $(this).addClass('marcado').parent().siblings().find('.opciones').removeClass('marcado');
+            $("#respuestaMarcadaOP").val($(this).text());
+        });
+        config.codigoEvento = "[[${code}]]";
+    </script>
+    <script>
+        $(".botonRespuesta").click(function(){
+            $("#id_respuesta").val($(this).data("id"));
+        })
+    </script>
 
-    </div>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br>
+
     <th:block th:replace="fragments/footer.html :: footer" />
+
 </body>
 
 </html>

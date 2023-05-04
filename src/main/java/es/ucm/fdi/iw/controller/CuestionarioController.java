@@ -176,7 +176,7 @@ public class CuestionarioController {
     }
 
     @PostMapping("/{idCuestionario}/{idPregunta}/responder")
-    public String postResponderPregunta(@RequestParam("code") String code,
+    public String postResponderPregunta(Model model, @RequestParam("code") String code,
             @PathVariable Long idCuestionario, @PathVariable int idPregunta, @RequestParam Long id_respuesta,
             @RequestParam String respuesta)
             // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
@@ -216,6 +216,37 @@ public class CuestionarioController {
             resultadoRepository.save(resultado);
         }
 
+        model.addAttribute("cuestionario", cuestionario);
+        model.addAttribute("code", code);
+
+        return "paginaespera";
+    }
+
+    @GetMapping("/{idCuestionario}/{idPregunta}/responderProfesor")
+    public String responderPreguntasProfesor(@RequestParam("code") String code, Model model,
+            @PathVariable long idCuestionario,
+            @PathVariable int idPregunta)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        model.addAttribute("cuestionario", cuestionario);
+        model.addAttribute("idLista", idPregunta);
+        Pregunta pregunta = cuestionario.getPreguntas().get(idPregunta);
+        model.addAttribute("pregunta", pregunta);
+        model.addAttribute("code", code);
+        return "responderProfesor";
+    }
+
+    @PostMapping("/{idCuestionario}/{idPregunta}/responderProfesor")
+    public String postResponderPreguntaProfesor(@RequestParam("code") String code,
+            @PathVariable Long idCuestionario, @PathVariable int idPregunta)
+            // @RequestParam("file") MultipartFile file, RedirectAttributes attributes)
+            throws NotFoundException {
+
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        List<Pregunta> preguntas = cuestionario.getPreguntas();
+
         // SIGUIENTE PREGUNTA SI EXISTE
         idPregunta++;
         if (preguntas.size() > idPregunta) {
@@ -224,7 +255,8 @@ public class CuestionarioController {
             // "/responder";
             messagingTemplate.convertAndSend("/topic/" + code,
                     "{ \"type\": \"next\", \"pregunta\": \"" + idPregunta + "\"}");
-            return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responder?code=" + code;
+            return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responderProfesor?code="
+                    + code;
 
         } else {
             messagingTemplate.convertAndSend("/topic/" + code,
@@ -359,30 +391,7 @@ public class CuestionarioController {
         messagingTemplate.convertAndSend("/topic/" + code,
                 "{ \"type\": \"start\"}");
 
-        return "redirect:/cuestionario/" + idCuestionario + "/" + 0 + "/responder?code=" + code;
-    }
-
-    @GetMapping("/{idCuestionario}/responderProfesor")
-    public String responderProfesor(@RequestParam("code") String code, @PathVariable long idCuestionario, Model model)
-            throws NotFoundException {
-
-        model.addAttribute("code", code);
-        model.addAttribute("idCuestionario", idCuestionario);
-
-        return "responderProfesor";
-    }
-
-    @PostMapping("/{idCuestionario}/responderProfesor")
-    public String responderProfesorPost(@RequestParam("code") String code, @PathVariable long idCuestionario,
-            Model model)
-            throws NotFoundException {
-
-        messagingTemplate.convertAndSend("/topic/" + code,
-                "{ \"type\": \"next\"}");
-
-        model.addAttribute("code", code);
-
-        return "responderProfesor";
+        return "redirect:/cuestionario/" + idCuestionario + "/" + 0 + "/responderProfesor?code=" + code;
     }
 
     /**

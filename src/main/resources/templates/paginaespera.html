@@ -25,7 +25,7 @@
         <span class="circle circle-8"></span>
     </div>
 
-    <p class="info">Esperando a que inicie el cuestionario </p>
+    <p class="info">Esperando al profesor...</p>
 
     
     <br><br><br><br><br><br><br><br><br><br><br><br>
@@ -42,6 +42,12 @@
           oldReceive(d);
           if (d.type === "start") {
             window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]" +  "/0/responder?code=" + "[[${code}]]";
+          }
+          else if(d.type === "next"){
+            window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]/" +  d.pregunta + "/responder?code=" + "[[${code}]]";
+          }
+          else if (d.type === "end") {
+                window.location.href = "/cuestionario/ranking";
           }
         };
   

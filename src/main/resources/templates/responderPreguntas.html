@@ -85,7 +85,7 @@
         </th:block>
         <form th:action="@{/cuestionario/__${idCuestionario}__/__${idLista}__/responder}" method="post">
             <input type="hidden" name="code" th:value="${code}" />
-            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn" th:if="${#authorization.expression('hasRole(''PROFESOR'')')}"> Siguiente</button>
+            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Siguiente</button>
         </form>
      
        
@@ -109,19 +109,6 @@
     <br><br><br>
 
     <th:block th:replace="fragments/footer.html :: footer" />
-    <script>
-        const oldReceive = ws.receive;
-        let contador = 0;
-        ws.receive = (d) => {
-            oldReceive(d);
-            if (d.type === "next") {
-                window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]/" + d.pregunta + "/responder?code=" + "[[${code}]]";
-            }
-            else if (d.type === "end") {
-                window.location.href = "/cuestionario/ranking";
-            }
-        };
-    </script>
 
 </body>
 
