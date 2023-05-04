@@ -85,7 +85,7 @@
         </th:block>
         <form th:action="@{/cuestionario/__${idCuestionario}__/__${idLista}__/responder}" method="post">
             <input type="hidden" name="code" th:value="${code}" />
-            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Siguiente</button>
+            <button class="siguiente bg-transparent text-white" type = "submit" id="lanzar-btn"> Responder</button>
         </form>
      
        
@@ -108,7 +108,26 @@
 
     <br><br><br>
 
+    <script>
+        config.codigoEvento = "[[${code}]]";
+    </script>
     <th:block th:replace="fragments/footer.html :: footer" />
+
+    <script>
+        const oldReceive = ws.receive;
+        ws.receive = (d) => {
+          oldReceive(d);
+          // Por si el profesor le da a siguiente sin haber respondido
+          if(d.type === "next"){
+            $("#id_respuesta").val(-1);
+            window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]/" +  d.pregunta + "/responder?code=" + "[[${code}]]";
+          }
+          else if (d.type === "end") {
+                window.location.href = "/cuestionario/ranking";
+          }
+        };
+  
+      </script>
 
 </body>
 

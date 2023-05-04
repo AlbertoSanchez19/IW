@@ -189,31 +189,33 @@ public class CuestionarioController {
         Pregunta preguntaActual = preguntas.get(idPregunta);
 
         // GUARDAR RESULTADO
-        Respuesta respuestaSeleccionada = null;
-        List<Respuesta> respuestas = preguntaActual.getRespuestas();
-        if (preguntaActual.getType() == PreguntaType.RESPUESTA_CORTA
-                || preguntaActual.getType() == PreguntaType.RESPUESTA_FOTO) {
-            for (Respuesta r : respuestas) {
-                if (r.getRespuesta().toUpperCase().trim().equals(respuesta.toUpperCase().trim())) {
+        if (id_respuesta != -1) {
+            Respuesta respuestaSeleccionada = null;
+            List<Respuesta> respuestas = preguntaActual.getRespuestas();
+            if (preguntaActual.getType() == PreguntaType.RESPUESTA_CORTA
+                    || preguntaActual.getType() == PreguntaType.RESPUESTA_FOTO) {
+                for (Respuesta r : respuestas) {
+                    if (r.getRespuesta().toUpperCase().trim().equals(respuesta.toUpperCase().trim())) {
 
-                    respuestaSeleccionada = r;
+                        respuestaSeleccionada = r;
+                    }
+
+                }
+            } else {
+                for (Respuesta r : respuestas) {
+                    if (r.getId() == id_respuesta) {
+                        respuestaSeleccionada = r;
+                    }
                 }
 
             }
-        } else {
-            for (Respuesta r : respuestas) {
-                if (r.getId() == id_respuesta) {
-                    respuestaSeleccionada = r;
-                }
+            if (respuestaSeleccionada != null) {
+                Resultado resultado = new Resultado();
+                resultado.setUsuario((User) session.getAttribute("u"));
+                resultado.setEvento(eventoRepository.findByCodigo(code));
+                resultado.setRespuesta(respuestaSeleccionada);
+                resultadoRepository.save(resultado);
             }
-
-        }
-        if (respuestaSeleccionada != null) {
-            Resultado resultado = new Resultado();
-            resultado.setUsuario((User) session.getAttribute("u"));
-            resultado.setEvento(eventoRepository.findByCodigo(code));
-            resultado.setRespuesta(respuestaSeleccionada);
-            resultadoRepository.save(resultado);
         }
 
         model.addAttribute("cuestionario", cuestionario);
