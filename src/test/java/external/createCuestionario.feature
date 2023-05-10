@@ -53,3 +53,12 @@ Scenario: crear cuestionario correcto
     # Then match html('title') contains 'Login'
     Then match html('title') contains 'Preguntas'
     # Then waitForUrl (baseUrl + '/{id}/CP')
+
+#
+# Profesor crea cuestionario con 3 preguntas de V/F, 
+#  profesor pide enlace para mostrar a alumnos <-- url para realizarlo
+#  
+# Sale profesor, entra alumno
+#  entra con código
+#
+# Ahora hay un alumno en el evento 

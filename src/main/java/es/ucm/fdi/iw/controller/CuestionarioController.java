@@ -253,10 +253,14 @@ public class CuestionarioController {
         idPregunta++;
         if (preguntas.size() > idPregunta) {
 
+            // Genera un código de acceso a la siguiente pregunta; sin este código, no
+            // puedes acceder
+            String nextCode = UserController.generateRandomBase64Token(5);
+
             // return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta +
             // "/responder";
             messagingTemplate.convertAndSend("/topic/" + code,
-                    "{ \"type\": \"next\", \"pregunta\": \"" + idPregunta + "\"}");
+                    "{ \"type\": \"next\", \"pregunta\": \"" + idPregunta + "\",  \"codigo\": \"" + nextCode + "\"}");
             return "redirect:/cuestionario/" + cuestionario.getId() + "/" + idPregunta + "/responderProfesor?code="
                     + code;
 
@@ -487,17 +491,7 @@ public class CuestionarioController {
                 questions.add(questionText);
                 pregunta.setCuestionario(cuestionario);
                 pregunta.setTitulo(questionText.trim());
-                switch (questionType) {
-                    case "multichoice":
-                        pregunta.setType(PreguntaType.OPCION_MULTIPLE);
-                        break;
-                    case "truefalse":
-                        pregunta.setType(PreguntaType.TRUE_FALSE);
-                        break;
-                    case "shortanswer":
-                        pregunta.setType(PreguntaType.RESPUESTA_CORTA);
-                        break;
-                }
+                pregunta.setType(PreguntaType.byName(questionType));
 
                 preguntaRepository.save(pregunta);
 
