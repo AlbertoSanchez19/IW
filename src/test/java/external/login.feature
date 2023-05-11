@@ -16,31 +16,39 @@ Feature: login en servidor
     And input('#username', 'dummy')
     And input('#password', 'world')
     When submit().click("#do_login")
-    # Then match html('.error') contains 'Error en nombre de usuario o contraseña'
-    Then match html('title') contains 'Login'
+    #Then match html('.error') contains 'Error en nombre de usuario o contraseña'
+    Then match driver.url contains 'error'
 
 
-  @login_b
+  @login_profesor
+  Scenario: login correcto como profesor
+    Given driver baseUrl + '/login'
+    And input('#username', 'b')
+    And input('#password', 'aa')
+    When submit().click("#do_login")  
+    Then waitForUrl(baseUrl + '/profesor')
+
+  @login_admin
+  Scenario: login correcto como a
+    Given driver baseUrl + '/login'
+    And input('#username', 'a')
+    And input('#password', 'aa')
+    When submit().click("#do_login")
+    Then waitForUrl(baseUrl + '/admin')
+
+  @login_alumno
   Scenario: login correcto como b
     Given driver baseUrl + '/login'
     And input('#username', 'b')
     And input('#password', 'aa')
     When submit().click("#do_login")  
-    Then waitForUrl(baseUrl + '/user/2')
-
-  @login_a
-  Scenario: login correcto como a
-    Given driver baseUrl + '/login'
-    And input('#username', 'a')
-    And input('#password', 'aa')
-    When submit().click("#form-signin")
-    Then waitForUrl(baseUrl + '/admin')
+    Then waitForUrl(baseUrl)
 
   Scenario: logout after login
     Given driver baseUrl + '/login'
     And input('#username', 'a')
     And input('#password', 'aa')
-    When submit().click("#form-signin")
+    When submit().click("#do_login")
     Then waitForUrl(baseUrl + '/admin')
     When submit().click("{button}logout")
     Then waitForUrl(baseUrl + '/login')
