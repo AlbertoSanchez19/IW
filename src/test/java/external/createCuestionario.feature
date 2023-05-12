@@ -10,12 +10,34 @@ Scenario: crear cuestionario correcto
     And input('#titulo_cuestionario', 'Titulo del cuestionario')
     And input('#descripcion_cuestionario', 'Descripcion del cuestionario')
     When submit().click("#submit_cuestionario")
-    #Then waitForUrl(baseUrl + '/cuestionario/\\d+/verpreguntas')
-    When click('#nuevap')
-    #Then waitForUrl(baseUrl + '/cuestionario/(\\d+)/(\\d+)/crearpregunta')
-    #* def urlMatch = karate.match(driver.url, baseUrl + '/cuestionario/{idCuestionario}/{idPregunta}/crearpregunta')
-    #* def idCuestionario = urlMatch.pathParams.idCuestionario
-    #* def idPregunta = urlMatch.pathParams.idPregunta
+    * def urlCuestionario = script("location.href.replace(/verpreguntas.*/, '')")
+    And click('#nuevap')
+    And select('#miSelect', 'VF')
+    And input('#tituloVF', 'Titulo de la pregunta 1')
+    And click('#bF')
+    And input('#expVF', 'Explicacion a la pregunta 1')
+    When click('#sigVF')
+    Then waitForUrl(urlCuestionario + 'verpreguntas')
+
+    And click('#nuevap')
+    And select('#miSelect', 'VF')
+    And input('#tituloVF', 'Titulo de la pregunta 2')
+    And click('#bV')
+    And input('#expVF', 'Explicacion a la pregunta 2')
+    When click('#sigVF')
+    Then waitForUrl(urlCuestionario + 'verpreguntas')
+
+    And click('#nuevap')
+    And select('#miSelect', 'VF')
+    And input('#tituloVF', 'Titulo de la pregunta 3')
+    And click('#bV')
+    And input('#expVF', 'Explicacion a la pregunta 3')
+    When click('#sigVF')
+    Then waitForUrl(urlCuestionario + 'verpreguntas')
+
+    And click('#finCrear')
+
+    # Falta quizás que el profesor lance el cuestionario
 
 #
 # Profesor crea cuestionario con 3 preguntas de V/F, 

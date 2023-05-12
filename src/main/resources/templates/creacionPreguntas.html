@@ -35,7 +35,7 @@
      
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaVF">
-        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloVF" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="TRUE_FALSE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
 
@@ -44,16 +44,16 @@
         <br><br>
 
         <div class="btn-group" role="group">
-            <a class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
-            <a class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>    
+            <a id = "bV" class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
+            <a id = "bF" class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>    
         </div>
         
         <br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"></textarea>
+            <textarea id = "expVF" name="explicacion" placeholder="Escriba su explicacion de la respuesta"></textarea>
         </div>
-        <input class = "siguiente" type="submit">
+        <input id = "sigVF" class = "siguiente" type="submit">
         <br><br><br>
     </form>
 
