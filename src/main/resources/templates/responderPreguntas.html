@@ -74,7 +74,7 @@
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
                 <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
-                <img class="img_respuesta" th:src="@{/cuestionario/1/pic(id=${pregunta.id})}">
+                <img class="img_respuesta" th:src="@{/cuestionario/{id}/pic(id=${pregunta.id})}">
                 <p>Responda a continuación:</p>
                 <div>
                     <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">

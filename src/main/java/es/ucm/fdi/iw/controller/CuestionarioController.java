@@ -267,13 +267,49 @@ public class CuestionarioController {
         } else {
             messagingTemplate.convertAndSend("/topic/" + code,
                     "{ \"type\": \"end\"}");
-            return "redirect:/cuestionario/ranking";
+            return "redirect:/cuestionario/ranking?code="
+            + code;
         }
 
     }
 
     @GetMapping("/ranking")
-    public String ranking(Model model) {
+    public String ranking(Model model, @RequestParam("code") String code) {
+        Evento evento = eventoRepository.findByCodigo(code);
+        List<Resultado> resultados = resultadoRepository.findByEvento(evento);
+        List<Pregunta> preguntas = evento.getCuestionario().getPreguntas();
+        int notaMax = preguntas.size() * 10;
+       
+        List<User> usuariosParticipantes = new ArrayList<>();
+        List<Integer> notasPorUsuario = new ArrayList<>();
+        for (Resultado resultado : resultados) {
+            User usuario = resultado.getUsuario();
+            
+            // Verifica si el usuario ya existe en la lista de participantes
+            if (!usuariosParticipantes.contains(usuario)) {
+                usuariosParticipantes.add(usuario);
+            }
+        }
+        for (User usuario : usuariosParticipantes) {
+            int nota = 0;
+            for (Resultado resultado : resultados) {
+                
+                if (resultado.getUsuario().equals(usuario)) {
+                    Respuesta respuesta = resultado.getRespuesta();
+                    nota += respuesta.getNota();      
+
+                }
+                
+            }
+            notasPorUsuario.add(nota);
+
+          
+        }
+        
+        model.addAttribute("code", code);
+        model.addAttribute("participantes", usuariosParticipantes);
+        model.addAttribute("notas", notasPorUsuario);
+        model.addAttribute("notaMax", notaMax);
         return "ranking";
     }
 

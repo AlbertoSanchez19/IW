@@ -167,3 +167,7 @@ body{
 .respuesta{
    font-size: 25px;
 }
+.img_respuesta{
+    width: 600px;
+    height: 550px;
+}
