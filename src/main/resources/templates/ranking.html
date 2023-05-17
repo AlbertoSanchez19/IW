@@ -1,116 +1,113 @@
-<html><head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/css/ranking.css">
     <th:block th:replace="fragments/head :: header" />
-  <div style="display: none;"></div></head>
-  <body class="page-leaderboard">
+    <div style="display: none;"></div>
+</head>
+
+<body class="page-leaderboard">
     <header th:replace="fragments/nav.html :: nav"></header>
 
-        <section class="leaderboard-progress">
-            <div class="contain text-center">
-                <img alt="Android Basics Leaderboard" class=" imagen mb-2" src="https://d125fmws0bore1.cloudfront.net/assets/svgs/icon_trophy_leaderboard-3442a4b2312e6cdd02aa9870e636dc082890277a6267c4ed986a750fef7cbb35.svg">
-                <h2>Ranking del Cuestionario</h2>
-            </div>
-        </section>
-        <section class="ranking">
-            <div class="contain">
-                <div class="ranking-table">
-                    <div class="ranking-table-header-row">
-                        <div class="ranking-table-header-data h6">Rank</div>
-                        <div class="ranking-table-header-data h6">Name</div>
-                        <div class="ranking-table-header-data h6">Nota</div>
+    <section class="leaderboard-progress">
+        <div class="contain text-center">
+            <img alt="Android Basics Leaderboard" class=" imagen mb-2"
+                src="https://d125fmws0bore1.cloudfront.net/assets/svgs/icon_trophy_leaderboard-3442a4b2312e6cdd02aa9870e636dc082890277a6267c4ed986a750fef7cbb35.svg">
+            <h2>Ranking del Cuestionario</h2>
+        </div>
+    </section>
+    <section class="ranking">
+        <div class="contain">
+            <div class="ranking-table">
+                <div class="ranking-table-header-row">
+                    <div class="ranking-table-header-data h6">Rank</div>
+                    <div class="ranking-table-header-data h6">Name</div>
+                    <div class="ranking-table-header-data h6">Nota</div>
+                </div>
+                <div class="ranking-table-row-leader-1">
+                    <div class="ranking-table-data-leader-1">
+                        <div class="medal-gold"></div>
                     </div>
-                    <div class="ranking-table-row-leader-1">
-                        <div class="ranking-table-data-leader-1">
-                            <div class="medal-gold"></div>
-                        </div>
-                        <div class="ranking-table-data">
-                            Daniel
-  </div>
-                        <div class="ranking-table-data">
-                            10
-                        </div>
+                    <div class="ranking-table-data">
+                        <span id="leader1Name"></span>
                     </div>
-                    <div class="ranking-table-row-leader-2">
-                        <div class="ranking-table-data-leader-2">
-                            <div class="medal-silver"></div>
-                        </div>
-                        <div class="ranking-table-data">
-                            Alberto
-  </div>
-                        <div class="ranking-table-data">
-                            10
-                        </div>
-                    </div>
-                    <div class="ranking-table-row-leader-3">
-                        <div class="ranking-table-data-leader-3">
-                            <div class="medal-bronze"></div>
-                        </div>
-                        <div class="ranking-table-data">
-                            Adrian
-  </div>
-                        <div class="ranking-table-data">
-                            9
-                        </div>
-                    </div>
-                    <div class="ranking-table-body">
-                        <div class="ranking-table-row">
-                            <div class="ranking-table-data">
-                                4
-  </div>
-                            <div class="ranking-table-data">
-                                Gonzalo
-  </div>
-                            <div class="ranking-table-data">
-                                8
-                            </div>
-                        </div>
-                        <div class="ranking-table-row">
-                            <div class="ranking-table-data">
-                                5
-  </div>
-                            <div class="ranking-table-data">
-                                Juan
-  </div>
-                            <div class="ranking-table-data">
-                                7
-                            </div>
-                        </div>
-                        <div class="ranking-table-row">
-                            <div class="ranking-table-data">
-                                6
-  </div>
-                            <div class="ranking-table-data">
-                                Paco
-  </div>
-                            <div class="ranking-table-data">
-                                7
-                            </div>
-                        </div>
-                        <div class="ranking-table-row">
-                            <div class="ranking-table-data">
-                                7
-  </div>
-                            <div class="ranking-table-data">
-                                Javier
-  </div>
-                            <div class="ranking-table-data">
-                                6
-                            </div>
-                          </div>
-                        </div>
+                    <div class="ranking-table-data">
+                        <span id="leader1Note"></span>
                     </div>
                 </div>
-                <!--Use Date Formatter-->
+                <div class="ranking-table-row-leader-2">
+                    <div class="ranking-table-data-leader-2">
+                        <div class="medal-silver"></div>
+                    </div>
+                    <div class="ranking-table-data">
+                        <span id="leader2Name"></span>
+                    </div>
+                    <div class="ranking-table-data">
+                        <span id="leader2Note"></span>
+                    </div>
+                </div>
+                <div class="ranking-table-row-leader-3">
+                    <div class="ranking-table-data-leader-3">
+                        <div class="medal-bronze"></div>
+                    </div>
+                    <div class="ranking-table-data">
+                        <span id="leader3Name"></span>
+                    </div>
+                    <div class="ranking-table-data">
+                        <span id="leader3Note"></span>
+                    </div>
+                </div>
+                <div class="ranking-table-body" id="rankingTableBody">
+                    
+                </div>
             </div>
-        </section>
-        <br><br>
-        
-  
-  
-  
-  
-  
-  
-  
-  </body></html>
+        </div>
+    </section>
+
+    <script th:inline="javascript">
+        var nombresParticipantes = /*[[${participantes}]]*/ [];
+        var notas = /*[[${notas}]]*/ [];
+    
+        var datosParticipantes = nombresParticipantes.map(function(participant, index) {
+            return {
+                name: participant,
+                note: notas[index]
+            };
+        });
+    
+        datosParticipantes.sort(function(a, b) {
+            return b.note - a.note;
+        });
+    
+        // Para las tres primeras posiciones
+        for (var i = 0; i < 3; i++) {
+            var leaderboardRow = document.querySelector('.ranking-table-row-leader-' + (i + 1));
+            var nameAux = leaderboardRow.querySelector('span[id^="leader' + (i + 1) + 'Name"]');
+            var notaAux = leaderboardRow.querySelector('span[id^="leader' + (i + 1) + 'Note"]');
+    
+            if (datosParticipantes[i]) {
+                nameAux.textContent = datosParticipantes[i].name;
+                notaAux.textContent = datosParticipantes[i].note;
+            } else {
+                leaderboardRow.style.display = 'none'; // Ocultar la fila si no hay participante en esa posición
+            }
+        }
+    
+        // Las restantes
+        var rankingTableBody = document.getElementById('rankingTableBody');
+        rankingTableBody.innerHTML = ''; // Limpiar el contenido existente antes de agregar las filas
+    
+        for (var i = 3; i < datosParticipantes.length; i++) {
+            var participant = datosParticipantes[i];
+            var row = document.createElement('div');
+            row.className = 'ranking-table-row';
+            row.innerHTML = '<div class="ranking-table-data">' + (i + 1) + '</div>' +
+                '<div class="ranking-table-data">' + participant.name + '</div>' +
+                '<div class="ranking-table-data">' + participant.note + '</div>';
+            rankingTableBody.appendChild(row);
+        }
+    </script>
+    
+
+</body>
+
+</html>

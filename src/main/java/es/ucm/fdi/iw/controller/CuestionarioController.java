@@ -268,7 +268,7 @@ public class CuestionarioController {
             messagingTemplate.convertAndSend("/topic/" + code,
                     "{ \"type\": \"end\"}");
             return "redirect:/cuestionario/ranking?code="
-            + code;
+                    + code;
         }
 
     }
@@ -279,12 +279,13 @@ public class CuestionarioController {
         List<Resultado> resultados = resultadoRepository.findByEvento(evento);
         List<Pregunta> preguntas = evento.getCuestionario().getPreguntas();
         int notaMax = preguntas.size() * 10;
-       
+
         List<User> usuariosParticipantes = new ArrayList<>();
         List<Integer> notasPorUsuario = new ArrayList<>();
+        List<String> nombresParticipantes = new ArrayList<>();
         for (Resultado resultado : resultados) {
             User usuario = resultado.getUsuario();
-            
+
             // Verifica si el usuario ya existe en la lista de participantes
             if (!usuariosParticipantes.contains(usuario)) {
                 usuariosParticipantes.add(usuario);
@@ -293,21 +294,20 @@ public class CuestionarioController {
         for (User usuario : usuariosParticipantes) {
             int nota = 0;
             for (Resultado resultado : resultados) {
-                
+
                 if (resultado.getUsuario().equals(usuario)) {
                     Respuesta respuesta = resultado.getRespuesta();
-                    nota += respuesta.getNota();      
+                    nota += respuesta.getNota();
 
                 }
-                
-            }
-            notasPorUsuario.add(nota);
 
-          
+            }
+            nombresParticipantes.add(usuario.getUsername());
+            notasPorUsuario.add(nota);
         }
-        
+
         model.addAttribute("code", code);
-        model.addAttribute("participantes", usuariosParticipantes);
+        model.addAttribute("participantes", nombresParticipantes);
         model.addAttribute("notas", notasPorUsuario);
         model.addAttribute("notaMax", notaMax);
         return "ranking";
