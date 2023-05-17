@@ -123,7 +123,7 @@
             window.location.href = "/cuestionario/" + "[[${cuestionario.id}]]/" +  d.pregunta + "/responder?code=" + "[[${code}]]";
           }
           else if (d.type === "end") {
-                window.location.href = "/cuestionario/ranking";
+                window.location.href = "/cuestionario/ranking?code=" + "[[${code}]]";
           }
         };
   
