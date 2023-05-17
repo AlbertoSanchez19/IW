@@ -17,10 +17,16 @@ class ExternalRunner {
      * return Karate.run("ws").relativeTo(getClass());
      * }
      */
-
+    /* 
     @Karate.Test
     Karate testCreateCuestionario() {
         return Karate.run("createCuestionario").relativeTo(getClass());
     }
+    */
+    @Karate.Test
+    Karate testCreateCuestionario() {
+        return Karate.run("lanzarCuestionario").relativeTo(getClass());
+    }
+
 
 }
