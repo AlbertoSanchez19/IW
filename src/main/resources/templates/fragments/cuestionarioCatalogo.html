@@ -35,7 +35,7 @@
         </div>
         <form th:action="@{/cuestionario/clases}" method="post" id="formLa">
             <input type="hidden" name="cuestionario-id" id="cuestionario-id" th:value="${pos}">
-            <button type="submit" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
+            <button th:id="'lanzar' + ${pos}" type="submit" style="color: hsla(295, 41%, 16%, 0.9);" class="btn btn-light float-end mb-3">Lanzar</button>
         </form>
 
 

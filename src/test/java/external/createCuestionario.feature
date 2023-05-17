@@ -10,6 +10,7 @@ Scenario: crear cuestionario correcto
     And input('#titulo_cuestionario', 'Titulo del cuestionario')
     And input('#descripcion_cuestionario', 'Descripcion del cuestionario')
     When submit().click("#submit_cuestionario")
+    * def idCuestionario = script("location.href.replace(/.*cuestionario\\//, '').replace(/\\/verpreguntas.*/, '')")
     * def urlCuestionario = script("location.href.replace(/verpreguntas.*/, '')")
     And click('#nuevap')
     And select('#miSelect', 'VF')
@@ -36,6 +37,12 @@ Scenario: crear cuestionario correcto
     Then waitForUrl(urlCuestionario + 'verpreguntas')
 
     And click('#finCrear')
+
+    When click("a[href='/catalogo']")
+    Then waitForUrl(baseUrl + '/catalogo')
+    And click('#lanzar' + idCuestionario)
+    And click('#lanzar-btn')
+    And delay(1000)
 
     # Falta quizás que el profesor lance el cuestionario
 
