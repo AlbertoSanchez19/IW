@@ -19,7 +19,7 @@ Tiene control y acceso total a la base de datos.
 
 ## Diagrama BD
 
-Aquí va el diagrama actualizado.
+![Image](BaseDeDatosFinal.png)
 
 ## Usarios existentes:
 
