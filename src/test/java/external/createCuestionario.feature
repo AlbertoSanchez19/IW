@@ -21,19 +21,23 @@ Scenario: crear cuestionario correcto
     Then waitForUrl(urlCuestionario + 'verpreguntas')
 
     And click('#nuevap')
-    And select('#miSelect', 'VF')
-    And input('#tituloVF', 'Titulo de la pregunta 2')
-    And click('#bV')
-    And input('#expVF', 'Explicacion a la pregunta 2')
-    When click('#sigVF')
+    And select('#miSelect', 'DE')
+    And input('#tituloDE', 'Titulo de la pregunta 2')
+    And input('#explicacionDE', 'Explicacion a la pregunta 2')
+    And input('#pistaDE', 'Pista a la pregunta 2')
+    When click('#sigDE')
     Then waitForUrl(urlCuestionario + 'verpreguntas')
 
     And click('#nuevap')
-    And select('#miSelect', 'VF')
-    And input('#tituloVF', 'Titulo de la pregunta 3')
-    And click('#bV')
-    And input('#expVF', 'Explicacion a la pregunta 3')
-    When click('#sigVF')
+    And select('#miSelect', 'OP')
+    And input('#tituloOP', 'Titulo de la pregunta 3')
+    And click('#aOP')
+    And input('#respuestaOPA', 'Opcion A')
+    And input('#respuestaOPB', 'Opcion B')
+    And input('#respuestaOPC', 'Opcion C')
+    And input('#respuestaOPD', 'Opcion D')
+    And input('#expOP', 'Explicacion a la pregunta 3')
+    When click('#sigOP')
     Then waitForUrl(urlCuestionario + 'verpreguntas')
 
     And click('#finCrear')
@@ -44,13 +48,5 @@ Scenario: crear cuestionario correcto
     And click('#lanzar-btn')
     And delay(1000)
 
-    # Falta quizás que el profesor lance el cuestionario
 
-#
-# Profesor crea cuestionario con 3 preguntas de V/F, 
-#  profesor pide enlace para mostrar a alumnos <-- url para realizarlo
-#  
-# Sale profesor, entra alumno
-#  entra con código
-#
-# Ahora hay un alumno en el evento 
+

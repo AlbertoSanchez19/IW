@@ -58,7 +58,7 @@
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaDE">
-        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloDE" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="RESPUESTA_CORTA">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
         <br><br><br>
@@ -69,14 +69,14 @@
         <br><br><br><br><br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
-            <textarea name="pista" placeholder="Escriba su pista"> </textarea>
+            <textarea name="pista" id = "pistaDE" placeholder="Escriba su pista"> </textarea>
         </div>
-        <input class = "siguiente" type="submit">
+        <input id="sigDE" class = "siguiente" type="submit">
         <br><br><br>
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaOP">
-        <input class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloOP" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
         <input type="hidden" name="type" value="OPCION_MULTIPLE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasOP">
 
@@ -87,7 +87,7 @@
         <div class="btn-group" role="group">
             <div class="row">
                 <div class="col-md-6">
-                    <a class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
+                    <a id = "aOP" class="opciones" onclick='javascript:$("#respuestaMarcadaOP").val("A")'>A</a>
                     <input class="respuesta" type="text" name="texto" id="respuestaOPA" placeholder="Escriba su respuesta">
                 </div>
                 <div class="col-md-6">
@@ -110,9 +110,9 @@
         </div>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="explicacion" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea id = "expOP" name="explicacion" placeholder="Escriba su explicacion de la respuesta"> </textarea>
         </div>
-        <input class = "siguiente" type="submit">
+        <input id = "sigOP" class = "siguiente" type="submit">
         <br><br><br>
     </form>
     <div class="foto_pregunta crearCuestionario d-none" id="preguntaOF">

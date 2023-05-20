@@ -1,6 +1,6 @@
 -- insert admin (username a, password aa)
 INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, password)
-VALUES (1, TRUE,'ADMIN,USER', 'Admin', 'Administra',  'a',
+VALUES (1, TRUE,'ADMIN,USER', 'Admin', 'Administrador',  'a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (2, TRUE, 'USER,PROFESOR', 'b',
@@ -18,10 +18,10 @@ INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, passwor
 VALUES (6, TRUE, 'USER,PROFESOR', 'Daniel', 'Apellido', 'danizinho',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, password)
-VALUES (7, TRUE, 'USER,PROFESOR', 'Gonzalo', 'Apellido', 'gonzalinho',
+VALUES (7, TRUE, 'USER', 'Gonzalo', 'Apellido', 'gonzalinho',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, password)
-VALUES (8, TRUE, 'USER,PROFESOR', 'David', 'Apellido', 'danielinho',
+VALUES (8, TRUE, 'USER', 'David', 'Apellido', 'danielinho',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 
 

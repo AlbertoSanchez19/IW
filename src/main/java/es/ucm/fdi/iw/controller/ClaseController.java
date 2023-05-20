@@ -1,65 +1,37 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import es.ucm.fdi.iw.repository.*;
-import es.ucm.fdi.iw.service.CuestionarioService;
-import es.ucm.fdi.iw.LocalData;
-import es.ucm.fdi.iw.model.*;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.data.repository.query.Param;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.json.*;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import es.ucm.fdi.iw.repository.*;
-import es.ucm.fdi.iw.model.*;
-import es.ucm.fdi.iw.service.*;
+import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Clases;
+import es.ucm.fdi.iw.model.Cuestionario;
+import es.ucm.fdi.iw.model.Participacion;
+import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.repository.ClaseRepository;
+import es.ucm.fdi.iw.repository.CuestionarioRepository;
+import es.ucm.fdi.iw.repository.ParticipacionRepository;
+import es.ucm.fdi.iw.service.ClaseService;
 
 @Controller
 @RequestMapping("clases")
 public class ClaseController {
 
-    @Autowired
-    private ClaseService claseService;
-
     private static final Logger log = LogManager.getLogger(CuestionarioController.class);
     @Autowired
     private HttpSession session;
-
-    @Autowired
-    private LocalData localData;
 
     @Autowired
     private CuestionarioRepository cuestionarioRepository;
@@ -122,12 +94,14 @@ public class ClaseController {
         return new RedirectView((String) session.getAttribute("previousUrl"));
         // return "redirect:/clases/seleccionClases";
     }
+
     @GetMapping("/crearclase2")
     public String crearClase2(Model model) {
         return "crearClase2";
     }
+
     @PostMapping("/crearclase2")
-    public String crearClaseSubmit2(@RequestParam("nombre") String nombre, Model model){
+    public String crearClaseSubmit2(@RequestParam("nombre") String nombre, Model model) {
         Clases clase = new Clases();
         clase.setNombre(nombre);
         claseRepository.save(clase);

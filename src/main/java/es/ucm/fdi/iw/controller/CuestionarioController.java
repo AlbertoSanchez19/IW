@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import es.ucm.fdi.iw.repository.*;
 import es.ucm.fdi.iw.service.ClaseService;
 import es.ucm.fdi.iw.service.CuestionarioService;
-import es.ucm.fdi.iw.service.ResultadoService;
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.*;
 import org.springframework.validation.BindingResult;
@@ -32,7 +31,6 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.json.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
