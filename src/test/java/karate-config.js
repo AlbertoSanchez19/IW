@@ -1,6 +1,7 @@
 function fn() {
     var env = karate.env; // get system property 'karate.env'
     karate.log('karate.env system property was:', env);
+    
 
     if (!env) {
         env = 'dev';
@@ -18,14 +19,15 @@ function fn() {
     /**
      * Drivers for tests - currently configured value is good for Linux
      */
+    addOptions: ['--remote-allow-origins=*', '--disable-notifications' ], 
     karate.configure('driver', {
-        type: 'chrome', addOptions: ["--remote-allow-origins=*"],
+        type: 'chrome',
         // descomentar para chromium bajo linux
         // executable: '/usr/bin/chromium-browser',
-        executable: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-        //executable ubuntu
-        //executable: "/usr/bin/google-chrome",
-        showDriverLog: true
+        addOptions: ['--remote-allow-origins=*', '--disable-notifications' ], 
+        executable: "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+        showDriverLog: true,
+        port: 8080
     })
 
     if (env == 'dev') {
