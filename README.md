@@ -45,4 +45,5 @@ En nuestras prueba se puede ver:
 Que el cuestionario se lanze por clases, el cuestionario se lanza a todos los usuarios.
 El catálogo donde el usuario registrado puede ver los cuestionarios anteriormente lanzados.
 Quizás, ha faltado mostrar el ranking después de responder cada pregunta, para así facilitar la labor del docente y fomentar la competición entre los alumnos.
+Ademas hay un pequeño fallo de seguridad donde los alumnos pueden retroceder de pagina mientras responden
 
