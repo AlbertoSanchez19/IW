@@ -202,17 +202,19 @@
             let reC = document.getElementById("respuestaOPC").value;
             let reD = document.getElementById("respuestaOPD").value;
 
+            
+
             if ($("#respuestaMarcadaOP").val() == "A") {
-                jsonText = "[{'respuesta':" + reA + ", 'nota': 10.0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                jsonText = "[{'respuesta': '" + reA + "', 'nota': 10.0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else if ($("#respuestaMarcadaOP").val() == "B") {
-                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 10.0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 10.0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else if ($("#respuestaMarcadaOP").val() == "C") {
-                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 10.0} , {'respuesta':" + reD + ", 'nota': 0}]";
+                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 10.0} , {'respuesta': '" + reD + "', 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else {
-                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 10.0}]";
+                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 10.0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             }
         });
