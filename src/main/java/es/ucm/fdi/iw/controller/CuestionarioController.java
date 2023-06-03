@@ -211,10 +211,10 @@ public class CuestionarioController {
                 boolean yahascontestado = false;
                 List<Resultado> resultadosevento = resultadoRepository
                         .findByEvento(eventoRepository.findByCodigo(code));
+                        
                 for (Resultado result : resultadosevento) {
                     Respuesta respuestaEvent = result.getRespuesta();
-                    if (respuestaEvent.getPregunta() == preguntaActual
-                            && result.getUsuario() == (User) session.getAttribute("u")) {
+                    if (respuestaEvent.getPregunta().equals(preguntaActual) || result.getUsuario().equals(session.getAttribute("u"))) {
                         yahascontestado = true;
                     }
                 }
@@ -223,7 +223,6 @@ public class CuestionarioController {
                     resultado.setUsuario((User) session.getAttribute("u"));
                     resultado.setEvento(eventoRepository.findByCodigo(code));
                     resultado.setRespuesta(respuestaSeleccionada);
-
                     resultadoRepository.save(resultado);
                 }
 

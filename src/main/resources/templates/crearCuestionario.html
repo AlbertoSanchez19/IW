@@ -17,7 +17,7 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
  <form class ="crearCuestionario" th:object="${cuestionario}" th:action="@{/cuestionario/crear}" method="post">
-        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Escriba el nombre del cuestionario">
+        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Escriba el nombre del cuestionario" required>
         <br><br><br> 
             <div>
                 <p class ="bombilla"><i class="fa-solid fa-book"></i></p>

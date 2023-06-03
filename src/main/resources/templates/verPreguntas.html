@@ -28,10 +28,7 @@
         </form>
 
         <a id = "finCrear" href="/profesor" class="añadir"type="submit"> Crear</a> 
-        <a  href="#" class="añadir" type="submit"> Editar</a> 
-        <form th:action = "@{/cuestionario/exportar}" method= "post">
-            <input href ="clases/catalogo" id ="nuevap" class = "añadir" type="submit" value="Descargar" />
-        </form>
+    
     </div>
 
     <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
