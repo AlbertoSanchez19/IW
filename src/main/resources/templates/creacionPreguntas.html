@@ -35,7 +35,7 @@
      
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaVF">
-        <input id = "tituloVF" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloVF" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta" required>
         <input type="hidden" name="type" value="TRUE_FALSE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
 
@@ -44,8 +44,8 @@
         <br><br>
 
         <div class="btn-group" role="group">
-            <a id = "bV" class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
-            <a id = "bF" class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>    
+            <a id = "bV" class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")' >V</a>
+            <a id = "bF" class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")' >F</a>    
         </div>
         
         <br>
@@ -53,18 +53,21 @@
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
             <textarea id = "expVF" name="explicacion" placeholder="Escriba su explicacion de la respuesta"></textarea>
         </div>
+        <div class = "mensajes">
+
+        </div>
         <input id = "sigVF" class = "siguiente" type="submit">
         <br><br><br>
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaDE">
-        <input id = "tituloDE" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloDE" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta" required>
         <input type="hidden" name="type" value="RESPUESTA_CORTA">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasDE">
         <br><br><br>
         <div>
             <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-            <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta"> </textarea>
+            <textarea name="explicacion" id = "explicacionDE" placeholder="Escriba su explicacion de la respuesta" required> </textarea>
         </div>
         <br><br><br><br><br>
         <div>
@@ -76,7 +79,7 @@
     </form>
 
     <form class="crearCuestionario d-none" th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/crearpregunta}" method="post" id="preguntaOP">
-        <input id = "tituloOP" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta">
+        <input id = "tituloOP" class="pregunta" type="text" name="titulo" placeholder="Escriba su pregunta" required>
         <input type="hidden" name="type" value="OPCION_MULTIPLE">
         <input type="hidden" name="jsonRespuestas" id="jsonRespuestasOP">
 
@@ -132,14 +135,14 @@
             <br><br><br>
             <div>
                 <p class="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea id="respuestaOF" placeholder="Escriba la respuesta"></textarea>
+                <textarea id="respuestaOF" placeholder="Escriba la respuesta"required></textarea>
             </div>
             <br><br><br><br><br>
             <div>
                 <p class="bombilla"><i class="fa-solid fa-lightbulb"></i></p>
                 <textarea name="explicacion" placeholder="Escriba su explicacion"></textarea>
             </div>
-            <input class="siguiente" type="submit">
+            <input  id="sigRF"class="siguiente" type="submit">
             <br><br><br>
         </form>
     </div>
@@ -149,6 +152,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
     <script>
+        
         $("#miSelect").change(function () {
             // Obtener el valor de la opción seleccionada
             var opcionSeleccionada = $(this).val();
@@ -173,9 +177,14 @@
             if ($("#respuestaMarcadaVF").val() == "V") {
                 jsonText = "[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
                 $("#jsonRespuestasVF").val(jsonText);
-            } else {
+                return true;
+            } else if ($("#respuestaMarcadaVF").val() == "F"){
                 jsonText = "[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
                 $("#jsonRespuestasVF").val(jsonText);
+                return true;
+            }else{
+                alert("Debes marcar una opcion");
+                return false;
             }
         });
         $("#preguntaDE").submit(function (e) {
@@ -202,19 +211,17 @@
             let reC = document.getElementById("respuestaOPC").value;
             let reD = document.getElementById("respuestaOPD").value;
 
-            
-
             if ($("#respuestaMarcadaOP").val() == "A") {
-                jsonText = "[{'respuesta': '" + reA + "', 'nota': 10.0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 0}]";
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 10.0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else if ($("#respuestaMarcadaOP").val() == "B") {
-                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 10.0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 0}]";
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 10.0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else if ($("#respuestaMarcadaOP").val() == "C") {
-                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 10.0} , {'respuesta': '" + reD + "', 'nota': 0}]";
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 10.0} , {'respuesta':" + reD + ", 'nota': 0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             } else {
-                jsonText = "[{'respuesta': '" + reA + "', 'nota': 0} , {'respuesta': '" + reB + "', 'nota': 0} , {'respuesta': '" + reC + "', 'nota': 0} , {'respuesta': '" + reD + "', 'nota': 10.0}]";
+                jsonText = "[{'respuesta':" + reA + ", 'nota': 0} , {'respuesta':" + reB + ", 'nota': 0} , {'respuesta':" + reC + ", 'nota': 0} , {'respuesta':" + reD + ", 'nota': 10.0}]";
                 $("#jsonRespuestasOP").val(jsonText);
             }
         });

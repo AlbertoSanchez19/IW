@@ -25,6 +25,18 @@
                             <li class="nav-item mx-3">
                                 <a class="nav-link text-white" th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}">Administrar</a>
                             </li>
+                            <li class="nav-item mx-3">
+                                <a  id="cuestionariocabecera" class="nav-link text-white" th:if="${session.u.hasRole('PROFESOR')}" th:href="@{/cuestionario/crear/opciones}">Crear un cuestionario</a>
+                            </li>
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-white" th:if="${session.u.hasRole('PROFESOR')}" th:href="@{/catalogo}">Catalogo</a>
+                            </li>
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-white" th:if="${session.u.hasRole('PROFESOR')}" th:href="@{/clases/listaclases}">Crea Clase</a>
+                            </li>
+                            <li class="nav-item mx-3">
+                                <a class="nav-link text-white" th:if="${session.u.hasRole('USER')}" th:href="@{/PIN}">Unirse a un cuestionario</a>
+                            </li>
 
                             <li class="nav-item mx-2">
                                 <a class="nav-link" th:href="@{/user/{id}(id=${session.u.id})}">
