@@ -19,7 +19,7 @@
  <form class ="crearCuestionario" th:object="${cuestionario}" th:action="@{/cuestionario/crear}" method="post">
     <br><br>
         <p> Escribe el título del cuestionario:</p>
-        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Titulo del cuestionario">
+        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Escriba el nombre del cuestionario" required>
         <br><br><br> 
         <p> Escribe la descripción del cuestionario:</p>
             <div>

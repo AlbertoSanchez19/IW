@@ -208,11 +208,24 @@ public class CuestionarioController {
 
             }
             if (respuestaSeleccionada != null) {
-                Resultado resultado = new Resultado();
-                resultado.setUsuario((User) session.getAttribute("u"));
-                resultado.setEvento(eventoRepository.findByCodigo(code));
-                resultado.setRespuesta(respuestaSeleccionada);
-                resultadoRepository.save(resultado);
+                boolean yahascontestado = false;
+                List<Resultado> resultadosevento = resultadoRepository
+                        .findByEvento(eventoRepository.findByCodigo(code));
+                        
+                for (Resultado result : resultadosevento) {
+                    Respuesta respuestaEvent = result.getRespuesta();
+                    if (respuestaEvent.getPregunta().equals(preguntaActual) || result.getUsuario().equals(session.getAttribute("u"))) {
+                        yahascontestado = true;
+                    }
+                }
+                if (!yahascontestado) {
+                    Resultado resultado = new Resultado();
+                    resultado.setUsuario((User) session.getAttribute("u"));
+                    resultado.setEvento(eventoRepository.findByCodigo(code));
+                    resultado.setRespuesta(respuestaSeleccionada);
+                    resultadoRepository.save(resultado);
+                }
+
             }
         }
 
