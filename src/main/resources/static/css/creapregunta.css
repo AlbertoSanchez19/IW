@@ -6,6 +6,19 @@ body{
     background-attachment: fixed;
     font-family: 'Varela Round', sans-serif;
 }
+.editar{
+    background-color:white;
+    color:hsla(295, 41%, 16%, 0.9) ;
+    font-size: 30px;
+   border-radius: 30px;
+
+}
+.editarform{
+    position: absolute;
+    margin-right: 50%;
+    text-decoration: none; 
+    margin-top :1%;
+}
 
 .crearCuestionario{
     background-color: hsla(295, 41%, 16%, 0.9);

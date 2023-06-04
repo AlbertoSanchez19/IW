@@ -172,6 +172,20 @@ public class CuestionarioController {
         model.addAttribute("code", code);
         return "responderPreguntas";
     }
+@GetMapping("/{idCuestionario}/{idPregunta}/edicionPreguntas")
+public String editarPregunta(Model model, @PathVariable long idCuestionario, @PathVariable long idPregunta)
+        throws NotFoundException {
+    Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+            .orElseThrow(() -> new NotFoundException());
+    Pregunta pregunta = preguntaRepository.findById(idPregunta)
+            .orElseThrow(() -> new NotFoundException());
+    model.addAttribute("cuestionario", cuestionario);
+    model.addAttribute("pregunta", pregunta);
+    return "edicionPreguntas";
+}
+
+
+
 
     @PostMapping("/{idCuestionario}/{idPregunta}/responder")
     public String postResponderPregunta(Model model, @RequestParam("code") String code,
@@ -344,6 +358,7 @@ public class CuestionarioController {
             throws NotFoundException {
         Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
                 .orElseThrow(() -> new NotFoundException());
+
         pregunta.setCuestionario(cuestionario);
         Pregunta p = preguntaRepository.save(pregunta);
 

@@ -6,7 +6,7 @@ INSERT INTO IWUser (id, enabled, roles,  first_name, last_name,username, passwor
 VALUES (2, TRUE, 'USER,PROFESOR', 'Manolito', 'Perez', 'b',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles,  first_name, last_name,username, password)
-VALUES (3, TRUE, 'USER', 'Juliancito', 'Rodriguez', 'c'
+VALUES (3, TRUE, 'USER', 'Juliancito', 'Rodriguez', 'c',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles, first_name, last_name, username, password)
 VALUES (4, TRUE, 'USER,PROFESOR', 'Alberto', 'Apellido', 'albertinho',

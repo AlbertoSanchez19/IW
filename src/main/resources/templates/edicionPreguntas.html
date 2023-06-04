@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IW: Crear Preguntas</title>
+    <th:block th:replace="fragments/head :: header" />
+    <link rel="stylesheet" type="text/css" href="/css/creapregunta.css">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/e2e2d067dc.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/'-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/e2e2d067dc.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/iw.js}"></script>
+</head>
+
+<body>
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <br><br><br>
+
+    <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
+
+    <form class="crearCuestionario">
+        <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
+        
+        <th:block th:switch="${pregunta.type.name()}">
+            <th:block th:case="'TRUE_FALSE'">
+                
+                <p>Escriba un nuevo titulo si lo desea: </p>
+                <input  class="pregunta" type="text" name="titulo" placeholder="${pregunta.titulo}" required>
+                
+                <input type="hidden" name="type" value="TRUE_FALSE">
+                <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
+
+                <input type="hidden" id="respuestaMarcadaVF">
+                <p>Seleccione la respuesta correcta :</p>
+                <br><br>
+
+                <div class="btn-group" role="group">
+                    <a id = "bV" class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")' >V</a>
+                    <a id = "bF" class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")' >F</a>    
+                </div>
+                <br>
+                <input  class = "siguiente" type="submit">
+                 <br><br><br>
+            </th:block>
+            <th:block th:case="'OPCION_MULTIPLE'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta">
+                <input name="respuesta" type="hidden" placeholder="respuesta">
+                <p> Seleccione la respuesta correcta:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >A</a>
+                        <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >B</a>
+                        <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[2].id}" >C</a>
+                        <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[3].id}" >D</a>
+                        <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
+                    </div>
+                </div>
+                <br>
+
+            </th:block>
+            <th:block th:case="'RESPUESTA_CORTA'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
+                <p>Responda a continuación:</p>
+                <br>
+                <div>
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
+                </div>
+                <br>
+
+            </th:block>
+            <th:block th:case="'RESPUESTA_FOTO'">
+                <input type="hidden" name="id_respuesta" id="id_respuesta" value="0">
+                <img class="img_respuesta" th:src="@{/cuestionario/{id}/pic(id=${pregunta.id})}">
+                <p>Responda a continuación:</p>
+                <div>
+                    <input name="respuesta" id="respuesta" class="formInput" placeholder="respuesta">
+                </div>
+
+            </th:block>
+
+        </th:block>
+     
+       
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
+
+    <br><br><br>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+
+   
+
+</body>
+
+</html>
