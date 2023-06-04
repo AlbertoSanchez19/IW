@@ -17,11 +17,14 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
  <form class ="crearCuestionario" th:object="${cuestionario}" th:action="@{/cuestionario/crear}" method="post">
-        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Escriba el nombre del cuestionario">
+    <br><br>
+        <p> Escribe el título del cuestionario:</p>
+        <input class="pregunta"type="text" id="titulo_cuestionario" name="titulo" placeholder="Titulo del cuestionario">
         <br><br><br> 
+        <p> Escribe la descripción del cuestionario:</p>
             <div>
                 <p class ="bombilla"><i class="fa-solid fa-book"></i></p>
-                <textarea id="descripcion_cuestionario"  name="descripcion" placeholder="Descripcion del cuestionario"> </textarea>
+                <textarea id="descripcion_cuestionario"  class = "descripcion" name="descripcion" placeholder="Descripcion del cuestionario"></textarea>
             </div>
             <input class = "siguiente" type= "submit" value = "Siguiente"  id="submit_cuestionario">  </input>
             <br><br><br><br>

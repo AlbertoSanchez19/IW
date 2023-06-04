@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,22 @@ public class RootController {
 
     @GetMapping("/")
     public String index(Model model) {
+        User usuario = (User) session.getAttribute("u");
+        if (usuario == null) {
+            return "index";
+        }
+        String rolesString = usuario.getRoles();
+        String[] rolesArray = rolesString.split(",");
+
+        List<String> roles = Arrays.asList(rolesArray);
+        if (roles.contains("ADMIN")) {
+            return "redirect:/admin/";
+        } else if (roles.contains("PROFESOR")) {
+            return "redirect:/profesor/";
+        }
+
         return "index";
+
     }
 
     @GetMapping("/profesor")

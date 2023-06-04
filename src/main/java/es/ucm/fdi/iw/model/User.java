@@ -97,6 +97,6 @@ public class User implements Transferable<User.Transfer> {
 
     @Override
     public String toString() {
-        return toTransfer().toString();
+        return "user-" + id + "-" + username; // toTransfer().toString() da errores en error.html
     }
 }

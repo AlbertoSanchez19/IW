@@ -19,11 +19,9 @@ body{
 }
 
 .pregunta{
-    margin-top: 3%;
-    background: transparent;
     border: 1px white;
     border-radius: 5px 5px 5px 5px;
-    color: white;
+    color: black;
     font-size: 40px;
     padding: 30px;
     width: 100%;
@@ -32,6 +30,21 @@ body{
 }
 
 .pregunta::placeholder{
+    color:rgb(177, 177, 177);
+}
+
+.descripcion{
+    border: 1px white;
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    font-size: 30px;
+    padding: 30px;
+    width: 100%;
+    max-width: 80%;
+    text-align: center;
+}
+
+.descripcion::placeholder{
     color:rgb(177, 177, 177);
 }
 
@@ -185,7 +198,6 @@ textarea {
 }
 .respuesta{
     margin-top: 3%;
-    background: transparent;
     border: 1px white;
     border-radius: 5px 5px 5px 5px;
     color: white;
@@ -244,7 +256,6 @@ textarea {
     }
     .respuesta{
         margin-top: 3%;
-        background: transparent;
         border: 1px white;
         border-radius: 5px 5px 5px 5px;
         color: white;

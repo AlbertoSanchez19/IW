@@ -12,9 +12,14 @@
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: hsla(295, 41%, 16%, 0.9);">
             <div class="container-fluid">
                 <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
-                <a class="navbar-brand text-white text-lg" th:href="@{/}" href="/">
-                    <h1><img th:src="@{/img/logo-removebg.png}" src="/img/logo-removebg.png" alt="logo Quizzol" height="90" class="d-inline-block align-text-center" >  QUIZZOL</h1>
+                <a id="logoLink" class="navbar-brand text-white text-lg" th:href="@{/}">
+                    <h1>
+                        <img th:src="@{/img/logo-removebg.png}" src="/img/logo-removebg.png" alt="logo Quizzol" height="90" class="d-inline-block align-text-center">
+                        QUIZZOL
+                    </h1>
                 </a>
+                
+                
                 <!-- menu hamburguesa si no cabe todo -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
