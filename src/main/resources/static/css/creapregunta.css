@@ -213,7 +213,7 @@ textarea {
     margin-top: 3%;
     border: 1px white;
     border-radius: 5px 5px 5px 5px;
-    color: white;
+    color: rgb(0, 0, 0);
     font-size: 20px;
     padding: 10px;
     width:250px;

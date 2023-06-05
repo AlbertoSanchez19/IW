@@ -46,6 +46,7 @@ import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -172,20 +173,52 @@ public class CuestionarioController {
         model.addAttribute("code", code);
         return "responderPreguntas";
     }
-@GetMapping("/{idCuestionario}/{idPregunta}/edicionPreguntas")
-public String editarPregunta(Model model, @PathVariable long idCuestionario, @PathVariable long idPregunta)
-        throws NotFoundException {
-    Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
-            .orElseThrow(() -> new NotFoundException());
-    Pregunta pregunta = preguntaRepository.findById(idPregunta)
-            .orElseThrow(() -> new NotFoundException());
-    model.addAttribute("cuestionario", cuestionario);
-    model.addAttribute("pregunta", pregunta);
-    return "edicionPreguntas";
-}
 
+    @GetMapping("/{idCuestionario}/{idPregunta}/edicionPreguntas")
+    public String editarPregunta(Model model, @PathVariable long idCuestionario, @PathVariable long idPregunta)
+            throws NotFoundException {
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+        Pregunta pregunta = preguntaRepository.findById(idPregunta)
+                .orElseThrow(() -> new NotFoundException());
+        model.addAttribute("cuestionario", cuestionario);
+        model.addAttribute("pregunta", pregunta);
+        return "edicionPreguntas";
+    }
 
+    @PostMapping("/{idCuestionario}/{idPregunta}/edicionPreguntas")
+    @Transactional
+    public String posteditarPregunta(
+            @PathVariable long idCuestionario, @PathVariable long idPregunta,
+            @RequestParam String titulo,
+            @RequestParam String jsonRespuestas) throws NotFoundException {
 
+        Cuestionario cuestionario = cuestionarioRepository.findById(idCuestionario)
+                .orElseThrow(() -> new NotFoundException());
+
+        Pregunta pregunta = preguntaRepository.findById(idPregunta)
+                .orElseThrow(() -> new NotFoundException());
+
+        pregunta.setTitulo(titulo);
+
+        preguntaRepository.save(pregunta);
+
+        JSONArray json = new JSONArray(jsonRespuestas);
+
+        respuestaRepository.deleteByPregunta(pregunta);
+
+        for (int i = 0; i < json.length(); i++) {
+            JSONObject rJSON = json.getJSONObject(i);
+            Respuesta r = new Respuesta();
+            r.setPregunta(pregunta);
+            r.setNota(rJSON.getFloat("nota"));
+            r.setRespuesta(rJSON.getString("respuesta"));
+
+            respuestaRepository.save(r);
+        }
+
+        return "redirect:/cuestionario/" + idCuestionario + "/verpreguntas";
+    }
 
     @PostMapping("/{idCuestionario}/{idPregunta}/responder")
     public String postResponderPregunta(Model model, @RequestParam("code") String code,
@@ -225,10 +258,11 @@ public String editarPregunta(Model model, @PathVariable long idCuestionario, @Pa
                 boolean yahascontestado = false;
                 List<Resultado> resultadosevento = resultadoRepository
                         .findByEvento(eventoRepository.findByCodigo(code));
-                        
+
                 for (Resultado result : resultadosevento) {
                     Respuesta respuestaEvent = result.getRespuesta();
-                    if (respuestaEvent.getPregunta().equals(preguntaActual) || result.getUsuario().equals(session.getAttribute("u"))) {
+                    if (respuestaEvent.getPregunta().equals(preguntaActual)
+                            || result.getUsuario().equals(session.getAttribute("u"))) {
                         yahascontestado = true;
                     }
                 }

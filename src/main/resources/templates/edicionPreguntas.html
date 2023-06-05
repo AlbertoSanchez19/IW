@@ -21,29 +21,35 @@
 
     <h1 class="titulocuestionario"> [[${cuestionario.titulo}]]</h1>
 
-    <form class="crearCuestionario">
+    <div class="crearCuestionario">
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
-        
+
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
-                
-                <p>Escriba un nuevo titulo si lo desea: </p>
-                <input  class="pregunta" type="text" name="titulo" placeholder="${pregunta.titulo}" required>
-                
-                <input type="hidden" name="type" value="TRUE_FALSE">
-                <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
+                <div class="justify-content-center text-center">
+                    <form th:action="@{/cuestionario/__${cuestionario.id}__/__${pregunta.id}__/edicionPreguntas}"
+                        method="post" id="preguntaVF">
+                        <p>Escriba un nuevo titulo si lo desea: </p>
+                        <input class="pregunta" type="text" name="titulo" placeholder="Nuevo titulo" required>
 
-                <input type="hidden" id="respuestaMarcadaVF">
-                <p>Seleccione la respuesta correcta :</p>
-                <br><br>
+                        <input type="hidden" name="type" value="TRUE_FALSE">
+                        <input type="hidden" name="jsonRespuestas" id="jsonRespuestasVF">
 
-                <div class="btn-group" role="group">
-                    <a id = "bV" class="V" onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")' >V</a>
-                    <a id = "bF" class="F" onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")' >F</a>    
+                        <input type="hidden" id="respuestaMarcadaVF">
+                        <p>Seleccione la respuesta correcta :</p>
+                        <br><br>
+
+                        <div class="btn-group" role="group">
+                            <a id="bV" class="V"
+                                onclick='javascript:$("#respuestaMarcadaVF").val("V"); $(this).addClass("marcado").siblings().removeClass("marcado")'>V</a>
+                            <a id="bF" class="F"
+                                onclick='javascript:$("#respuestaMarcadaVF").val("F"); $(this).addClass("marcado").siblings().removeClass("marcado")'>F</a>
+                        </div>
+                        <br>
+                        <input id="sigVF" class="siguiente" type="submit">
+                        <br><br><br>
+                    </form>
                 </div>
-                <br>
-                <input  class = "siguiente" type="submit">
-                 <br><br><br>
             </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
                 <input type="hidden" name="id_respuesta" id="id_respuesta">
@@ -51,21 +57,21 @@
                 <p> Seleccione la respuesta correcta:</p>
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}" >A</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[0].id}">A</a>
                         <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
                     </div>
                     <div class="col-md-6">
-                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}" >B</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[1].id}">B</a>
                         <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[2].id}" >C</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[2].id}">C</a>
                         <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
                     </div>
                     <div class="col-md-6">
-                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[3].id}" >D</a>
+                        <a class="opciones botonRespuesta" th:attr="data-id=${pregunta.respuestas[3].id}">D</a>
                         <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
                     </div>
                 </div>
@@ -93,18 +99,34 @@
             </th:block>
 
         </th:block>
-     
-       
-    </form>
+
+
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 
 
     <br><br><br>
 
+    <script>
+        $("#preguntaVF").submit(function (e) {
+            if ($("#respuestaMarcadaVF").val() == "V") {
+                jsonText = "[{'respuesta':'V', 'nota': 10.0} , {'respuesta':'F', 'nota': 0.0}]";
+                $("#jsonRespuestasVF").val(jsonText);
+                return true;
+            } else if ($("#respuestaMarcadaVF").val() == "F") {
+                jsonText = "[{'respuesta':'V', 'nota': 0.0} , {'respuesta':'F', 'nota': 10.0}]";
+                $("#jsonRespuestasVF").val(jsonText);
+                return true;
+            } else {
+                alert("Debes marcar una opcion");
+                return false;
+            }
+        });
+    </script>
+
     <th:block th:replace="fragments/footer.html :: footer" />
 
-   
 
 </body>
 

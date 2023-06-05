@@ -18,4 +18,6 @@ public interface RespuestaRepository extends JpaRepository<Respuesta, Long> {
 
 	public List<Respuesta> findByPregunta(Pregunta pregunta);
 
+	public void deleteByPregunta(Pregunta pregunta);
+
 }
