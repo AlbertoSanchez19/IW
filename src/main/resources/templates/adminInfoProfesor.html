@@ -21,27 +21,44 @@
                             <h5 class="text-break"><span th:text="${profesor.username}"></span></h5>
                         </div>
                     </span>
-                    
-                    <form id="form-bloquear" th:action = "@{/profesores/{profesorId}/bloquear(profesorId=${profesor.id})}" method = "post" class="d-flex flex-column h-100 row">
+
+                    <form id="form-bloquear" th:action="@{/profesores/{profesorId}/bloquear(profesorId=${profesor.id})}"
+                        method="post" class="d-flex flex-column h-100 row">
                         <button class="btn btn-lg btn-dark btn-block mt-4" type="submit">Bloquear</button>
                     </form>
-                    <form id="form-expulsar" th:action = "@{/profesores/{profesorId}/expulsar(profesorId=${profesor.id})}" method = "post" class="d-flex flex-column h-100 row">
+
+                    <form id="form-expulsar" th:action="@{/profesores/{profesorId}/expulsar(profesorId=${profesor.id})}"
+                        method="post" class="d-flex flex-column h-100 row">
                         <button class="btn btn-lg btn-danger btn-block mt-4" type="submit">Expulsar</button>
                     </form>
                 </div>
+
                 <div class="d-flex flex-column h-100 mt-2" id="listaCuestionarios">
                     <h1> Cuestionarios creados: </h1>
                     <th:block th:each="cuestionario : ${cuestionarios}">
-                        <button class="btn btn-lg btn-block mt-3 text-light" style="background-color: hsla(295, 41%, 16%, 0.9);"type="submit" name="cuestionarioId">
+                      <div class="cuestionario-container">
+                          <div class="btn btn-lg btn-block mt-3 text-light eliminar-cuestionario-btn flex-grow-1 w-100"
+                            style="background-color: hsla(295, 41%, 16%, 0.9);" href="#" data-bs-toggle="modal"
+                            data-bs-target="#eliminarCuestionarioModal" data-cuestionario-id="${cuestionario.id}">
                             <span th:text="${cuestionario.titulo}"></span>
-                        </button>
+                            <form class="eliminar-cuestionario-form"
+                              th:action="@{/profesores/{profesorId}/{cuestionarioId}/eliminar(profesorId=${profesor.id}, cuestionarioId=${cuestionario.id})}"
+                              method="post">
+                              <button class="btn btn-danger eliminar-cuestionario" type="submit">Eliminar</button>
+                            </form>
+                        </div>
+                      </div>
                     </th:block>
-                </div>
+                  </div>
+                  
+                
             </div>
         </div>
     </main>
 
+
     <th:block th:replace="fragments/footer.html :: footer" />
+
 </body>
 
 </html>

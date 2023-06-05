@@ -88,13 +88,35 @@ public class ProfesorController {
         return "adminInfoProfesor";
     }
 
+    @GetMapping("/profesores/{profesorId}/info_profesor")
+    public String ginfoProfesor(@PathVariable Long profesorId, Model model) throws NotFoundException {
+        User profesor = profesorService.obtenerPorId(profesorId)
+                .orElseThrow(() -> new NotFoundException());
+
+        // Solamente para ver si se muestran los cuestinoarios
+        /*
+         * Cuestionario cuest = new Cuestionario();
+         * cuest.setAutor(profesor);
+         * cuest.setTitulo("prueba");
+         * cuestionarioService.save(cuest);
+         */
+        List<Cuestionario> cuestionarios = cuestionarioService.obtenerCuestionarios(profesor);
+
+        model.addAttribute("profesor", profesor);
+        model.addAttribute("cuestionarios", cuestionarios);
+        return "adminInfoProfesor";
+    }
+
     @PostMapping("/profesores/{profesorId}/bloquear")
-    public String bloquearUsuario(@PathVariable Long profesorId) throws NotFoundException {
+    public String bloquearUsuario(@PathVariable Long profesorId, Model model) throws NotFoundException {
         User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
         String roles = profesor.getRoles();
         String newRoles = roles.replaceAll(",?PROFESOR\\b", "");
         profesor.setRoles(newRoles);
         profesorService.guardarProfesor(profesor);
+
+        model.addAttribute("bloqueado", true);
+
         return "redirect:/profesores";
     }
 
@@ -103,5 +125,12 @@ public class ProfesorController {
         User profesor = profesorService.obtenerPorId(profesorId).orElseThrow(() -> new NotFoundException());
         profesorService.eliminar(profesor);
         return "redirect:/profesores";
+    }
+
+    @PostMapping("/profesores/{profesorId}/{cuestionarioId}/eliminar")
+    public String eliminarCuestionario(@PathVariable Long profesorId, @PathVariable Long cuestionarioId)
+            throws NotFoundException {
+        cuestionarioService.eliminarCuestionario(cuestionarioId);
+        return "redirect:/profesores/" + profesorId + "/info_profesor";
     }
 }
