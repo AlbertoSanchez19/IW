@@ -211,9 +211,9 @@ textarea {
 }
 .respuesta{
     margin-top: 3%;
-    border: 1px white;
+    border: 1px rgb(255, 255, 255);
     border-radius: 5px 5px 5px 5px;
-    color: rgb(0, 0, 0);
+    color: rgb(12, 0, 0);
     font-size: 20px;
     padding: 10px;
     width:250px;
@@ -267,16 +267,7 @@ textarea {
         flex-wrap: wrap;
         text-align: center;
     }
-    .respuesta{
-        margin-top: 3%;
-        border: 1px white;
-        border-radius: 5px 5px 5px 5px;
-        color: white;
-        font-size: 20px;
-        padding: 10px;
-        width:250px;
-        text-align: center;
-    }
+
     .responderCuestionario{
         background-color: hsla(295, 41%, 16%, 0.9);
         margin-right: 40%;
