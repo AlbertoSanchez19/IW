@@ -28,13 +28,18 @@
             <input  id ="nuevap" class = "añadir" type="submit" value="Nueva Pregunta" />
         </form>
 
-        <a id = "finCrear" href="/profesor" class="añadir"type="submit"> Crear</a> 
+        <a id = "finCrear" href="/" class="añadir"type="submit"> Crear</a> 
        
         
     
     </div>
 
-    <div th:each="pregunta : ${preguntas}" class="responderCuestionario">
+    <div th:each="pregunta : ${preguntas}" class="responderCuestionario" style="margin-right: 200px; margin-left: 200px;">
+        <form class="editarform" th:action="@{/cuestionario/{idCuestionario}/{idPregunta}/edicionPreguntas(idCuestionario=${cuestionario.id}, idPregunta=${pregunta.id})}"  method="get" style="position: absolute; left: 230px;">
+            <button type="submit" class="editar" >
+                   <i class="bi bi-pencil"></i>
+           </button>
+       </form>
         <h2 class="enunciado">[[${pregunta.titulo}]]</h2>
         <th:block th:switch="${pregunta.type.name()}">
             <th:block th:case="'TRUE_FALSE'">
@@ -45,11 +50,7 @@
                     <a class="F">FALSO</a>
                 </div>
                 <br>
-                <form class="editarform" th:action="@{/cuestionario/{idCuestionario}/{idPregunta}/edicionPreguntas(idCuestionario=${cuestionario.id}, idPregunta=${pregunta.id})}"  method="get">
-                 <button type="submit" class="editar" >
-                        <i class="bi bi-pencil"></i>
-                </button>
-            </form>
+                
         </th:block>
             <th:block th:case="'OPCION_MULTIPLE'">
                 <p> Seleccione la respuesta correcta:</p>
