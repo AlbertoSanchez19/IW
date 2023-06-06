@@ -85,19 +85,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		session.setAttribute("url", url);
 		session.setAttribute("ws", ws);
 
-		String nextUrl;
-		if (u.hasRole(User.Role.ADMIN))
-			nextUrl = "admin/";
-		else if (u.hasRole(User.Role.PROFESOR))
-			nextUrl = "profesor/";
-		else
-			nextUrl = "";
-
 		log.info("LOG IN: {} (id {}) -- session is {}, websocket is {} -- redirected to {}",
-				u.getUsername(), u.getId(), session.getId(), ws, nextUrl);
+				u.getUsername(), u.getId(), session.getId(), ws, "/");
 
 		// note that this is a 302, and will result in a new request
-		response.sendRedirect(nextUrl);
+		response.sendRedirect("");
 	}
 
 	/**

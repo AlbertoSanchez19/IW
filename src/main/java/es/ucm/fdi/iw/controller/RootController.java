@@ -61,28 +61,28 @@ public class RootController {
 
     @GetMapping("/")
     public String index(Model model) {
-        User usuario = (User) session.getAttribute("u");
-        if (usuario == null) {
-            return "index";
-        }
-        String rolesString = usuario.getRoles();
-        String[] rolesArray = rolesString.split(",");
+        // User usuario = (User) session.getAttribute("u");
+        // if (usuario == null) {
+        //     return "index";
+        // }
+        // String rolesString = usuario.getRoles();
+        // String[] rolesArray = rolesString.split(",");
 
-        List<String> roles = Arrays.asList(rolesArray);
-        if (roles.contains("ADMIN")) {
-            return "redirect:/admin/";
-        } else if (roles.contains("PROFESOR")) {
-            return "redirect:/profesor/";
-        }
+        // List<String> roles = Arrays.asList(rolesArray);
+        // if (roles.contains("ADMIN")) {
+        //     return "redirect:/admin/";
+        // } else if (roles.contains("PROFESOR")) {
+        //     return "redirect:/profesor/";
+        // }
 
         return "index";
 
     }
 
-    @GetMapping("/profesor")
-    public String profesorMain(Model model) {
-        return "profesor";
-    }
+    // @GetMapping("/profesor")
+    // public String profesorMain(Model model) {
+    //     return "profesor";
+    // }
 
     @GetMapping("/login")
     public String login(Model model) {
