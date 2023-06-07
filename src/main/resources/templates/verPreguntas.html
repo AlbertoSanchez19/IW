@@ -46,8 +46,8 @@
                 <p> Seleccione la respuesta correcta:</p>
                 <br>
                 <div class="botonesVF">
-                    <a class="V">VERDADERO</a>
-                    <a class="F">FALSO</a>
+                    <a th:class="${pregunta.respuestas[0].nota > 0 ? 'V marcado' : 'V'}">VERDADERO</a>
+                    <a th:class="${pregunta.respuestas[1].nota > 0 ? 'F marcado' : 'F'}">FALSO</a>
                 </div>
                 <br>
                 
@@ -58,29 +58,24 @@
                 <br>
                 <div class="row options-container">
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <a class="opciones">A</a>
+                        <a th:class="${pregunta.respuestas[0].nota > 0 ? 'opciones marcado' : 'opciones'}">A</a>
                         <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <a class="opciones">B</a>
+                        <a th:class="${pregunta.respuestas[1].nota > 0 ? 'opciones marcado' : 'opciones'}">B</a>
                         <p class="respuesta">[[${pregunta.respuestas[1].respuesta}]]</p>
                     </div>
                 </div>
                 <div class="row options-container">
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <a class="opciones">C</a>
+                        <a th:class="${pregunta.respuestas[2].nota > 0 ? 'opciones marcado' : 'opciones'}">C</a>
                         <p class="respuesta">[[${pregunta.respuestas[2].respuesta}]]</p>
                     </div>
                     <div class="col-md-6 d-flex align-items-center justify-content-center">
-                        <a class="opciones">D</a>
+                        <a th:class="${pregunta.respuestas[3].nota > 0 ? 'opciones marcado' : 'opciones'}">D</a>
                         <p class="respuesta">[[${pregunta.respuestas[3].respuesta}]]</p>
                     </div>
                 </div>
-                <form class="editarform" th:action="@{/cuestionario/{idCuestionario}/{idPregunta}/edicionPreguntas(idCuestionario=${cuestionario.id}, idPregunta=${pregunta.id})}"  method="get">
-                    <button type="submit" class="editar" >
-                           <i class="bi bi-pencil"></i>
-                   </button>
-               </form>
             </th:block>
             <th:block th:case="'RESPUESTA_CORTA'">
                 <p>Responda a continuación:</p>
@@ -89,11 +84,6 @@
                     <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
                 </div>
                 <br>
-                <form th:action="@{/cuestionario/{idCuestionario}/{idPregunta}/edicionPreguntas(idCuestionario=${cuestionario.id}, idPregunta=${pregunta.id})}"  method="get">
-                    <button class="editar"type="submit">
-                           <i class="bi bi-pencil"></i>
-                   </button>
-               </form>
             </th:block>
             <th:block th:case="'RESPUESTA_FOTO'">
                 <img class="img_respuesta" th:src="@{/cuestionario/{id}/pic(id=${pregunta.id})}">
@@ -102,11 +92,6 @@
                     <p class="respuesta">[[${pregunta.respuestas[0].respuesta}]]</p>
                 </div>
         
-                <form class="editarform" th:action="@{/cuestionario/{idCuestionario}/{idPregunta}/edicionPreguntas(idCuestionario=${cuestionario.id}, idPregunta=${pregunta.id})}"  method="get">
-                    <button type="submit" class="editar" >
-                           <i class="bi bi-pencil"></i>
-                   </button>
-               </form>
             </th:block>
         
         </th:block>
