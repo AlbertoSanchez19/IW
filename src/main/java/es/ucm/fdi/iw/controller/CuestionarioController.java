@@ -23,12 +23,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.json.*;
@@ -49,6 +54,10 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Site administration.
@@ -613,6 +622,200 @@ public class CuestionarioController {
         }
 
         return "{\"status\":\"Importado correctamente\", \"preguntas\": \"" + questions + "\"}";
+    }
+
+    @PostMapping(value = "/exportar")
+    public ResponseEntity<Resource> exportarCuestinario(@RequestParam("cuestionario-id") long cuestionarioId,
+            Model model)
+            throws NotFoundException {
+
+        Cuestionario cuestionario = cuestionarioRepository.findById(cuestionarioId)
+                .orElseThrow(() -> new NotFoundException());
+
+        List<Pregunta> preguntas = cuestionario.getPreguntas();
+
+        String output = "";
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.newDocument();
+
+            // root element
+            Element rootElement = doc.createElement("quiz");
+            doc.appendChild(rootElement);
+
+            for (Pregunta pregunta : preguntas) {
+                if (pregunta.getType() == PreguntaType.TRUE_FALSE) {
+                    List<Respuesta> respuestas = pregunta.getRespuestas();
+                    // supercars element
+                    Element question = doc.createElement("question");
+                    rootElement.appendChild(question);
+
+                    // setting attribute to element
+                    Attr attr = doc.createAttribute("type");
+                    attr.setValue("truefalse");
+                    question.setAttributeNode(attr);
+
+                    // carname element
+                    Element enunciado = doc.createElement("questiontext");
+                    Attr attrType0 = doc.createAttribute("format");
+                    attrType0.setValue("html");
+                    enunciado.setAttributeNode(attrType0);
+
+                    Element text = doc.createElement("text");
+                    text.appendChild(doc.createTextNode(pregunta.getTitulo()));
+                    enunciado.appendChild(text);
+                    question.appendChild(enunciado);
+
+                    // carname element
+                    Element resp1 = doc.createElement("answer");
+                    Attr attrType = doc.createAttribute("fraction");
+                    attrType.setValue(Float.toString(respuestas.get(0).getNota() * 10));
+                    resp1.setAttributeNode(attrType);
+
+                    Element ans1 = doc.createElement("text");
+                    ans1.appendChild(doc.createTextNode(respuestas.get(0).getRespuesta()));
+
+                    resp1.appendChild(ans1);
+                    question.appendChild(resp1);
+
+                    Element resp2 = doc.createElement("answer");
+                    Attr attrType1 = doc.createAttribute("fraction");
+                    attrType1.setValue(Float.toString(respuestas.get(1).getNota() * 10));
+                    resp2.setAttributeNode(attrType1);
+
+                    Element ans2 = doc.createElement("text");
+                    ans2.appendChild(doc.createTextNode(respuestas.get(1).getRespuesta()));
+
+                    resp2.appendChild(ans2);
+                    question.appendChild(resp2);
+                }else if (pregunta.getType() == PreguntaType.OPCION_MULTIPLE) {
+                    List<Respuesta> respuestas = pregunta.getRespuestas();
+                    
+                    Element question = doc.createElement("question");
+                    rootElement.appendChild(question);
+
+                    
+                    Attr attr = doc.createAttribute("type");
+                    attr.setValue("multichoice");
+                    question.setAttributeNode(attr);
+
+                    
+                    Element enunciado = doc.createElement("questiontext");
+                    Attr attrType0 = doc.createAttribute("format");
+                    attrType0.setValue("html");
+                    enunciado.setAttributeNode(attrType0);
+
+                    Element text = doc.createElement("text");
+                    text.appendChild(doc.createTextNode(pregunta.getTitulo()));
+                    enunciado.appendChild(text);
+                    question.appendChild(enunciado);
+
+                    // respuesta 1
+                    Element resp1 = doc.createElement("answer");
+                    Attr attrType = doc.createAttribute("fraction");
+                    attrType.setValue(Float.toString(respuestas.get(0).getNota() * 10));
+                    resp1.setAttributeNode(attrType);
+
+                    Element ans1 = doc.createElement("text");
+                    ans1.appendChild(doc.createTextNode(respuestas.get(0).getRespuesta()));
+
+                    resp1.appendChild(ans1);
+                    question.appendChild(resp1);
+
+                    // respuesta 2
+
+                    Element resp2 = doc.createElement("answer");
+                    Attr attrType1 = doc.createAttribute("fraction");
+                    attrType1.setValue(Float.toString(respuestas.get(1).getNota() * 10));
+                    resp2.setAttributeNode(attrType1);
+
+                    Element ans2 = doc.createElement("text");
+                    ans2.appendChild(doc.createTextNode(respuestas.get(1).getRespuesta()));
+
+                    resp2.appendChild(ans2);
+                    question.appendChild(resp2);
+
+                    // respuesta 3
+                    Element resp3 = doc.createElement("answer");
+                    Attr attrType3 = doc.createAttribute("fraction");
+                    attrType3.setValue(Float.toString(respuestas.get(2).getNota() * 10));
+                    resp3.setAttributeNode(attrType3);
+
+                    Element ans3 = doc.createElement("text");
+                    ans3.appendChild(doc.createTextNode(respuestas.get(2).getRespuesta()));
+
+                    resp3.appendChild(ans3);
+                    question.appendChild(resp3);
+
+                    // respuesta 4
+                    Element resp4 = doc.createElement("answer");
+                    Attr attrType4 = doc.createAttribute("fraction");
+                    attrType4.setValue(Float.toString(respuestas.get(3).getNota() * 10));
+                    resp4.setAttributeNode(attrType4);
+
+                    Element ans4 = doc.createElement("text");
+                    ans4.appendChild(doc.createTextNode(respuestas.get(3).getRespuesta()));
+
+                    resp4.appendChild(ans4);
+                    question.appendChild(resp4);
+                }else if (pregunta.getType() == PreguntaType.RESPUESTA_CORTA || pregunta.getType() == PreguntaType.RESPUESTA_FOTO ) {
+                    List<Respuesta> respuestas = pregunta.getRespuestas();
+                    
+                    Element question = doc.createElement("question");
+                    rootElement.appendChild(question);
+
+                    
+                    Attr attr = doc.createAttribute("type");
+                    attr.setValue("shortanswer");
+                    question.setAttributeNode(attr);
+
+                    
+                    Element enunciado = doc.createElement("questiontext");
+                    Attr attrType0 = doc.createAttribute("format");
+                    attrType0.setValue("html");
+                    enunciado.setAttributeNode(attrType0);
+
+                    Element text = doc.createElement("text");
+                    text.appendChild(doc.createTextNode(pregunta.getTitulo()));
+                    enunciado.appendChild(text);
+                    question.appendChild(enunciado);
+
+                    // respuesta 1
+                    Element resp1 = doc.createElement("answer");
+                    Attr attrType = doc.createAttribute("fraction");
+                    attrType.setValue(Float.toString(respuestas.get(0).getNota() * 10));
+                    resp1.setAttributeNode(attrType);
+
+                    Element ans1 = doc.createElement("text");
+                    ans1.appendChild(doc.createTextNode(respuestas.get(0).getRespuesta()));
+
+                    resp1.appendChild(ans1);
+                    question.appendChild(resp1);
+
+                    
+                }
+            }
+
+            DOMSource domSource = new DOMSource(doc);
+            StringWriter writer = new StringWriter();
+            StreamResult result = new StreamResult(writer);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.transform(domSource, result);
+            output = writer.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Redireccionar a la otra URL después de que la solicitud POST se haya
+        // completado
+        InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(output.getBytes()));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
 }
